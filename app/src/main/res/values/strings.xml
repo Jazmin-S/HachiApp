@@ -1,3 +1,15 @@
 <resources>
+
     <string name="app_name">HachiApp</string>
+
+    <string name="eslogan">“Porque cada mascota merece volver a casa.”</string>
+
+    <string name="gmail">Gmail:</string>
+
+    <string name="hint_correo">Ingresa tu correo</string>
+
+    <string name="logo_hachiapp">Logo de HachiApp</string>
+
+    <string name="icono_correo">Icono de correo electrónico</string>
+
 </resources>

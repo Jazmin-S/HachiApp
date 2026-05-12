@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -16,6 +17,7 @@
         android:layout_marginTop="38dp"
         android:layout_marginEnd="62dp"
         android:layout_marginBottom="551dp"
+        android:contentDescription="@string/logo_hachiapp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,18 +28,14 @@
         android:id="@+id/textView"
         android:layout_width="283dp"
         android:layout_height="93dp"
-
         android:fontFamily="sans-serif-black"
         android:shadowColor="#7A4B20"
         android:shadowDx="15"
-
         android:shadowDy="25"
-
         android:shadowRadius="17"
-        android:text="HachiApp"
+        android:text="@string/app_name"
         android:textColor="#000000"
         android:textSize="60sp"
-
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +52,7 @@
         android:layout_marginEnd="179dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:lineSpacingExtra="10sp"
-        android:text="“Porque cada mascota merece volver a casa.”"
+        android:text="@string/eslogan"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,43 +64,31 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="70dp"
-        android:layout_height="57dp"
-        android:tint="#140505"
+        android:layout_width="50dp"
+        android:layout_height="41dp"
+        android:contentDescription="@string/icono_correo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.143"
+        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.574"
-        app:srcCompat="@android:drawable/sym_action_email" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="224dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:lineSpacingExtra="10sp"
-        android:text="Gmail:"
-        android:textAlignment="viewStart"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.548" />
+        app:layout_constraintVertical_bias="0.571"
+        app:srcCompat="@android:drawable/sym_action_email"
+        app:tint="#140505" />
 
     <EditText
         android:id="@+id/TextEmail"
         android:layout_width="232dp"
         android:layout_height="48dp"
+        android:autofillHints="emailAddress"
         android:ems="10"
+        android:hint="@string/hint_correo"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.703"
+        app:layout_constraintHorizontal_bias="0.642"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.579" />
+        app:layout_constraintVertical_bias="0.566" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
