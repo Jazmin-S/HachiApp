@@ -25,7 +25,7 @@
         android:layout_marginTop="108dp"
         android:layout_marginEnd="185dp"
         android:layout_marginBottom="228dp"
-        android:text="Hola jazmin sarmiento"
+        android:text="Hola Gael sarmiento"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
