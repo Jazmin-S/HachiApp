@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "307035751896",
+    "project_id": "hachiapp-f7dde",
+    "storage_bucket": "hachiapp-f7dde.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307035751896:android:998cb8c58ec640c9431ead",
+        "android_client_info": {
+          "package_name": "com.example.hachiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhdI0OXnHbkaRAL3fRao4tjkKLQYkyW6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
