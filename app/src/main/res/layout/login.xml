@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#D89249"
+    tools:context=".Login">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+
+        <!-- TITULO -->
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="290dp"
+            android:layout_height="119dp"
+            android:layout_marginBottom="108dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/iconoprincipal"
+            app:layout_constraintBottom_toTopOf="@+id/titulo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="221dp"
+            android:layout_height="81dp"
+            android:fontFamily="sans-serif-black"
+            android:shadowColor="#7A4A1A"
+            android:shadowDx="4"
+            android:shadowDy="4"
+            android:shadowRadius="6"
+            android:text="HachiApp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
+
+        <!-- ESLOGAN -->
+
+        <TextView
+            android:id="@+id/eslogan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="“Porque cada mascota&#10;merece volver a casa.”"
+            android:textColor="#2E1B0E"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo" />
+
+        <!-- ICONO EMAIL -->
+
+        <!-- EMAIL -->
+
+        <!-- ICONO PASSWORD -->
+
+        <ImageView
+            android:id="@+id/iconEmail"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="24dp"
+            android:src="@android:drawable/sym_action_email"
+            app:layout_constraintBottom_toTopOf="@+id/iconPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eslogan"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#000000" />
+
+        <EditText
+            android:id="@+id/TextEmail"
+            android:layout_width="272dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="65dp"
+            android:background="@android:color/white"
+            android:backgroundTint="#FFFFFF"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:textColor="#000000"
+            android:textColorHint="#999999"
+            app:layout_constraintBottom_toBottomOf="@id/iconEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@id/iconEmail"
+            app:layout_constraintTop_toTopOf="@id/iconEmail"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/iconPassword"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="24dp"
+            android:src="@android:drawable/ic_lock_lock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TextEmail"
+            app:tint="#000000" />
+
+        <!-- PASSWORD -->
+
+        <EditText
+            android:id="@+id/TextPassword"
+            android:layout_width="276dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="14dp"
+            android:background="@android:color/white"
+            android:backgroundTint="#FFFFFF"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:textColor="#000000"
+            android:textColorHint="#999999"
+            app:layout_constraintBottom_toBottomOf="@id/iconPassword"
+            app:layout_constraintEnd_toStartOf="@id/BtnVerContraseña"
+            app:layout_constraintStart_toEndOf="@id/iconPassword"
+            app:layout_constraintTop_toTopOf="@id/iconPassword" />
+
+        <!-- VER PASSWORD -->
+
+        <!-- OLVIDASTE PASSWORD -->
+
+        <ImageButton
+            android:id="@+id/BtnVerContraseña"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Ver contraseña"
+            android:src="@android:drawable/ic_menu_view"
+            app:layout_constraintBottom_toBottomOf="@id/TextPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/TextPassword"
+            app:layout_constraintVertical_bias="0.0"
+            app:tint="#000000" />
+
+        <TextView
+            android:id="@+id/OlvidaContraseña"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TextPassword" />
+
+        <!-- BOTON LOGIN -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:layout_width="180dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="#FFFFFF"
+            android:elevation="8dp"
+            android:text="Ingresar"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/dog_and_cat_paws_with_sharp_claws_cute_animal_footprints_png"
+            app:iconGravity="textEnd"
+            app:iconPadding="10dp"
+            app:iconSize="30dp"
+            app:iconTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/OlvidaContraseña" />
+
+        <!-- CREAR CUENTA -->
+
+        <TextView
+            android:id="@+id/textCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="¿No tienes una cuenta?"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
+        <TextView
+            android:id="@+id/CrearCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear cuenta"
+            android:textColor="#3B5BFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textCuenta" />
+
+        <ImageView
+            android:id="@+id/imgMascotasBottom"
+            android:layout_width="384dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="Mascotas decorativas"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mascotas_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.538"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/CrearCuenta"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

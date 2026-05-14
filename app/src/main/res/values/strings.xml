@@ -4,12 +4,18 @@
 
     <string name="eslogan">“Porque cada mascota merece volver a casa.”</string>
 
-    <string name="gmail">Gmail:</string>
-
     <string name="hint_correo">Ingresa tu correo</string>
 
     <string name="logo_hachiapp">Logo de HachiApp</string>
 
     <string name="icono_correo">Icono de correo electrónico</string>
+
+    <string name="hint_password">Ingresa tu contraseña</string>
+
+    <string name="icono_contrasena">Icono de contraseña </string>
+
+    <string name="olvide_password">¿Olvidaste tu contraseña?</string>
+
+    <string name="ver_contrasena">Ver contraseña</string>
 
 </resources>
