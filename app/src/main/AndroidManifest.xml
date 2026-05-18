@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
+            android:name=".ActivityCodigo"
+            android:exported="false" />
+        <activity
             android:name=".ActivityRegistro"
             android:exported="false" />
         <activity
-            android:name=".ActivityCodigo"
+            android:name=".ActivityContrasena"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
