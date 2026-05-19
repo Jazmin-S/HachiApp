@@ -1,164 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D79149">
+    android:background="#D79149"
+    tools:context=".Activity_recuperacion">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="417dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="1dp"
-        android:background="#EDD5B6"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- HEADER BONITO -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="105dp"
-            android:layout_height="49dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iconoprincipal" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EDD5B6">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="183dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="99dp"
-            android:layout_marginBottom="14dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:text="HachiApp"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="105dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/iconoprincipal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="HachiApp"
+                android:textColor="#000"
+                android:textSize="34sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- TITULO -->
     <TextView
         android:id="@+id/textView"
-        android:layout_width="308dp"
-        android:layout_height="105dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="522dp"
-        android:layout_weight="1"
-        android:fontFamily="sans-serif-black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="Recuperación de Contraseña"
         android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textSize="34sp"
-        android:textStyle="italic"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#1E120B"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- DESCRIPCION -->
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="338dp"
-        android:layout_height="114dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="398dp"
-        android:fontFamily="sans-serif-light"
-        android:lineSpacingExtra="6sp"
-        android:text="Ingresa el correo electrónico asociado a tu cuenta. Te enviaremos un código de verificación que te permitirá recuperar y restablecer tu contraseña de forma segura."
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/correo"
-        android:layout_width="302dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="43dp"
-        android:layout_marginBottom="305dp"
-        android:backgroundTint="#140E0E"
-        android:drawableTint="#1F1010"
-        android:foregroundTint="#160F0F"
-        android:hint="Ingresa tu correo Electrónico"
-        android:shadowColor="#1B0C0C"
-        android:textColorHighlight="#181111"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="313dp"
-        android:backgroundTint="#100D0D"
-        android:foregroundTint="#161010"
-        android:tint="#2A2424"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/correo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
-    <Button
-        android:id="@+id/BtnEnviarCodigo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="223dp"
-        android:backgroundTint="#EDD5B7"
-        android:text="Enviar Código"
+        android:layout_margin="16dp"
+        android:text="Ingresa tu correo electrónico para enviarte un código de verificación y recuperar tu contraseña de forma segura."
         android:textAlignment="center"
-        android:textColor="#050505"
+        android:textColor="#2A1A10"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/correo" />
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <!-- EMAIL INPUT -->
+    <EditText
+        android:id="@+id/EmailRecuperacion"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/edit_text"
+        android:hint="Ingresa tu correo electrónico"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:textColor="#000"
+        android:textColorHint="#666"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- BOTON -->
+
+    <!-- IMAGEN -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnCodigoRecuperacion"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#EDD5B6"
+        android:text="Enviar código"
+        android:textColor="#070505"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EmailRecuperacion" />
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="283dp"
-        android:layout_height="180dp"
-        app:srcCompat="@drawable/imag"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="526dp" />
+        android:layout_width="304dp"
+        android:layout_height="211dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/BtnCodigoRecuperacion"
+        app:srcCompat="@drawable/imag" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

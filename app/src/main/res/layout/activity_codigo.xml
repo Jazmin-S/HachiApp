@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,200 +9,181 @@
     android:background="#E99D4F"
     tools:context=".ActivityCodigo">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="417dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="1dp"
-        android:background="#EDD5B6"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- HEADER -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="105dp"
-            android:layout_height="49dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iconoprincipal" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EDD5B6">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="183dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="99dp"
-            android:layout_marginBottom="14dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:text="HachiApp"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="105dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/iconoprincipal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="HachiApp"
+                android:textColor="#000"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.cardview.widget.CardView>
+
+    <!-- TITULO -->
     <TextView
         android:id="@+id/textcodigo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Codigo de verificacion"
+        android:text="Código de verificación"
         android:textAlignment="center"
+        android:textSize="26sp"
+        android:textStyle="bold"
         android:textColor="#2E1B0E"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textSubVerificacion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- SUBTITULO -->
     <TextView
         android:id="@+id/textSubVerificacion"
-        android:layout_width="290dp"
-        android:layout_height="67dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginBottom="76dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Ingresa el codigo de 4 digitos que enviamos a tu correo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Ingresa el código de 4 dígitos enviado a tu correo"
         android:textAlignment="center"
         android:textColor="#2E1B0E"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextCodigo1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textcodigo" />
+        app:layout_constraintTop_toBottomOf="@id/textcodigo" />
 
-
-    <EditText
-        android:id="@+id/editTextCodigo1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/bg_editartext_plantilla"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextCodigo2"
+    <!-- CODIGO OTP -->
+    <LinearLayout
+        android:id="@+id/codigoContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/textSubVerificacion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSubVerificacion" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/editTextCodigo2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/bg_editartext_plantilla"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextCodigo3"
-        app:layout_constraintStart_toEndOf="@+id/editTextCodigo1"
-        app:layout_constraintTop_toBottomOf="@+id/textSubVerificacion" />
+        <EditText
+            android:id="@+id/editTextCodigo1"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_editartext_plantilla"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="#120F0F"
+            android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/editTextCodigo3"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/bg_editartext_plantilla"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextCodigo4"
-        app:layout_constraintStart_toEndOf="@+id/editTextCodigo2"
-        app:layout_constraintTop_toBottomOf="@+id/textSubVerificacion" />
+        <EditText
+            android:id="@+id/editTextCodigo2"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_editartext_plantilla"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="#0F0D0D"
+            android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/editTextCodigo4"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="45dp"
-        android:background="@drawable/bg_editartext_plantilla"
-        android:gravity="center"
-        android:inputType="number"
-        android:maxLength="1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextCodigo3"
-        app:layout_constraintTop_toBottomOf="@+id/textSubVerificacion" />
+        <EditText
+            android:id="@+id/editTextCodigo3"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_editartext_plantilla"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="#1F1919"
+            android:textSize="20sp" />
 
+        <EditText
+            android:id="@+id/editTextCodigo4"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_editartext_plantilla"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="#121010"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <!-- BOTON -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVerificar"
-        android:layout_width="210dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="131dp"
-        android:backgroundTint="#FFFFFF"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#EDD5B7"
         android:text="Verificar código"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:cornerRadius="24dp"
+        android:textColor="#1D1717"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:cornerRadius="26dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@id/codigoContainer" />
 
+    <!-- IMAGEN -->
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="207dp"
-        android:layout_height="149dp"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/gatito"
+        app:layout_constraintTop_toBottomOf="@id/btnVerificar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCodigo2"
-        app:srcCompat="@drawable/gatito"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- REENVIAR -->
     <TextView
         android:id="@+id/ReenCodigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="Reenviar Codigo"
-        android:textColor="#000000"
-        android:textSize="13sp"
+        android:layout_marginTop="10dp"
+        android:text="Reenviar código"
+        android:textColor="#000"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnVerificar" />
+        app:layout_constraintTop_toBottomOf="@id/imageView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
