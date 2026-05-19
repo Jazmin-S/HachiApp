@@ -15,7 +15,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders["MAPS_API_KEY"] = "AIzaSyA_caLM9VMlenjhV4OaHROf8soeJbOJd04"
+        val mapsKey = project.properties["MAPS_API_KEY"]?.toString() ?: ""
+        manifestPlaceholders["MAPS_API_KEY"] = mapsKey
 
     }
 
