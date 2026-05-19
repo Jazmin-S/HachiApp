@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.hachiapp"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdkVersion(36)
 
     defaultConfig {
         applicationId = "com.example.hachiapp"
@@ -17,6 +15,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["MAPS_API_KEY"] = "AIzaSyA_caLM9VMlenjhV4OaHROf8soeJbOJd04"
+
     }
 
     buildTypes {
@@ -32,9 +32,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
+    //gps amiga
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+    //
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
