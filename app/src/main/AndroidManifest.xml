@@ -19,7 +19,7 @@
             android:exported="false" />
         <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
-            android:name=".ActivityRegistro"
+            android:name=".Activity_Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
             android:name=".ActivityCodigo"
             android:exported="false" />
         <activity
-            android:name=".Activity_Login"
+            android:name=".ActivityRegistro"
             android:exported="false" />
 
         <meta-data

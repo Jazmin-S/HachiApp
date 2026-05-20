@@ -1,20 +1,34 @@
 package com.example.hachiapp
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
 
 class Activity_Login : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
 
         setContentView(R.layout.activity_login)
+
+        // Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
         // Ajustar padding por barras del sistema
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
@@ -31,8 +45,111 @@ class Activity_Login : AppCompatActivity() {
             insets
         }
 
-        // Subrayar texto
+        // Referencias
         val olvidaContra = findViewById<TextView>(R.id.OlvidaContraseña)
+        val crearCuenta = findViewById<TextView>(R.id.CrearCuenta)
+
+        val correoLogin = findViewById<EditText>(R.id.CorreoLogin)
+        val passwordLogin = findViewById<EditText>(R.id.PasswordLogin)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
+
+        // Subrayar textos
         olvidaContra.paint.isUnderlineText = true
+        crearCuenta.paint.isUnderlineText = true
+
+        // Color negro
+        olvidaContra.setTextColor(Color.BLACK)
+        crearCuenta.setTextColor(Color.BLACK)
+
+        // CLICK OLVIDÉ CONTRASEÑA
+        olvidaContra.setOnClickListener {
+
+            olvidaContra.setTextColor(Color.BLUE)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+
+                olvidaContra.setTextColor(Color.BLACK)
+
+                val intent = Intent(this, ActivityContrasena::class.java)
+                startActivity(intent)
+
+            }, 100)
+        }
+
+        // CLICK CREAR CUENTA
+        crearCuenta.setOnClickListener {
+
+            crearCuenta.setTextColor(Color.BLUE)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+
+                crearCuenta.setTextColor(Color.BLACK)
+
+                val intent = Intent(this, ActivityRegistro::class.java)
+                startActivity(intent)
+
+            }, 100)
+        }
+
+        // LOGIN
+        btnLogin.setOnClickListener {
+
+            val correo = correoLogin.text.toString().trim()
+            val password = passwordLogin.text.toString().trim()
+
+            if (correo.isEmpty() || password.isEmpty()) {
+
+                Toast.makeText(
+                    this,
+                    "Completa todos los campos",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+
+                auth.signInWithEmailAndPassword(correo, password)
+                    .addOnCompleteListener { task ->
+
+                        if (task.isSuccessful) {
+
+                            // ADMIN
+                            //CORREO DE ADMIN
+                            if (correo == "admin@hachi.com") {
+                                //CONTRASEÑA: admin123
+
+                                Toast.makeText(
+                                    this,
+                                    "Bienvenido administrador",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                            } else {
+
+                                // USUARIO NORMAL
+                                Toast.makeText(
+                                    this,
+                                    "Inicio de sesión exitoso",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            // Ambos entran a ActivityInicio
+                            startActivity(
+                                Intent(this, ActivityInicio::class.java)
+                            )
+
+                            finish()
+
+                        } else {
+
+                            Toast.makeText(
+                                this,
+                                "Correo o contraseña incorrectos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+            }
+        }
     }
 }

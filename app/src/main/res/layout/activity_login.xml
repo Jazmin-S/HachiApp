@@ -35,20 +35,23 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- ESLOGAN -->
+
+    <!-- EMAIL -->
     <TextView
         android:id="@+id/eslogan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="36dp"
         android:gravity="center"
         android:text="“Porque cada mascota merece volver a casa.”"
         android:textColor="#000000"
         android:textSize="24sp"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titulo" />
 
-    <!-- EMAIL -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
         android:layout_width="0dp"
@@ -100,20 +103,23 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- OLVIDASTE CONTRASEÑA -->
+
+    <!-- BOTON LOGIN -->
+
     <TextView
         android:id="@+id/OlvidaContraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="¿Olvidaste tu contraseña?"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.868"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
 
-    <!-- BOTON LOGIN -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
@@ -138,8 +144,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:text="¿No tienes una cuenta?"
+        android:textAlignment="textStart"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnLogin" />
@@ -148,6 +157,7 @@
         android:id="@+id/CrearCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Crear cuenta"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -158,12 +168,13 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="408dp"
-        android:layout_height="123dp"
+        android:layout_width="362dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CrearCuenta"
-        app:layout_constraintVertical_bias="0.714"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/mascotas_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

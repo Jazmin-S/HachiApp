@@ -48,7 +48,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
     implementation(libs.firebase.messaging)
+    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+
     implementation(libs.play.services.maps)
     implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
