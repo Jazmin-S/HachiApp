@@ -24,51 +24,32 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:layout_marginTop="1dp"
-            android:background="#EDD5B6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="#EDD5B6">
 
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="105dp"
                 android:layout_height="49dp"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="14dp"
-                android:layout_marginBottom="12dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="false"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/iconoprincipal" />
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="183dp"
-                android:layout_height="44dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="99dp"
-                android:layout_marginBottom="14dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="HachiApp"
                 android:textColor="#000000"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView7"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toEndOf="@id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Group
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <!-- MAPA -->
@@ -84,179 +65,173 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header" />
 
-    <!-- BARRA DE NAVEGACION -->
+    <!-- ================= NAVIGATION BAR ================= -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/bottomContainer"
         android:layout_width="0dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="14dp"
         app:cardBackgroundColor="#FFF6EC"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="12dp"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <!-- INICIO -->
+            <!-- MENU -->
             <LinearLayout
-                android:id="@+id/btnInicio"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
 
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/home"
-                    android:tint="#D98B3A" />
+                <!-- INICIO -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Inicio"
-                    android:textColor="#2D2D2D"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/home"
+                        android:tint="#E19039" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Inicio"
+                        android:textColor="#222222"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- MAPA -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/mapa"
+                        android:tint="#E19039" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Mapa"
+                        android:textColor="#222222"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- ESPACIO -->
+                <Space
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent" />
+
+                <!-- ALERTAS -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/alerta"
+                        android:tint="#E19039" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Alertas"
+                        android:textColor="#222222"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- HISTORIAL -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/historial"
+                        android:tint="#E19039" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Historial"
+                        android:textColor="#222222"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <!-- MAPA -->
-            <LinearLayout
-                android:id="@+id/btnMapa"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical">
+            <!-- BOTÓN REPORTAR -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnReportar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                app:cardBackgroundColor="#F0A04B"
+                app:cardCornerRadius="36dp"
+                app:cardElevation="12dp">
 
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/mapa"
-                    android:tint="#D98B3A" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|bottom"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Mapa"
-                    android:textColor="#2D2D2D"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="33dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="-1dp"
+                        android:tint="#F4ECEC"
+                        app:srcCompat="@drawable/crea_un_archivo" />
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <!-- BOTON CENTRAL -->
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center">
+            </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnReportar"
-                    android:layout_width="68dp"
-                    android:layout_height="68dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#E89A49"
-                    app:cardCornerRadius="34dp"
-                    app:cardElevation="14dp">
-
-                    <LinearLayout
-                        android:id="@+id/btnReporte"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/reportar" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </FrameLayout>
-
-            <!-- ALERTAS -->
-            <LinearLayout
-                android:id="@+id/btnAlertas"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/alerta"
-                    android:tint="#D98B3A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Alertas"
-                    android:textColor="#2D2D2D"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- HISTORIAL -->
-            <LinearLayout
-                android:id="@+id/btnHistorial"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/historial"
-                    android:tint="#D98B3A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Historial"
-                    android:textColor="#2D2D2D"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

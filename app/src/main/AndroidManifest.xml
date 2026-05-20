@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Permisos -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,49 +14,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
-
+        <activity
+            android:name=".ActivityInicio"
+            android:exported="false" />
         <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
             android:name=".ActivityRegistro"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-
         <activity
             android:name=".ActivityMapa"
             android:exported="false" />
-
-
         <activity
             android:name=".ActivityContrasena"
             android:exported="false" />
-
-
         <activity
             android:name=".Activity_recuperacion"
             android:exported="false" />
-
-
         <activity
             android:name=".ActivityCodigo"
             android:exported="false" />
-
-
         <activity
             android:name=".Activity_Login"
             android:exported="false" />
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
     </application>
 
 </manifest>
