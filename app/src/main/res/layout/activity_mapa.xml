@@ -105,7 +105,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/home"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/mapa"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/alerta"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/historial"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -224,8 +224,8 @@
                         android:layout_height="36dp"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="-1dp"
-                        android:tint="#F4ECEC"
-                        app:srcCompat="@drawable/crea_un_archivo" />
+                        app:srcCompat="@drawable/crea_un_archivo"
+                        app:tint="#F4ECEC" />
 
                 </LinearLayout>
 
