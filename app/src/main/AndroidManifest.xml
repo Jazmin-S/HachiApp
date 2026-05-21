@@ -15,9 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
-            android:name=".ActivityInicio"
+            android:name=".ActivityMensajes"
             android:exported="false" />
-        <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
+        <activity
+            android:name=".ActivityAlertas"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityInicio"
+            android:exported="false" /> <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
             android:name=".Activity_Login"
             android:exported="true">
@@ -28,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityMapa"
+            android:name=".ActivityRegistro"
             android:exported="false" />
         <activity
             android:name=".ActivityContrasena"
@@ -40,7 +45,7 @@
             android:name=".ActivityCodigo"
             android:exported="false" />
         <activity
-            android:name=".ActivityRegistro"
+            android:name=".ActivityMapa"
             android:exported="false" />
 
         <meta-data
