@@ -19,7 +19,7 @@ class ActivityAlertas : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
 
         // MAPA
         val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)

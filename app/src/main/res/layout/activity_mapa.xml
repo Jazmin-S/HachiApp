@@ -95,6 +95,7 @@
 
                 <!-- INICIO -->
                 <LinearLayout
+                    android:id="@+id/BtnInicio"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -120,6 +121,7 @@
 
                 <!-- MAPA -->
                 <LinearLayout
+                    android:id="@+id/BtnMapa"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -150,6 +152,7 @@
 
                 <!-- ALERTAS -->
                 <LinearLayout
+                    android:id="@+id/BtnAlertas"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -175,6 +178,7 @@
 
                 <!-- HISTORIAL -->
                 <LinearLayout
+                    android:id="@+id/BtnHistorial"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -202,7 +206,6 @@
 
             <!-- BOTÓN REPORTAR -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnReportar"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_centerHorizontal="true"
@@ -212,6 +215,7 @@
                 app:cardElevation="12dp">
 
                 <LinearLayout
+                    android:id="@+id/btnReporte"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal|bottom"

@@ -29,7 +29,7 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_mapa)
 
         // PERFIL (sin acción por ahora)
-        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+     //   val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
 
         // INICIO
         val btnInicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -53,7 +53,7 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // REPORTE
-        val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
+        val btnReporte = findViewById<LinearLayout>(R.id.btnReporte)
         btnReporte.setOnClickListener {
             startActivity(Intent(this, ActivityRegistro::class.java))
         }
