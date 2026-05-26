@@ -99,7 +99,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@android:drawable/ic_menu_search"
-                android:tint="#181212" />
+                app:tint="#181212" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
             android:background="@android:color/transparent"
             android:padding="25dp"
             android:src="@android:drawable/ic_menu_sort_by_size"
-            android:tint="#100C0C" />
+            app:tint="#100C0C" />
 
     </androidx.cardview.widget.CardView>
 
@@ -187,6 +187,7 @@
                             android:src="@drawable/images" />
 
                         <TextView
+                            android:id="@+id/NombreAnimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
@@ -196,12 +197,14 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/fechaanimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15 enero 2026"
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/estadoAnimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Visto"
@@ -210,6 +213,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/VistasReporte"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="👁 1,920"
@@ -321,7 +325,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/home"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -347,7 +351,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/mapa"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -378,7 +382,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/alerta"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -404,7 +408,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:src="@drawable/historial"
-                        android:tint="#E19039" />
+                        app:tint="#E19039" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -444,8 +448,8 @@
                         android:layout_height="36dp"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="-1dp"
-                        android:tint="#F4ECEC"
-                        app:srcCompat="@drawable/crea_un_archivo" />
+                        app:srcCompat="@drawable/crea_un_archivo"
+                        app:tint="#F4ECEC" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
