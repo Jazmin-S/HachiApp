@@ -70,7 +70,7 @@ class Activity_Login : AppCompatActivity() {
 
                 olvidaContra.setTextColor(Color.BLACK)
 
-                val intent = Intent(this, ActivityContrasena::class.java)
+                val intent = Intent(this, Activity_recuperacion::class.java)
                 startActivity(intent)
 
             }, 100)
