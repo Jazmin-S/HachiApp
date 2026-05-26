@@ -35,27 +35,28 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         val btnInicio = findViewById<LinearLayout>(R.id.BtnInicio)
         btnInicio.setOnClickListener {
             startActivity(Intent(this, ActivityInicio::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-        // MAPA (pantalla actual)
-        val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
 
         // ALERTAS
         val btnAlertas = findViewById<LinearLayout>(R.id.BtnAlertas)
         btnAlertas.setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // HISTORIAL
         val btnHistorial = findViewById<LinearLayout>(R.id.BtnHistorial)
         btnHistorial.setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // REPORTE
         val btnReporte = findViewById<LinearLayout>(R.id.btnReporte)
         btnReporte.setOnClickListener {
             startActivity(Intent(this, ActivityRegistro::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // MAPA

@@ -27,7 +27,7 @@
             android:name=".ActivityInicio"
             android:exported="false" /> <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
-            android:name=".ActivityMapa"
+            android:name=".Activity_Login"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +48,7 @@
             android:name=".ActivityCodigo"
             android:exported="false" />
         <activity
-            android:name=".Activity_Login"
+            android:name=".ActivityMapa"
             android:exported="false" />
 
         <meta-data

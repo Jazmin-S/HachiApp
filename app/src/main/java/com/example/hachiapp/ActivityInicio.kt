@@ -13,30 +13,33 @@ class ActivityInicio : AppCompatActivity() {
         setContentView(R.layout.activity_inicio)
 
         // PERFIL (sin acción por ahora)
-        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
 
         // MAPA
         val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
         btnMapa.setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // ALERTAS
         val btnAlertas = findViewById<LinearLayout>(R.id.BtnAlertas)
         btnAlertas.setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // HISTORIAL
         val btnHistorial = findViewById<LinearLayout>(R.id.BtnHistorial)
         btnHistorial.setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // REPORTE
-        val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
-        btnReporte.setOnClickListener {
-            startActivity(Intent(this, ActivityRegistro::class.java))
-        }
+        //val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
+        //btnReporte.setOnClickListener {
+            //startActivity(Intent(this, ActivityRegistro::class.java))
+        //}
     }
 }
