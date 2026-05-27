@@ -55,7 +55,7 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         // REPORTE
         val btnReporte = findViewById<LinearLayout>(R.id.btnReporte)
         btnReporte.setOnClickListener {
-            startActivity(Intent(this, ActivityRegistro::class.java))
+            startActivity(Intent(this, ActivityRegistroReporte::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 

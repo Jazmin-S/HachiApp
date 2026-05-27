@@ -80,4 +80,10 @@
     <string name="lbl_ubicacion">Ubicación: </string>
     <string name="desc_favorito">Marcar como favorito</string>
 
+    <!-- RegistroReporte Activity Strings -->
+    <string name="tipo_mascota_hint">Tipo de mascota</string>
+    <string name="edad_hint">Edad</string>
+    <string name="estado_hint">Estado</string>
+
+
 </resources>

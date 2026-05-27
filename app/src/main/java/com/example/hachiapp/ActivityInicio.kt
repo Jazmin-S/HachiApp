@@ -37,9 +37,10 @@ class ActivityInicio : AppCompatActivity() {
         }
 
         // REPORTE
-        //val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
-        //btnReporte.setOnClickListener {
-            //startActivity(Intent(this, ActivityRegistro::class.java))
-        //}
+        val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
+        btnReporte.setOnClickListener {
+            startActivity(Intent(this, ActivityRegistroReporte::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
     }
 }

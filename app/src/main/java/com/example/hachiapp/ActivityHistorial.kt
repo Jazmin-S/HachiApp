@@ -44,7 +44,7 @@ class ActivityHistorial : AppCompatActivity() {
         // REPORTE
         val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
         btnReporte.setOnClickListener {
-            startActivity(Intent(this, ActivityRegistro::class.java))
+            startActivity(Intent(this, ActivityRegistroReporte::class.java))
         }
     }
 }

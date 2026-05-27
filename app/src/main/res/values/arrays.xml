@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tipos_mascota">
+        <item>Tipo de mascota</item>
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Conejo</item>
+        <item>Ave</item>
+        <item>Otro</item>
+    </string-array>
+
+    <string-array name="edades_mascota">
+        <item>Edad</item>
+        <item>Cachorro (0-1 año)</item>
+        <item>Joven (1-3 años)</item>
+        <item>Adulto (3-8 años)</item>
+        <item>Senior (8+ años)</item>
+    </string-array>
+
+    <string-array name="estados_mascota">
+        <item>Estado</item>
+        <item>Perdido</item>
+        <item>Encontrado</item>
+        <item>En adopción</item>
+    </string-array>
+
+</resources>
