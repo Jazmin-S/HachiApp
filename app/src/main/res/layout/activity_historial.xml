@@ -28,9 +28,10 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="85dp"
+                android:layout_width="93dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="14dp"
+                android:contentDescription="@string/logo_hachiapp"
                 android:src="@drawable/iconoprincipal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,13 +41,14 @@
                 android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HachiApp"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/app_name"
                 android:textColor="#000000"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/logo"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/logo" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="58dp"
@@ -63,8 +65,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/perfil"
+                    android:contentDescription="@string/desc_perfil"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/png_clipart_user_profile_computer_icons_others_miscellaneous_black" />
+                    android:src="@drawable/perfil" />
 
             </androidx.cardview.widget.CardView>
 
@@ -91,7 +94,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:gravity="center"
-            android:text="Historial de reportes"
+            android:text="@string/historial_titulo"
             android:textColor="#2d1a00"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -139,6 +142,7 @@
                         android:id="@+id/imgHistorial"
                         android:layout_width="82dp"
                         android:layout_height="76dp"
+                        android:contentDescription="@string/desc_mascota"
                         android:scaleType="centerCrop"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -150,7 +154,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="Nombre: "
+                        android:text="@string/lbl_nombre"
                         android:textColor="#2d1a00"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -163,6 +167,7 @@
                         android:id="@+id/btnFav"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:contentDescription="@string/desc_favorito"
                         android:src="@android:drawable/btn_star_big_on"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/imgHistorial"
@@ -175,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="4dp"
-                        android:text="Raza: "
+                        android:text="@string/lbl_raza"
                         android:textColor="#2d1a00"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -190,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="4dp"
-                        android:text="Estado: "
+                        android:text="@string/lbl_estado"
                         android:textColor="#E53935"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -205,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="4dp"
-                        android:text="Ubicacion: "
+                        android:text="@string/lbl_ubicacion"
                         android:textColor="#6b4c2a"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/imgHistorial"

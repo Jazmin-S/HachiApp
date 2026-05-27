@@ -19,7 +19,7 @@ class ActivityMensajes : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
 
         // MAPA
         val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
@@ -42,6 +42,12 @@ class ActivityMensajes : AppCompatActivity() {
         val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
         btnReporte.setOnClickListener {
             startActivity(Intent(this, ActivityRegistro::class.java))
+        }
+        // NOTIFICACIONES -> va a ActivityAlertas
+        val btnNotificaciones = findViewById<androidx.cardview.widget.CardView>(R.id.btnNotificaciones)
+        btnNotificaciones.setOnClickListener {
+            startActivity(Intent(this, ActivityAlertas::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 

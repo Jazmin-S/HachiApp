@@ -31,6 +31,7 @@
                 android:layout_width="105dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
+                android:contentDescription="@string/logo_hachiapp"
                 android:src="@drawable/iconoprincipal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="HachiApp"
+                android:text="@string/app_name"
                 android:textColor="#000"
                 android:textSize="34sp"
                 android:textStyle="bold"
@@ -58,7 +59,7 @@
         android:id="@+id/textcodigo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Código de verificación"
+        android:text="@string/codigo_titulo"
         android:textAlignment="center"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -74,7 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Ingresa el código de 4 dígitos enviado a tu correo"
+        android:text="@string/codigo_subtitulo"
         android:textAlignment="center"
         android:textColor="#2E1B0E"
         android:textSize="20sp"
@@ -103,7 +104,10 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#120F0F"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:autofillHints="none"
+            android:hint="@string/hint_otp_digit"
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/editTextCodigo2"
@@ -115,7 +119,10 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#0F0D0D"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:autofillHints="none"
+            android:hint="@string/hint_otp_digit"
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/editTextCodigo3"
@@ -127,7 +134,10 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#1F1919"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:autofillHints="none"
+            android:hint="@string/hint_otp_digit"
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/editTextCodigo4"
@@ -139,7 +149,10 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#121010"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:autofillHints="none"
+            android:hint="@string/hint_otp_digit"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -152,7 +165,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="40dp"
         android:backgroundTint="#EDD5B7"
-        android:text="Verificar código"
+        android:text="@string/btn_verificar_codigo"
         android:textColor="#1D1717"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -167,6 +180,7 @@
         android:layout_width="200dp"
         android:layout_height="160dp"
         android:layout_marginTop="20dp"
+        android:contentDescription="@string/desc_gatito"
         app:srcCompat="@drawable/gatito"
         app:layout_constraintTop_toBottomOf="@id/btnVerificar"
         app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +192,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Reenviar código"
+        android:text="@string/txt_reenviar_codigo"
         android:textColor="#000"
         android:textSize="20sp"
         android:textStyle="bold"

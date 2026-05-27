@@ -18,4 +18,66 @@
 
     <string name="ver_contrasena">Ver contraseña</string>
 
+    <string name="btn_login">Iniciar Sesión</string>
+
+    <!-- Inicio Activity Strings -->
+    <string name="hint_buscar_reporte">Buscar Reporte...</string>
+    <string name="nombre_ejemplo_1">Taquito</string>
+    <string name="fecha_ejemplo_1">15 enero 2026</string>
+    <string name="estado_visto">Visto</string>
+    <string name="vistas_ejemplo_1">👁 1,920</string>
+    <string name="nombre_ejemplo_2">Duke</string>
+    <string name="tiempo_ejemplo_2">Hace 15 min</string>
+    <string name="estado_perdido">Perdido</string>
+    <string name="vistas_ejemplo_2">👁 900</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_mapa">Mapa</string>
+    <string name="nav_alertas">Alertas</string>
+    <string name="nav_historial">Historial</string>
+
+    <!-- Accessibility Descriptions -->
+    <string name="desc_perfil">Foto de perfil</string>
+    <string name="desc_filtro">Filtrar reportes</string>
+    <string name="desc_buscar">Icono de búsqueda</string>
+    <string name="desc_mascota">Imagen de mascota</string>
+
+    <!-- Alertas Activity Strings -->
+    <string name="tab_notificaciones">Notificaciones</string>
+    <string name="tab_mensajes">Mensajes</string>
+    <string name="alert_nuevo_mensaje">Nuevo mensaje</string>
+    <string name="alert_desc_nuevo_mensaje">Laura te envió un mensaje nuevo</string>
+    <string name="alert_nuevas_vistas">Nuevas Vistas</string>
+    <string name="alert_desc_nuevas_vistas">100 personas nuevas han visto tu reporte.</string>
+    <string name="alert_nuevos_reportes">Nuevos reportes</string>
+    <string name="alert_desc_nuevos_reportes">Se han subido 3 reportes nuevos de avistamiento.</string>
+    <string name="alert_nuevas_actualizaciones">Nuevas actualizaciones</string>
+    <string name="alert_desc_nuevas_actualizaciones">El reporte al que le has dado seguimiento tiene actualizaciones.</string>
+    <string name="desc_icono_alerta">Icono de alerta</string>
+    <string name="desc_flecha_ir">Ir a detalle</string>
+
+    <!-- Codigo Activity Strings -->
+    <string name="codigo_titulo">Código de verificación</string>
+    <string name="codigo_subtitulo">Ingresa el código de 4 dígitos enviado a tu correo</string>
+    <string name="btn_verificar_codigo">Verificar código</string>
+    <string name="txt_reenviar_codigo">Reenviar código</string>
+    <string name="desc_gatito">Imagen de gatito decorativa</string>
+    <string name="hint_otp_digit">0</string>
+
+    <!-- Contrasena Activity Strings -->
+    <string name="reset_password_title">Escribe tu nueva contraseña</string>
+    <string name="hint_new_password">Nueva contraseña</string>
+    <string name="hint_confirm_password">Confirma contraseña</string>
+    <string name="btn_confirmar">Confirmar</string>
+    <string name="desc_perrito">Imagen de perrito decorativa</string>
+
+    <!-- Historial Activity Strings -->
+    <string name="historial_titulo">Historial de reportes</string>
+    <string name="lbl_nombre">Nombre: </string>
+    <string name="lbl_raza">Raza: </string>
+    <string name="lbl_estado">Estado: </string>
+    <string name="lbl_ubicacion">Ubicación: </string>
+    <string name="desc_favorito">Marcar como favorito</string>
+
 </resources>

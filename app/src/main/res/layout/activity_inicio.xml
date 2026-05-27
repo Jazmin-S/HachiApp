@@ -28,9 +28,10 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="85dp"
+                android:layout_width="93dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="14dp"
+                android:contentDescription="@string/logo_hachiapp"
                 android:src="@drawable/iconoprincipal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -40,12 +41,13 @@
                 android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HachiApp"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/app_name"
                 android:textColor="#000000"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/logo"/>
 
             <androidx.cardview.widget.CardView
@@ -63,9 +65,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/perfil"
+                    android:backgroundTint="#FBF6F6"
                     android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/desc_perfil"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/png_clipart_user_profile_computer_icons_others_miscellaneous_black" />
+                    android:src="@drawable/perfil" />
 
             </androidx.cardview.widget.CardView>
 
@@ -77,12 +82,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardBuscar"
         android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_height="58dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="95dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="10dp"
+        android:layout_marginEnd="82dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -93,23 +99,26 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="18dp">
+            android:paddingHorizontal="16dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@string/desc_buscar"
                 android:src="@android:drawable/ic_menu_search"
-                app:tint="#181212" />
+                app:tint="#AAAAAA" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
                 android:background="@android:color/transparent"
-                android:hint="Buscar Reporte ..."
-                android:textColor="#000000"
-                android:textColorHint="#8C8C8C"
-                android:textSize="18sp" />
+                android:hint="@string/hint_buscar_reporte"
+                android:inputType="text"
+                android:autofillHints="none"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#AAAAAA"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -118,11 +127,12 @@
     <!-- ================= FILTRO ================= -->
     <androidx.cardview.widget.CardView
         android:id="@+id/btnFiltro"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
         android:layout_marginEnd="18dp"
-        app:cardCornerRadius="18dp"
-        app:cardElevation="10dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
         app:layout_constraintTop_toTopOf="@id/cardBuscar"
         app:layout_constraintBottom_toBottomOf="@id/cardBuscar"
         app:layout_constraintEnd_toEndOf="parent">
@@ -132,9 +142,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:padding="25dp"
+            android:contentDescription="@string/desc_filtro"
+            android:padding="14dp"
             android:src="@android:drawable/ic_menu_sort_by_size"
-            app:tint="#100C0C" />
+            app:tint="#1A1A1A" />
 
     </androidx.cardview.widget.CardView>
 
@@ -154,9 +165,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="4dp">
 
-            <!-- FILA -->
             <LinearLayout
                 android:id="@+id/LYTarjetas"
                 android:layout_width="match_parent"
@@ -164,114 +176,176 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <!-- CARD 1 -->
+                <!-- ===== CARD 1 ===== -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="165dp"
-                    android:layout_height="255dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="22dp"
-                    app:cardElevation="12dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:paddingHorizontal="12dp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp">
 
-                        <ImageView
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/images" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:cardCornerRadius="50dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/desc_mascota"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/images" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:id="@+id/NombreAnimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="Taquito"
-                            android:textColor="#2D2D2D"
-                            android:textSize="24sp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/nombre_ejemplo_1"
+                            android:textColor="#1A1A1A"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/fechaanimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="15 enero 2026"
-                            android:textSize="12sp" />
+                            android:layout_marginTop="2dp"
+                            android:text="@string/fecha_ejemplo_1"
+                            android:textColor="#888888"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="#F0F0F0" />
 
                         <TextView
                             android:id="@+id/estadoAnimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Visto"
-                            android:textColor="#304FFE"
-                            android:textSize="32sp"
+                            android:background="#E8F5EE"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:text="@string/estado_visto"
+                            android:textColor="#1B8C4E"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/VistasReporte"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="👁 1,920"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/vistas_ejemplo_1"
+                            android:textColor="#555555"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- CARD 2 -->
+                <!-- ===== CARD 2 ===== -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="165dp"
-                    android:layout_height="255dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="22dp"
-                    app:cardElevation="12dp">
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:paddingHorizontal="12dp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp">
 
-                        <ImageView
-                            android:layout_width="110dp"
-                            android:layout_height="110dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/img_gatos_encontrar_perdidos_trucos_3_art" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:cardCornerRadius="50dp"
+                            app:cardElevation="4dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/desc_mascota"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/img_gatos_encontrar_perdidos_trucos_3_art" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="Duke"
-                            android:textColor="#2D2D2D"
-                            android:textSize="24sp"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/nombre_ejemplo_2"
+                            android:textColor="#1A1A1A"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hace 15 min"
-                            android:textSize="12sp" />
+                            android:layout_marginTop="2dp"
+                            android:text="@string/tiempo_ejemplo_2"
+                            android:textColor="#888888"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="#F0F0F0" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Perdido"
-                            android:textColor="#D50000"
-                            android:textSize="32sp"
+                            android:background="#FDECEA"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:text="@string/estado_perdido"
+                            android:textColor="#C62828"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="👁 900"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/vistas_ejemplo_2"
+                            android:textColor="#555555"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -304,7 +378,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- MENU -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -318,12 +391,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
+                        android:contentDescription="@string/nav_inicio"
                         android:src="@drawable/home"
                         app:tint="#E19039" />
 
@@ -331,7 +407,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Inicio"
+                        android:text="@string/nav_inicio"
                         android:textColor="#222222"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -344,12 +420,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
+                        android:contentDescription="@string/nav_mapa"
                         android:src="@drawable/mapa"
                         app:tint="#E19039" />
 
@@ -357,14 +436,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Mapa"
+                        android:text="@string/nav_mapa"
                         android:textColor="#222222"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-                <!-- ESPACIO -->
                 <Space
                     android:layout_width="90dp"
                     android:layout_height="match_parent" />
@@ -375,12 +453,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
+                        android:contentDescription="@string/nav_alertas"
                         android:src="@drawable/alerta"
                         app:tint="#E19039" />
 
@@ -388,7 +469,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Alertas"
+                        android:text="@string/nav_alertas"
                         android:textColor="#222222"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -401,12 +482,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
+                        android:contentDescription="@string/nav_historial"
                         android:src="@drawable/historial"
                         app:tint="#E19039" />
 
@@ -414,7 +498,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Historial"
+                        android:text="@string/nav_historial"
                         android:textColor="#222222"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -429,7 +513,6 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="0dp"
                 app:cardBackgroundColor="#F0A04B"
                 app:cardCornerRadius="36dp"
                 app:cardElevation="12dp">
@@ -438,6 +521,8 @@
                     android:id="@+id/BtnReporte"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_horizontal|bottom"
                     android:orientation="vertical"
                     android:paddingBottom="20dp">
@@ -448,8 +533,10 @@
                         android:layout_height="36dp"
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="-1dp"
+                        android:contentDescription="@string/desc_mascota"
                         app:srcCompat="@drawable/crea_un_archivo"
                         app:tint="#F4ECEC" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

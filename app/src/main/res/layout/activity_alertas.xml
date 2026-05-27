@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="93dp"
-                android:layout_height="47dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/iconoprincipal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -47,6 +47,28 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageView7"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginEnd="14dp"
+                app:cardCornerRadius="29dp"
+                app:cardElevation="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/BtnPerfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/perfil"
+                    android:backgroundTint="#FBF6F6"
+                    android:clickable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/perfil" />
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -77,6 +99,7 @@
             app:cardBackgroundColor="#EDD5B6">
 
             <TextView
+                android:id="@+id/btnNotificacion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -99,6 +122,7 @@
             app:cardBackgroundColor="#C4915A">
 
             <TextView
+                android:id="@+id/Mensajes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

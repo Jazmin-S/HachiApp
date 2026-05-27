@@ -47,5 +47,10 @@ class ActivityAlertas : AppCompatActivity() {
             startActivity(Intent(this, ActivityRegistro::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+        val btnMensajes = findViewById<androidx.cardview.widget.CardView>(R.id.btnMensajes)
+        btnMensajes.setOnClickListener {
+            startActivity(Intent(this, ActivityMensajes::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
     }
 }
