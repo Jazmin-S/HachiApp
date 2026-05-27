@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    // imagen en circulo
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     implementation(libs.firebase.messaging)
     implementation("com.google.firebase:firebase-auth-ktx:23.1.0")

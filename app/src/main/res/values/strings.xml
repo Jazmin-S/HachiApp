@@ -86,4 +86,6 @@
     <string name="estado_hint">Estado</string>
 
 
+    <string name="edad_prompt">Edad</string>
+
 </resources>

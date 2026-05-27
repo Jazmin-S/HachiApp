@@ -44,20 +44,19 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
         // HISTORIAL
         val btnHistorial = findViewById<LinearLayout>(R.id.BtnHistorial)
         btnHistorial.setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
         // REPORTE
         val btnReporte = findViewById<LinearLayout>(R.id.btnReporte)
         btnReporte.setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+
 
         // MAPA
         val mapFragment = supportFragmentManager
@@ -72,7 +71,6 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         mMap = googleMap
-
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -84,10 +82,8 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         ) {
 
             mMap.isMyLocationEnabled = true
-
             val fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this)
-
             fusedLocationClient.getCurrentLocation(
                 com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
                 null
