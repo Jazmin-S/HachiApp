@@ -49,6 +49,10 @@ class ActivityMensajes : AppCompatActivity() {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+        val btnVerMensaje = findViewById<ImageButton>(R.id.BtnVerMensaje)
+        btnVerMensaje.setOnClickListener {
+            startActivity(Intent(this, ActivityChat::class.java))
+        }
     }
 
 }

@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
+            android:name=".ActivityChat"
+            android:exported="false" />
+        <activity
             android:name=".ActivityRegistroReporte"
             android:exported="false" />
         <activity
