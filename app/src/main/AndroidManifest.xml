@@ -33,7 +33,7 @@
             android:name=".ActivityInicio"
             android:exported="false" /> <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
-            android:name=".ActivityPerfil"
+            android:name=".Activity_Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +57,9 @@
             android:name=".ActivityMapa"
             android:exported="false" />
         <activity
-            android:name=".Activity_Login"
+            android:name=".ActivityPerfil"
+            android:exported="false" />
+        <activity android:name=".ActivityRegistroReporte"
             android:exported="false" />
 
         <meta-data
