@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D79149"
-    tools:context=".ActivityContrasena">
+    tools:context=".Activity.ActivityContrasena">
 
     <!-- HEADER -->
     <androidx.cardview.widget.CardView

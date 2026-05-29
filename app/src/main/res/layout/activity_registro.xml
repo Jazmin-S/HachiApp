@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D79149"
-    tools:context=".ActivityRegistro">
+    tools:context=".Activity.ActivityRegistro">
 
     <!-- HEADER -->
     <androidx.cardview.widget.CardView

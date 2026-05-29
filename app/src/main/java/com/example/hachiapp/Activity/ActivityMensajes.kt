@@ -1,4 +1,4 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,11 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.hachiapp.Activity.ActivityRegistro
+import com.example.hachiapp.R
 
 class ActivityMensajes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +47,7 @@ class ActivityMensajes : AppCompatActivity() {
             startActivity(Intent(this, ActivityRegistro::class.java))
         }
         // NOTIFICACIONES -> va a ActivityAlertas
-        val btnNotificaciones = findViewById<androidx.cardview.widget.CardView>(R.id.btnNotificaciones)
+        val btnNotificaciones = findViewById<CardView>(R.id.btnNotificaciones)
         btnNotificaciones.setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

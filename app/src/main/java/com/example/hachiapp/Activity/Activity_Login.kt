@@ -1,4 +1,4 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -13,6 +13,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.hachiapp.Activity.ActivityInicio
+import com.example.hachiapp.Activity.ActivityRegistro
+import com.example.hachiapp.Activity.Activity_recuperacion
+import com.example.hachiapp.R
 import com.google.firebase.auth.FirebaseAuth
 
 class Activity_Login : AppCompatActivity() {

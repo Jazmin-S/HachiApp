@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D79149"
-    tools:context=".ActivityInicio">
+    tools:context=".Activity.ActivityInicio">
 
     <!-- ================= HEADER ================= -->
     <androidx.cardview.widget.CardView
@@ -176,181 +176,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <!-- ===== CARD 1 ===== -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="165dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerReportes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            app:cardCornerRadius="50dp"
-                            app:cardElevation="4dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/desc_mascota"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/images" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:id="@+id/NombreAnimal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/nombre_ejemplo_1"
-                            android:textColor="#1A1A1A"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/fechaanimal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="@string/fecha_ejemplo_1"
-                            android:textColor="#888888"
-                            android:textSize="11sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="#F0F0F0" />
-
-                        <TextView
-                            android:id="@+id/estadoAnimal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="#E8F5EE"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:text="@string/estado_visto"
-                            android:textColor="#1B8C4E"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/VistasReporte"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/vistas_ejemplo_1"
-                            android:textColor="#555555"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- ===== CARD 2 ===== -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="165dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="12dp"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            app:cardCornerRadius="50dp"
-                            app:cardElevation="4dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/desc_mascota"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/img_gatos_encontrar_perdidos_trucos_3_art" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/nombre_ejemplo_2"
-                            android:textColor="#1A1A1A"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="@string/tiempo_ejemplo_2"
-                            android:textColor="#888888"
-                            android:textSize="11sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="#F0F0F0" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="#FDECEA"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:text="@string/estado_perdido"
-                            android:textColor="#C62828"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/vistas_ejemplo_2"
-                            android:textColor="#555555"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                    android:padding="8dp"
+                    tools:listitem="@layout/item_reporte"/>
 
             </LinearLayout>
 

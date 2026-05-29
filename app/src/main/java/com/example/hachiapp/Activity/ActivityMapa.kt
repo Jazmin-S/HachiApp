@@ -1,21 +1,22 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
-// Librerías necesarias para permisos y el mapa
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.hachiapp.Activity.ActivityRegistroReporte
+import com.example.hachiapp.R
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 
 // La Activity implementa OnMapReadyCallback para saber cuando el mapa terminó de cargar
@@ -85,7 +86,7 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
             val fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(
-                com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
+                Priority.PRIORITY_HIGH_ACCURACY,
                 null
             ).addOnSuccessListener { location ->
 

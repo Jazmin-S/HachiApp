@@ -1,4 +1,4 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
@@ -8,11 +8,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.hachiapp.R
 import java.util.Calendar
-import androidx.activity.enableEdgeToEdge
+import kotlin.collections.iterator
 
 class ActivityRegistroReporte : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

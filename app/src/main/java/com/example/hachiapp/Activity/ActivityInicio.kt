@@ -1,16 +1,53 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.hachiapp.Activity.ActivityRegistroReporte
+import com.example.hachiapp.R
+import com.example.hachiapp.BD.ReporteRepository
+import com.example.hachiapp.models.Reporte
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hachiapp.adapters.ReporteAdapter
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityInicio : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
+        val recycler =
+            findViewById<RecyclerView>(R.id.recyclerReportes)
+
+        recycler.layoutManager =
+            GridLayoutManager(this, 2)
+
+        val listaReportes = mutableListOf<Reporte>()
+
+        val adapter = ReporteAdapter(listaReportes)
+
+        recycler.adapter = adapter
+
+        FirebaseFirestore.getInstance()
+            .collection("reportes")
+            .get()
+            .addOnSuccessListener { resultado ->
+
+                listaReportes.clear()
+
+                for (documento in resultado) {
+
+                    val reporte =
+                        documento.toObject(Reporte::class.java)
+
+                    listaReportes.add(reporte)
+                }
+
+                adapter.notifyDataSetChanged()
+            }
 
         // PERFIL (sin acción por ahora)
         //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)

@@ -15,9 +15,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        val mapsKey = project.properties["MAPS_API_KEY"]?.toString() ?: ""
         manifestPlaceholders["MAPS_API_KEY"] = "AIzaSyBCFj9xkAEtDT7p9vgGGUx9OktOoDxev2U"
-
     }
 
     buildTypes {
@@ -39,23 +37,29 @@ android {
 }
 
 dependencies {
-    //gps amiga
+    // Mapas y Localización
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
-    //
+
+    // UI y Material
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    // imagen en circulo
+    implementation(libs.androidx.cardview)
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    implementation(libs.firebase.messaging)
-    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
+    // Firebase (Usando BOM para gestionar versiones)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
 
-    implementation(libs.play.services.maps)
-    implementation(libs.androidx.cardview)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.firebase.storage)
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

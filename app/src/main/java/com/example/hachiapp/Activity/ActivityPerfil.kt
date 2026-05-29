@@ -1,16 +1,19 @@
-package com.example.hachiapp
+package com.example.hachiapp.Activity
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import com.example.hachiapp.R
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ActivityPerfil : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,15 +36,15 @@ class ActivityPerfil : AppCompatActivity() {
             // Cómo se ve el item cuando el Spinner está CERRADO
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                (view as TextView).setTextColor(android.graphics.Color.BLACK) // texto negro
+                (view as TextView).setTextColor(Color.BLACK) // texto negro
                 return view
             }
 
             // Cómo se ve cada item cuando el Spinner está ABIERTO
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
-                (view as TextView).setTextColor(android.graphics.Color.BLACK) // texto negro
-                view.setBackgroundColor(android.graphics.Color.WHITE) // fondo blanco
+                (view as TextView).setTextColor(Color.BLACK) // texto negro
+                view.setBackgroundColor(Color.WHITE) // fondo blanco
                 return view
             }
         }
@@ -51,13 +54,13 @@ class ActivityPerfil : AppCompatActivity() {
         // Abre la galería del teléfono y espera que el usuario elija una imagen
         val seleccionarImagen = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) { // si el usuario eligió algo (no canceló)
-                findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.imgPerfil)
+                findViewById<CircleImageView>(R.id.imgPerfil)
                     .setImageURI(uri) // muestra la imagen elegida en el círculo
             }
         }
 
         // Al tocar la foto circular abre la galería
-        findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.imgPerfil)
+        findViewById<CircleImageView>(R.id.imgPerfil)
             .setOnClickListener {
                 seleccionarImagen.launch("image/*") // filtra solo imágenes
             }

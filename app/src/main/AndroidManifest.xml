@@ -4,6 +4,7 @@
     <!-- Permisos -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
         android:allowBackup="true"
@@ -15,25 +16,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
-            android:name=".ActivityVolante"
+            android:name=".Activity.ActivityVolante"
             android:exported="false" />
         <activity
-            android:name=".ActivityChat"
+            android:name=".Activity.ActivityChat"
             android:exported="false" />
         <activity
-            android:name=".ActivityHistorial"
+            android:name=".Activity.ActivityHistorial"
             android:exported="false" />
         <activity
-            android:name=".ActivityMensajes"
+            android:name=".Activity.ActivityMensajes"
             android:exported="false" />
         <activity
-            android:name=".ActivityAlertas"
+            android:name=".Activity.ActivityAlertas"
             android:exported="false" />
         <activity
-            android:name=".ActivityInicio"
+            android:name=".Activity.ActivityInicio"
             android:exported="false" /> <!-- 🔥 PANTALLA INICIAL TEMPORAL: Login -->
         <activity
-            android:name=".Activity_Login"
+            android:name=".Activity.Activity_Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,24 +43,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityRegistro"
+            android:name=".Activity.ActivityRegistro"
             android:exported="false" />
         <activity
-            android:name=".ActivityContrasena"
+            android:name=".Activity.ActivityContrasena"
             android:exported="false" />
         <activity
-            android:name=".Activity_recuperacion"
+            android:name=".Activity.Activity_recuperacion"
             android:exported="false" />
         <activity
-            android:name=".ActivityCodigo"
+            android:name=".Activity.ActivityCodigo"
             android:exported="false" />
         <activity
-            android:name=".ActivityMapa"
+            android:name=".Activity.ActivityMapa"
             android:exported="false" />
         <activity
-            android:name=".ActivityPerfil"
+            android:name=".Activity.ActivityPerfil"
             android:exported="false" />
-        <activity android:name=".ActivityRegistroReporte"
+        <activity android:name=".Activity.ActivityRegistroReporte"
             android:exported="false" />
 
         <meta-data
