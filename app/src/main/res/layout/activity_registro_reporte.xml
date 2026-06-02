@@ -144,10 +144,27 @@
                                 android:orientation="vertical">
 
                                 <ImageView
+                                    android:id="@+id/btnFotoReporte"
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
                                     android:src="@drawable/ic_camera_alt_24"
-                                    app:tint="#888888" />
+                                    app:tint="#1D1A1A" />
+
+                                <!-- Miniaturas de imágenes seleccionadas (se llena por código) -->
+                                <HorizontalScrollView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="93dp"
+                                    android:layout_marginTop="8dp"
+                                    android:scrollbars="none">
+
+                                    <LinearLayout
+                                        android:id="@+id/layoutMiniaturas"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="80dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal" />
+
+                                </HorizontalScrollView>
 
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -420,7 +437,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Agregar Fotos"
+                        android:text="Información de la Mascota"
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -669,6 +686,30 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <!-- RECOMPENSA -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="#FFFFFF">
+
+                        <EditText
+                            android:id="@+id/etRecompensa"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="Recompensa ofrecida (opcional)"
+                            android:textColorHint="#AAAAAA"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:minHeight="48dp" />
+
+                    </androidx.cardview.widget.CardView>
+
                     <!-- BOTÓN GUARDAR (rojo) -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnGuardar"
@@ -680,10 +721,11 @@
                         app:cardBackgroundColor="#D32F2F">
 
                         <TextView
+                            android:id="@+id/SalirReporte"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:text="Guardar"
+                            android:text="Salir"
                             android:textColor="#FFFFFF"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -700,6 +742,7 @@
                         app:cardBackgroundColor="#388E3C">
 
                         <TextView
+                            android:id="@+id/GuardarReporte"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -709,6 +752,8 @@
                             android:textStyle="bold" />
 
                     </androidx.cardview.widget.CardView>
+
+
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
