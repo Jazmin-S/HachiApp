@@ -12,13 +12,26 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.hachiapp.BD.UsuarioRepository
 import com.example.hachiapp.R
+import com.example.hachiapp.models.Usuario
 import com.google.firebase.auth.FirebaseAuth
 
+/*
+ * Activity encargada de registrar un nuevo usuario
+ * en Firebase Authentication y guardar sus datos
+ * en la colección "usuarios" de Firestore.
+ */
 class ActivityRegistro : AppCompatActivity() {
 
+    /* Instancia de Firebase Authentication
+     * para crear la cuenta del usuario.
+     */
     private lateinit var auth: FirebaseAuth
 
+    /* Guarda la URI de la imagen seleccionada
+     * desde la galería del teléfono.
+     */
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +42,9 @@ class ActivityRegistro : AppCompatActivity() {
 
         setContentView(R.layout.activity_registro)
 
+        /* Obtiene la instancia de Firebase Auth
+         * para usarla en el registro.
+         */
         auth = FirebaseAuth.getInstance()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -45,7 +61,9 @@ class ActivityRegistro : AppCompatActivity() {
             insets
         }
 
-        // Referencias
+        /* Referencias a los campos del formulario
+         * para obtener los datos que escribió el usuario.
+         */
         val textNombre = findViewById<EditText>(R.id.textNombre)
 
         val textApellido = findViewById<EditText>(R.id.textApellido)
@@ -56,19 +74,17 @@ class ActivityRegistro : AppCompatActivity() {
 
         val textTelefono = findViewById<EditText>(R.id.textTelefono)
 
-        val textNombreImagen =
-            findViewById<EditText>(R.id.textNombreImagen)
+        val textNombreImagen = findViewById<EditText>(R.id.textNombreImagen)
 
-        val imgPreview =
-            findViewById<ImageView>(R.id.imgPreview)
+        val imgPreview = findViewById<ImageView>(R.id.imgPreview)
 
-        val btnSeleccionarImagen =
-            findViewById<ImageButton>(R.id.btnSeleccionarImagen)
+        val btnSeleccionarImagen = findViewById<ImageButton>(R.id.btnSeleccionarImagen)
 
-        val btnGuardar =
-            findViewById<Button>(R.id.btnGuardar)
+        val btnGuardar = findViewById<Button>(R.id.btnGuardar)
 
-        // Seleccionar imagen
+        /* Al tocar el botón de imagen abre la galería
+         * del teléfono para seleccionar una foto.
+         */
         btnSeleccionarImagen.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_PICK)
@@ -78,9 +94,14 @@ class ActivityRegistro : AppCompatActivity() {
             startActivityForResult(intent, 100)
         }
 
-        // REGISTRO
+        /* Al tocar el botón Guardar valida los campos
+         * y registra al usuario en Firebase.
+         */
         btnGuardar.setOnClickListener {
 
+            /* Obtiene el texto de cada campo
+             * y elimina espacios al inicio y al final.
+             */
             val nombre = textNombre.text.toString().trim()
 
             val apellido = textApellido.text.toString().trim()
@@ -91,7 +112,9 @@ class ActivityRegistro : AppCompatActivity() {
 
             val telefono = textTelefono.text.toString().trim()
 
-            // Validaciones
+            /* Verifica que ningún campo esté vacío
+             * antes de intentar registrar al usuario.
+             */
             if (
                 nombre.isEmpty() ||
                 apellido.isEmpty() ||
@@ -108,6 +131,9 @@ class ActivityRegistro : AppCompatActivity() {
 
             } else if (contrasena.length < 6) {
 
+                /* Verifica que la contraseña tenga
+                 * al menos 6 caracteres como requiere Firebase.
+                 */
                 Toast.makeText(
                     this,
                     "La contraseña debe tener mínimo 6 caracteres",
@@ -116,7 +142,9 @@ class ActivityRegistro : AppCompatActivity() {
 
             } else {
 
-                // Registrar usuario
+                /* Crea la cuenta del usuario en Firebase Auth
+                 * usando su correo y contraseña.
+                 */
                 auth.createUserWithEmailAndPassword(
                     correo,
                     contrasena
@@ -124,24 +152,68 @@ class ActivityRegistro : AppCompatActivity() {
 
                     if (task.isSuccessful) {
 
-                        Toast.makeText(
-                            this,
-                            "Usuario registrado correctamente",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        // Ir a inicio
-                        startActivity(
-                            Intent(
-                                this,
-                                ActivityInicio::class.java
-                            )
+                        /* Si la cuenta se creó correctamente
+                         * guarda los datos del usuario en Firestore.
+                         */
+                        val usuario = Usuario(
+                            nombre = nombre,
+                            apellidos = apellido,
+                            correo = correo,
+                            telefono = telefono,
+                            fechaRegistro = System.currentTimeMillis()
                         )
 
-                        finish()
+                        /* Usa el repositorio para guardar
+                         * los datos en la colección "usuarios".
+                         */
+                        val repository = UsuarioRepository()
+
+                        repository.guardarPerfil(
+                            usuario = usuario,
+                            /*
+                             * Se ejecuta cuando los datos
+                             * se guardan correctamente en Firestore.
+                             */
+                            onSuccess = {
+
+                                Toast.makeText(
+                                    this,
+                                    "Usuario registrado correctamente",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                /* Navega a la pantalla de inicio
+                                 * y cierra el registro para que
+                                 * el usuario no pueda regresar.
+                                 */
+                                startActivity(
+                                    Intent(
+                                        this,
+                                        ActivityInicio::class.java
+                                    )
+                                )
+
+                                finish()
+                            },
+                            /*
+                             * Se ejecuta cuando ocurre algún error
+                             * al guardar los datos en Firestore.
+                             */
+                            onError = { exception ->
+
+                                Toast.makeText(
+                                    this,
+                                    "Error al guardar perfil: ${exception.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        )
 
                     } else {
 
+                        /* Si hubo un error al crear la cuenta
+                         * muestra el mensaje de error de Firebase.
+                         */
                         Toast.makeText(
                             this,
                             "Error: ${task.exception?.message}",
@@ -153,7 +225,10 @@ class ActivityRegistro : AppCompatActivity() {
         }
     }
 
-    // Resultado de selección de imagen
+    /* Se ejecuta cuando el usuario regresa
+     * de la galería con una imagen seleccionada.
+     * requestCode 100 identifica que viene de la galería.
+     */
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -172,19 +247,18 @@ class ActivityRegistro : AppCompatActivity() {
             data != null
         ) {
 
+            /* Guarda la URI de la imagen seleccionada
+             * y la muestra en la vista previa.
+             */
             imageUri = data.data
 
-            val imgPreview =
-                findViewById<ImageView>(R.id.imgPreview)
+            val imgPreview = findViewById<ImageView>(R.id.imgPreview)
 
-            val textNombreImagen =
-                findViewById<EditText>(R.id.textNombreImagen)
+            val textNombreImagen = findViewById<EditText>(R.id.textNombreImagen)
 
             imgPreview.setImageURI(imageUri)
 
-            textNombreImagen.setText(
-                imageUri.toString()
-            )
+            textNombreImagen.setText(imageUri.toString())
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.hachiapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,7 +51,12 @@ class ActivityInicio : AppCompatActivity() {
             }
 
         // PERFIL (sin acción por ahora)
-        //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        btnPerfil.setOnClickListener {
+            startActivity(Intent(this, ActivityPerfil::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
 
         // MAPA
         val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
