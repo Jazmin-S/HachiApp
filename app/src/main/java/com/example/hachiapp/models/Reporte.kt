@@ -1,34 +1,23 @@
 package com.example.hachiapp.models
 
+import com.google.firebase.Timestamp
+
 data class Reporte(
-
-    val nombreMascota: String = "",
-
-    val razaMascota: String = "",
-
-    val colorMascota: String = "",
-
-    val tamano: String = "",
-
-    val edadMascota: String = "",
-
-    val estadoMascota: String = "",
-
-    val fechaExtravio: String = "",
-
-    val descripcion: String = "",
-
-    val notaAdicional: String = "",
-
-    val direccion: String = "",
-
-    val imagenes: List<String> = emptyList(),
-
-    val usuarioId: String = "",
-
-    val tipoReporte: String = "",
-
-    val recompensa: String = "",
-
-    val fechaCreacion: Any? = null
+    val usuarioId        : String    = "",
+    val nombreMascota    : String    = "",
+    val tipoMascota      : String    = "",
+    val razaMascota      : String    = "",
+    val colorMascota     : String    = "",
+    val tamano           : String    = "",
+    val edadMascota      : String    = "",
+    val estadoMascota    : String    = "",
+    val descripcion      : String    = "",
+    val notaAdicional    : String    = "",
+    val recompensa       : String    = "",
+    val fechaExtravio    : String    = "",
+    val direccion        : String    = "",
+    val latitud          : Double    = 0.0,
+    val longitud         : Double    = 0.0,
+    val imagenesUrl      : List<String> = emptyList(),
+    val fechaPublicacion : Timestamp? = null
 )

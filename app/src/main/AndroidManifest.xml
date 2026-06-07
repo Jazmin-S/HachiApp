@@ -4,10 +4,10 @@
     <!-- Permisos -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Leer imágenes -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <!-- Leer almacenamiento en Android 12 o menor -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Leer imágenes -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Leer almacenamiento en Android 12 o menor -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
     <application
@@ -19,6 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
+        <activity
+            android:name=".Activity.SeleccionarUbicacionActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.ActivityVolante"
             android:exported="false" />
@@ -64,7 +67,9 @@
         <activity
             android:name=".Activity.ActivityPerfil"
             android:exported="false" />
-        <activity android:name=".Activity.ActivityRegistroReporte"
+        <activity
+            android:name=".Activity.ActivityRegistroReporte"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode"
             android:exported="false" />
 
         <meta-data

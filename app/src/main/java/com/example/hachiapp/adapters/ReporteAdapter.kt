@@ -13,47 +13,26 @@ import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
 
 class ReporteAdapter(
-    private val lista: List<Reporte>
+    private val lista: List<Reporte>,
+    private val onDetalleClick: (Reporte) -> Unit = {}
 ) : RecyclerView.Adapter<ReporteAdapter.ReporteViewHolder>() {
 
-    class ReporteViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-
-        val imgMascota: ImageView =
-            itemView.findViewById(R.id.imgMascota)
-
-        val txtNombre: TextView =
-            itemView.findViewById(R.id.txtNombre)
-
-        val txtFecha: TextView =
-            itemView.findViewById(R.id.txtFecha)
-
-        val txtTipo: TextView =
-            itemView.findViewById(R.id.txtTipo)
-
-        val txtVistas: TextView =
-            itemView.findViewById(R.id.txtVistas)
-
-        val btnDetalle: Button =
-            itemView.findViewById(R.id.btnDetalle)
+    class ReporteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgMascota : ImageView = itemView.findViewById(R.id.imgMascota)
+        val txtNombre  : TextView  = itemView.findViewById(R.id.txtNombre)
+        val txtFecha   : TextView  = itemView.findViewById(R.id.txtFecha)
+        val txtTipo    : TextView  = itemView.findViewById(R.id.txtTipo)
+        val txtVistas  : TextView  = itemView.findViewById(R.id.txtVistas)
+        val btnDetalle : Button    = itemView.findViewById(R.id.btnDetalle)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ReporteViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReporteViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_reporte, parent, false)
-
         return ReporteViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: ReporteViewHolder,
-        position: Int
-    ) {
-
+    override fun onBindViewHolder(holder: ReporteViewHolder, position: Int) {
         val reporte = lista[position]
 
         // Nombre
@@ -62,55 +41,35 @@ class ReporteAdapter(
         // Fecha
         holder.txtFecha.text = reporte.fechaExtravio
 
-        // Tipo de reporte
-        holder.txtTipo.text = reporte.tipoReporte
+        // Tipo de mascota (antes era tipoReporte, ahora es estadoMascota)
+        holder.txtTipo.text = reporte.estadoMascota
 
-        // Color según tipo
-        when (reporte.tipoReporte.lowercase()) {
-
-            "perdido" -> {
-                holder.txtTipo.setTextColor(
-                    Color.parseColor("#C62828")
-                )
-            }
-
-            "visto" -> {
-                holder.txtTipo.setTextColor(
-                    Color.parseColor("#4527A0")
-                )
-            }
-
-            "encontrado" -> {
-                holder.txtTipo.setTextColor(
-                    Color.parseColor("#2E7D32")
-                )
-            }
+        // Color según estado
+        when (reporte.estadoMascota.lowercase()) {
+            "perdido" -> holder.txtTipo.setTextColor(Color.parseColor("#C62828"))
+            "visto"   -> holder.txtTipo.setTextColor(Color.parseColor("#4527A0"))
+            "encontrado" -> holder.txtTipo.setTextColor(Color.parseColor("#2E7D32"))
+            else      -> holder.txtTipo.setTextColor(Color.parseColor("#333333"))
         }
 
-        // Vistas falsas de ejemplo
+        // Vistas
         holder.txtVistas.text = "👁 200"
 
-        // Imagen
-        if (reporte.imagenes.isNotEmpty()) {
-
+        // Imagen — ahora el campo es imagenesUrl
+        if (reporte.imagenesUrl.isNotEmpty()) {
             Glide.with(holder.itemView.context)
-                .load(reporte.imagenes[0])
+                .load(reporte.imagenesUrl[0])
                 .placeholder(R.drawable.images)
                 .into(holder.imgMascota)
-
         } else {
-
             holder.imgMascota.setImageResource(R.drawable.images)
         }
 
-        // Botón detalles
+        // Botón detalle
         holder.btnDetalle.setOnClickListener {
-
-            // luego aquí abrirás detalle
+            onDetalleClick(reporte)
         }
     }
 
-    override fun getItemCount(): Int {
-        return lista.size
-    }
+    override fun getItemCount(): Int = lista.size
 }

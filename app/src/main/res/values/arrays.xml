@@ -15,14 +15,14 @@
         <item>Cachorro (0-1 año)</item>
         <item>Joven (1-3 años)</item>
         <item>Adulto (3-8 años)</item>
-        <item>Senior (8+ años)</item>
+        <item>Viejo (8+ años)</item>
     </string-array>
 
     <string-array name="estados_mascota">
         <item>Estado</item>
         <item>Perdido</item>
         <item>Encontrado</item>
-        <item>En adopción</item>
+        <item>Visto</item>
     </string-array>
 
 </resources>

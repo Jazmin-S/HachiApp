@@ -56,8 +56,13 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
 
+    //BD DE IMAGENES
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.cloudinary:cloudinary-android:2.5.0")
+
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.storage)
+    implementation(libs.play.services.cast.tv)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     testImplementation(libs.junit)
