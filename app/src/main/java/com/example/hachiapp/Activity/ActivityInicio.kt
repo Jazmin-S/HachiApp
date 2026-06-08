@@ -14,24 +14,14 @@ import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hachiapp.adapters.ReporteAdapter
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityInicio : AppCompatActivity() {
 
-    // Lista maestra con TODOS los reportes traídos de Firestore
     private val listaReportesCompleta = mutableListOf<Reporte>()
-
-    // Lista que se muestra en el RecyclerView (filtrada/buscada)
     private val listaReportesFiltrada = mutableListOf<Reporte>()
-
     private lateinit var adapter: ReporteAdapter
-
-    // Estado actual del filtro: null = todos
     private var filtroEstado: String? = null
-
-    // Texto de búsqueda actual
     private var textoBusqueda: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,11 +67,12 @@ class ActivityInicio : AppCompatActivity() {
                         .copy(id = documento.id)
                     listaReportesCompleta.add(reporte)
                 }
-                aplicarFiltros() // muestra todos al arrancar
+                aplicarFiltros()
             }
 
-        // ── Búsqueda ──────────────────────────────────────────────────
-        // Contenedor LYBusqueda ya existe en el XML; aquí solo tomamos el EditText
+        // ── Búsqueda ─────────────────────────────────────────────────
+        // Busca por: nombre, raza/tipo de mascota, color, fecha de extravío,
+        //            ubicación/dirección, tamaño, descripción y estado
         val txtBuscar = findViewById<EditText>(R.id.txtBuscar)
         txtBuscar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -92,8 +83,8 @@ class ActivityInicio : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) = Unit
         })
 
+        // ── Filtro por estado (PopupMenu) ─────────────────────────────
         val btnClasificar = findViewById<ImageButton>(R.id.btnClasificar)
-
         btnClasificar.setOnClickListener { vista ->
             val popup = PopupMenu(this, vista)
             popup.menuInflater.inflate(R.menu.menu_clasificar, popup.menu)
@@ -102,7 +93,7 @@ class ActivityInicio : AppCompatActivity() {
                     R.id.opPerdido    -> "perdido"
                     R.id.opVisto      -> "visto"
                     R.id.opEncontrado -> "encontrado"
-                    else              -> null // "Todos"
+                    else              -> null // Todos
                 }
                 aplicarFiltros()
                 true
@@ -111,57 +102,60 @@ class ActivityInicio : AppCompatActivity() {
         }
 
         // ── Navegación inferior ───────────────────────────────────────
-        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
-        btnPerfil.setOnClickListener {
+        findViewById<ImageButton>(R.id.BtnPerfil).setOnClickListener {
             startActivity(Intent(this, ActivityPerfil::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-        val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
-        btnMapa.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnMapa).setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-        val btnAlertas = findViewById<LinearLayout>(R.id.BtnAlertas)
-        btnAlertas.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnAlertas).setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-        val btnHistorial = findViewById<LinearLayout>(R.id.BtnHistorial)
-        btnHistorial.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnHistorial).setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-        val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
-        btnReporte.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnReporte).setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
     // ─────────────────────────────────────────────────────────────────
-    //  Aplica AMBOS filtros (estado + texto) sobre la lista maestra
+    //  Aplica filtro de estado (PopupMenu) + búsqueda por texto
+    //
+    //  Campos buscables desde txtBuscar:
+    //   · Nombre de la mascota
+    //   · Raza / tipo de mascota
+    //   · Color
+    //   · Fecha de extravío       ← búsqueda por fecha
+    //   · Dirección / ubicación   ← búsqueda por ubicación
+    //   · Tamaño
+    //   · Descripción
+    //   · Estado (perdido/visto/encontrado)
     // ─────────────────────────────────────────────────────────────────
     private fun aplicarFiltros() {
         val query = textoBusqueda.lowercase()
 
         val resultado = listaReportesCompleta.filter { reporte ->
 
-            // 1) Filtro por estado
+            // 1) Filtro por estado seleccionado en el PopupMenu
             val coincideEstado = filtroEstado == null ||
                     reporte.estadoMascota.lowercase() == filtroEstado
 
-            // 2) Filtro por texto: busca en nombre, raza, color, descripción, fecha y dirección
+            // 2) Búsqueda libre en todos los campos relevantes
             val coincideTexto = query.isEmpty() ||
-                    reporte.nombreMascota.lowercase().contains(query)   ||
-                    reporte.razaMascota.lowercase().contains(query)     ||
-                    reporte.colorMascota.lowercase().contains(query)    ||
-                    reporte.descripcion.lowercase().contains(query)     ||
-                    reporte.fechaExtravio.lowercase().contains(query)   ||
-                    reporte.direccion.lowercase().contains(query)
+                    reporte.nombreMascota.lowercase().contains(query)  ||  // nombre
+                    reporte.razaMascota.lowercase().contains(query)    ||  // tipo/raza
+                    reporte.colorMascota.lowercase().contains(query)   ||  // color
+                    reporte.fechaExtravio.lowercase().contains(query)  ||  // fecha
+                    reporte.direccion.lowercase().contains(query)      ||  // ubicación
+                    reporte.tamano.lowercase().contains(query)         ||  // tamaño
+                    reporte.descripcion.lowercase().contains(query)    ||  // descripción
+                    reporte.estadoMascota.lowercase().contains(query)      // estado en texto
 
             coincideEstado && coincideTexto
         }
