@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/opTodos"       android:title="Todos" />
+    <item android:id="@+id/opPerdido"     android:title="Perdido" />
+    <item android:id="@+id/opVisto"       android:title="Visto" />
+    <item android:id="@+id/opEncontrado"  android:title="Encontrado" />
+</menu>

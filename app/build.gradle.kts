@@ -63,7 +63,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.storage)
     implementation(libs.play.services.cast.tv)
+    implementation(libs.google.material)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.google.android.material:material:1.12.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -109,13 +109,14 @@
                 app:tint="#AAAAAA" />
 
             <EditText
+                android:id="@+id/txtBuscar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:autofillHints="none"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_buscar_reporte"
                 android:inputType="text"
-                android:autofillHints="none"
                 android:textColor="#1A1A1A"
                 android:textColorHint="#AAAAAA"
                 android:textSize="16sp" />
@@ -138,14 +139,12 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
-            android:id="@+id/btnclasificar"
+            android:id="@+id/btnClasificar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/desc_filtro"
-            android:padding="14dp"
             android:src="@android:drawable/ic_menu_sort_by_size"
-            app:tint="#1A1A1A" />
+            app:tint="#211E1E" />
 
     </androidx.cardview.widget.CardView>
 
