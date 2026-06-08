@@ -8,7 +8,6 @@
     android:background="#D79149"
     tools:context=".Activity.ActivityMapa">
 
-    <!-- HEADER -->
     <androidx.cardview.widget.CardView
         android:id="@+id/header"
         android:layout_width="0dp"
@@ -48,7 +47,6 @@
                 app:layout_constraintStart_toEndOf="@id/imageView7"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- BtnPerfil agregado del primer layout -->
             <androidx.cardview.widget.CardView
                 android:layout_width="58dp"
                 android:layout_height="58dp"
@@ -75,7 +73,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- MAPA -->
     <fragment
         android:id="@+id/mapa"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -87,8 +84,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header" />
-
-    <!-- ================= NAVIGATION BAR ================= -->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/bottomContainer"
@@ -108,7 +103,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- MENU -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -116,7 +110,6 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="10dp">
 
-                <!-- INICIO -->
                 <LinearLayout
                     android:id="@+id/BtnInicio"
                     android:layout_width="0dp"
@@ -142,7 +135,6 @@
 
                 </LinearLayout>
 
-                <!-- MAPA -->
                 <LinearLayout
                     android:id="@+id/BtnMapa"
                     android:layout_width="0dp"
@@ -168,12 +160,10 @@
 
                 </LinearLayout>
 
-                <!-- ESPACIO -->
                 <Space
                     android:layout_width="90dp"
                     android:layout_height="match_parent" />
 
-                <!-- ALERTAS -->
                 <LinearLayout
                     android:id="@+id/BtnAlertas"
                     android:layout_width="0dp"
@@ -199,7 +189,6 @@
 
                 </LinearLayout>
 
-                <!-- HISTORIAL -->
                 <LinearLayout
                     android:id="@+id/BtnHistorial"
                     android:layout_width="0dp"
@@ -227,7 +216,6 @@
 
             </LinearLayout>
 
-            <!-- BOTÓN REPORTAR -->
             <androidx.cardview.widget.CardView
                 android:layout_width="72dp"
                 android:layout_height="72dp"

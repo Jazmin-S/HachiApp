@@ -87,4 +87,32 @@ class ReporteRepository {
                 onError(it)
             }
     }
+
+    /* Guarda un nuevo avistamiento en la colección "avistamientos".
+ * Se crearon 3 parámetros:
+ * 1. avistamiento: Mapa con los datos del avistamiento capturados desde el formulario.
+ * 2. onSuccess: Función que se ejecuta cuando el avistamiento se guarda correctamente.
+ * 3. onError: Función que se ejecuta cuando ocurre algún error al guardar.
+ */
+    fun guardarAvistamiento(
+        avistamiento: HashMap<String, Any>,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        /*Se accede a la colección "avistamientos". Si la colección no existe,
+         * Firestore la crea automáticamente con un ID único por documento.
+         */
+        db.collection("avistamientos")
+            .add(avistamiento)
+            /*
+             * Se ejecuta cuando el avistamiento
+             * se guarda correctamente.
+             */
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }
+    }
 }

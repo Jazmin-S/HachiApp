@@ -1,12 +1,13 @@
 package com.example.hachiapp.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide // Puedes usar Glide o Picasso para cargar la URL de Cloudinary
+import com.bumptech.glide.Glide
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
 
@@ -47,9 +48,9 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
 
         // Cambiar color del texto del estado según corresponda
         if (estado.equals("resuelto", ignoreCase = true)) {
-            holder.txtEstado.setTextColor(android.graphics.Color.parseColor("#4CAF50")) // Verde
+            holder.txtEstado.setTextColor(Color.parseColor("#4CAF50")) // Verde
         } else {
-            holder.txtEstado.setTextColor(android.graphics.Color.parseColor("#C62828")) // Rojo
+            holder.txtEstado.setTextColor(Color.parseColor("#C62828")) // Rojo
         }
 
         // ── Carga de imagen desde la lista de URLs de Cloudinary ──

@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
+            android:name=".Activity.Activity_registro_avistamiento"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SeleccionarUbicacionActivity"
             android:exported="false" />
         <activity
