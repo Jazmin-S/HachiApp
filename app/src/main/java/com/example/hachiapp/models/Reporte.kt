@@ -1,8 +1,11 @@
 package com.example.hachiapp.models
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Exclude
+import java.io.Serializable
 
 data class Reporte(
+    @get:Exclude val id: String = "",
     val usuarioId        : String    = "",
     val nombreMascota    : String    = "",
     val tipoMascota      : String    = "",
@@ -20,4 +23,4 @@ data class Reporte(
     val longitud         : Double    = 0.0,
     val imagenesUrl      : List<String> = emptyList(),
     val fechaPublicacion : Timestamp? = null
-)
+) : Serializable // Clase serializable para pasar el objeto entre actividades

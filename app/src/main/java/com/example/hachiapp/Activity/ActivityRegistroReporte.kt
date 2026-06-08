@@ -2,7 +2,6 @@ package com.example.hachiapp.Activity
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
@@ -24,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+//Dependencias de Cloudinary
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
@@ -31,13 +31,15 @@ import com.example.hachiapp.BD.CloudinaryManager
 import com.example.hachiapp.BD.ReporteRepository
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
+// Dependencias de Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+//Dependencias de Calendario
 import java.util.Calendar
 
 class ActivityRegistroReporte : AppCompatActivity() {
 
-    // Constantes
+    // Constantes actividad de mapa
     private val REQUEST_SELECCIONAR_UBICACION = 500
 
     // ── Ubicación ─────────────────────────────────────────────────────────────
@@ -58,7 +60,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
     // ── Seleccionar imágenes (una por una) ────────────────────────────────────
     private val seleccionarImagenes =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri == null) return@registerForActivityResult
+            if (uri == null) return@registerForActivityResult //Detiene el codigo inmediatamente
 
             if (imagenesSeleccionadas.size >= MAX_IMAGENES) {
                 Toast.makeText(this, "Máximo $MAX_IMAGENES fotos permitidas", Toast.LENGTH_SHORT).show()
@@ -66,7 +68,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
             }
 
             try {
-                contentResolver.takePersistableUriPermission(
+                contentResolver.takePersistableUriPermission( //Otorga permisos permanentes
                     uri,
                     android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
@@ -77,7 +79,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
             actualizarImagenPrincipal()
         }
 
-    // ── Referencias a vistas ──────────────────────────────────────────────────
+    // ── Referencias a vistas de XML ──────────────────────────────────────────────────
     private lateinit var btnGuardar: View
     private lateinit var etNombreMascota: EditText
     private lateinit var etRazaMascota: EditText
@@ -116,14 +118,20 @@ class ActivityRegistroReporte : AppCompatActivity() {
         val mapTouchContainer = findViewById<View>(R.id.mapTouchContainer)
         mapTouchContainer.setOnTouchListener { _, event ->
             when (event.action) {
+                //Ocurre cuando el usuario pone el dedo sobre la pantalla.
                 MotionEvent.ACTION_DOWN,
+                //Ocurre cuando mueve el dedo sin levantarlo.
                 MotionEvent.ACTION_MOVE ->
+                    // De esta manera el usuario puede volver a desplazarse normalmente por la pantalla.
                     scrollViewPrincipal.requestDisallowInterceptTouchEvent(true)
 
+                //Ocurre cuando el usuario levanta el dedo
                 MotionEvent.ACTION_UP,
+                //Ocurre cuando Android cancela el evento actual.
                 MotionEvent.ACTION_CANCEL ->
                     scrollViewPrincipal.requestDisallowInterceptTouchEvent(false)
             }
+            /// Devuelve false para indicar que el evento no ha sido consumido completamente.
             false
         }
 
@@ -156,6 +164,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
         spinnerEdad.setOnItemSelectedListener(spinnerItemSelectedListener)
         spinnerEstado.setOnItemSelectedListener(spinnerItemSelectedListener)
 
+        // Crea un objeto de la clase ReporteRepository.
         val repository = ReporteRepository()
 
         // ── Paleta de colores ─────────────────────────────────────────────────
@@ -178,9 +187,11 @@ class ActivityRegistroReporte : AppCompatActivity() {
             R.id.colorVerdeClaro to Pair("#A5D6A7", "Verde claro")
         )
 
+        // id → el id del componente del color en el XML y data el nombre del color
         for ((id, data) in colorMap) {
             findViewById<View>(id).setOnClickListener {
                 val (hex, nombre) = data
+                // Coloca el nombre del color seleccionado en el EditText etColorMascota.
                 etColorMascota.setText(nombre)
                 viewColorPreview.backgroundTintList =
                     ColorStateList.valueOf(Color.parseColor(hex))
@@ -188,11 +199,15 @@ class ActivityRegistroReporte : AppCompatActivity() {
         }
 
         // ── Fecha ─────────────────────────────────────────────────────────────
+
         btnCalendario.setOnClickListener {
+            // Obtiene una instancia del calendario con la fecha actual del dispositivo.
             val cal = Calendar.getInstance()
+            // Crea una ventana emergente para seleccionar una fecha.
             DatePickerDialog(
                 this,
                 { _, year, month, day ->
+                    // Muestra la fecha seleccionada en el TextView tvFecha.
                     tvFecha.text = "$day/${month + 1}/$year"
                     tvFecha.setTextColor(Color.BLACK)
                 },
@@ -205,10 +220,10 @@ class ActivityRegistroReporte : AppCompatActivity() {
         // ── Botón agregar fotos ───────────────────────────────────────────────
         val btnFoto = findViewById<View>(R.id.btnFoto)
         btnFoto.setOnClickListener {
+            /// Abre el selector de archivos del dispositivo y permite elegir imágenes. y de tipo image
             seleccionarImagenes.launch(arrayOf("image/*"))
         }
-
-        // ── FIX RECREACIÓN: restaurar imágenes si el Activity fue recreado ────
+        // Comprueba si existe información guardada previamente en savedInstanceState.
         savedInstanceState?.getParcelableArrayList<Uri>("imagenesSeleccionadas")?.let { uris ->
             imagenesSeleccionadas.addAll(uris)
             actualizarMiniaturas()
@@ -247,6 +262,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            //// Obtiene el identificador (uid) del usuario actualmente autenticado
             val usuarioId = FirebaseAuth.getInstance().currentUser?.uid ?: run {
                 Toast.makeText(this, "Debes iniciar sesión para reportar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -258,6 +274,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
             subirImagenes(
                 uris = imagenesSeleccionadas.toList(),
                 usuarioId = usuarioId,
+                // Se ejecutará cuando todas las imágenes se hayan subido correctamente.
                 onComplete = { urlsImagenes ->
                     val reporte = Reporte(
                         usuarioId = usuarioId,
@@ -279,6 +296,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
                         fechaPublicacion = Timestamp.now()
                     )
 
+                    // // Guarda el reporte en Firebase.
                     repository.guardarReporte(
                         reporte = reporte,
                         onSuccess = {
@@ -308,6 +326,8 @@ class ActivityRegistroReporte : AppCompatActivity() {
 
     // ── Manejar el resultado de SeleccionarUbicacionActivity ──────────────────
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Ejecuta primero el metodo de la clase padre AppCompatActivity.
+        //Procesar correctamente el resultado
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_SELECCIONAR_UBICACION && resultCode == RESULT_OK && data != null) {
@@ -315,6 +335,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
             longitudSeleccionada = data.getDoubleExtra("longitud", 0.0)
             direccionSeleccionada = data.getStringExtra("direccion") ?: ""
 
+            // Comprueba si la dirección obtenida no está vacía.
             if (direccionSeleccionada.isNotEmpty()) {
                 tvDireccionSeleccionada.text = direccionSeleccionada
                 tvDireccionSeleccionada.setTextColor(Color.BLACK)
@@ -325,11 +346,13 @@ class ActivityRegistroReporte : AppCompatActivity() {
         }
     }
 
-    // FIX RECREACIÓN: guardar lista de imágenes antes de que el Activity muera
+    // Guardar lista de imágenes antes de destruir la Activity
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        // Guarda dentro del Bundle una copia de la lista de imágenes seleccionadas.
         outState.putParcelableArrayList(
             "imagenesSeleccionadas",
+            // Convierte la MutableList<Uri> en un ArrayList<Uri>
             ArrayList(imagenesSeleccionadas)
         )
     }
@@ -338,9 +361,11 @@ class ActivityRegistroReporte : AppCompatActivity() {
     private val spinnerItemSelectedListener =
         object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
+                // Referencia al Spinner que generó el evento
                 parent: android.widget.AdapterView<*>?,
                 view: View?,
                 position: Int,
+                // Identificador del elemento seleccionado.
                 id: Long
             ) {
                 (view as? TextView)?.setTextColor(Color.BLACK)
@@ -353,6 +378,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
     private fun actualizarImagenPrincipal() {
         if (imagenesSeleccionadas.isNotEmpty()) {
             imgPrincipal.setImageURI(imagenesSeleccionadas.first())
+            // Ajusta la imagen para que llene el ImageView recortando las partes sobrantes si es necesario.
             imgPrincipal.scaleType = ImageView.ScaleType.CENTER_CROP
         } else {
             imgPrincipal.setImageResource(R.drawable.ic_camera_alt_24)
@@ -360,36 +386,45 @@ class ActivityRegistroReporte : AppCompatActivity() {
         }
     }
 
-    // ── Subida a Cloudinary ───────────────────────────────────────────────────
+    // ── Subida a Cloudinary ───────────────────────────────────────────
     private fun subirImagenes(
         uris: List<Uri>,
         usuarioId: String,
+        // Recibe una lista con las URLs generadas por Cloudinary.
         onComplete: (List<String>) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
+        // Comprueba si la lista de imágenes está vacía.
         if (uris.isEmpty()) {
             onComplete(emptyList())
+            // Sale de la función.
             return
         }
 
+        // Lista donde se almacenarán las URLs devueltas por Cloudinary.
         val urlsSubidas = mutableListOf<String>()
+        // Contador de imágenes subidas correctamente.
         val contador = java.util.concurrent.atomic.AtomicInteger(0)
         val huboError = java.util.concurrent.atomic.AtomicBoolean(false)
 
+        //Recorre todas las imágenes seleccionadas.
         for (uri in uris) {
             MediaManager.get()
                 .upload(uri)
                 .unsigned("hachiapp")
                 .callback(object : UploadCallback {
                     override fun onStart(requestId: String) {}
+                    //Se sube el peso y el total que son 500
                     override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {}
                     override fun onReschedule(requestId: String, error: ErrorInfo) {}
 
                     override fun onSuccess(requestId: String, resultData: MutableMap<Any?, Any?>) {
                         if (huboError.get()) return
+                        //Se devuele la URL generada
                         val url = resultData["secure_url"]?.toString() ?: ""
                         synchronized(urlsSubidas) {
                             urlsSubidas.add(url)
+                            //Incrementar el contador de imágenes subidas correctamente.
                             if (contador.incrementAndGet() == uris.size) {
                                 onComplete(urlsSubidas.toList())
                             }
@@ -397,7 +432,9 @@ class ActivityRegistroReporte : AppCompatActivity() {
                     }
 
                     override fun onError(requestId: String, error: ErrorInfo) {
+                        //Solo se procesa el primer error
                         if (huboError.compareAndSet(false, true)) {
+                            //Crea una excepción con la descripción del error
                             onFailure(Exception(error.description ?: "Error desconocido al subir imagen"))
                         }
                     }
@@ -409,8 +446,10 @@ class ActivityRegistroReporte : AppCompatActivity() {
     // ── Miniaturas con botón X para borrar ────────────────────────────────────
     private fun actualizarMiniaturas() {
         val layout = findViewById<LinearLayout>(R.id.layoutMiniaturas)
+        // Elimina todas las miniaturas existentes para volver a crearlas.
         layout.removeAllViews()
 
+        //Recorre la lista opteniendo posicion y direccion de imagen
         for ((index, uri) in imagenesSeleccionadas.withIndex()) {
             // Contenedor relativo para imagen + botón X encima
             val contenedor = android.widget.RelativeLayout(this).apply {
@@ -421,6 +460,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
 
             // Miniatura
             val imageView = ImageView(this).apply {
+                // Tamaño de la imagen.
                 layoutParams = android.widget.RelativeLayout.LayoutParams(
                     dpToPx(40), dpToPx(40)
                 ).apply {
@@ -428,6 +468,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
                     addRule(android.widget.RelativeLayout.ALIGN_PARENT_START)
                 }
                 scaleType = ImageView.ScaleType.CENTER_CROP
+                // Carga la imagen correspondiente.
                 setImageURI(uri)
             }
 
@@ -457,6 +498,7 @@ class ActivityRegistroReporte : AppCompatActivity() {
             }
 
             btnEliminar.setOnClickListener {
+                // Elimina la imagen correspondiente de la lista.
                 imagenesSeleccionadas.removeAt(index)
                 actualizarMiniaturas()
                 actualizarImagenPrincipal()
@@ -467,7 +509,8 @@ class ActivityRegistroReporte : AppCompatActivity() {
             layout.addView(contenedor)
         }
     }
-
+    // Convierte una medida en dp (density-independent pixels)
+    // a píxeles reales según la densidad de la pantalla.
     private fun dpToPx(dp: Int): Int =
         (dp * resources.displayMetrics.density).toInt()
 }

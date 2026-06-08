@@ -5,9 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 /*
- * Clase encargada de realizar operaciones
- * relacionadas con la colección "reportes"
- * dentro de Firebase Firestore.
+ * Clase encargada de realizar operaciones con "reportes" dentro de Firebase Firestore.
  */
 class ReporteRepository {
 
@@ -80,6 +78,7 @@ class ReporteRepository {
                  */
                 val reportes = documentos.mapNotNull { documento ->
                     documento.toObject(Reporte::class.java)
+                        .copy(id = documento.id)
                 }
                 onSuccess(reportes)
             }

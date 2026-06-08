@@ -23,9 +23,9 @@ import java.util.Locale
 
 class SeleccionarUbicacionActivity :
     AppCompatActivity(),
-    OnMapReadyCallback,
-    GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMyLocationClickListener {
+    OnMapReadyCallback,   // Callback cuando el mapa está listo
+    GoogleMap.OnMyLocationButtonClickListener,  // Click en botón de ubicación nativo
+    GoogleMap.OnMyLocationClickListener {// Click en el punto de ubicación
 
     private lateinit var mMap: GoogleMap
     private lateinit var fabMiUbicacion: FloatingActionButton
@@ -34,8 +34,7 @@ class SeleccionarUbicacionActivity :
     private var longitud = 0.0
     private var direccion = ""
 
-    // Constantes
-    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001   // Código para solicitar permiso
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +42,14 @@ class SeleccionarUbicacionActivity :
 
         fabMiUbicacion = findViewById(R.id.fabMiUbicacion)
 
+        // Obtiene el fragmento del mapa
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.mapFragment)
                     as SupportMapFragment
 
-        mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync(this)  // Inicia carga asíncrona del mapa
 
+        // Botón confirmar: valida y devuelve ubicación al activity anterior
         findViewById<Button>(R.id.btnConfirmar).setOnClickListener {
             if (latitud == 0.0 && longitud == 0.0) {
                 Toast.makeText(this, "Selecciona una ubicación en el mapa", Toast.LENGTH_SHORT).show()
@@ -70,10 +71,11 @@ class SeleccionarUbicacionActivity :
         }
     }
 
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Configurar botón de mi ubicación nativo de Google Maps
+        // Habilita el botón de mi ubicación si hay permiso
         try {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -90,15 +92,15 @@ class SeleccionarUbicacionActivity :
             e.printStackTrace()
         }
 
-        // Obtener ubicación inicial desde el intent (viene del reporte)
+        // Obtiene ubicación inicial desde el intent
         var latInicial = intent.getDoubleExtra("latitud", 0.0)
         var lngInicial = intent.getDoubleExtra("longitud", 0.0)
 
-        // Si no hay ubicación guardada, intentar obtener ubicación actual
+        // Si no hay ubicación guardada, intenta obtener ubicación actual
         if (latInicial == 0.0 && lngInicial == 0.0) {
-            // Intentar obtener última ubicación conocida
             obtenerUltimaUbicacionConocida { location ->
                 if (location != null) {
+                    // Usa ubicación real del dispositivo
                     latInicial = location.latitude
                     lngInicial = location.longitude
                     latitud = latInicial
@@ -108,14 +110,14 @@ class SeleccionarUbicacionActivity :
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(punto, 15f))
                     obtenerDireccion(latInicial, lngInicial)
                 } else {
-                    // Ubicación por defecto (CDMX)
+                    // Ubicación por defecto: CDMX
                     val puntoPorDefecto = LatLng(19.4326, -99.1332)
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(puntoPorDefecto, 12f))
                     Toast.makeText(this, "Toca el mapa para seleccionar una ubicación", Toast.LENGTH_LONG).show()
                 }
             }
         } else {
-            // Ya había una ubicación guardada
+            // Ya había ubicación guardada, la muestra en el mapa
             latitud = latInicial
             longitud = lngInicial
             val punto = LatLng(latInicial, lngInicial)
@@ -124,20 +126,19 @@ class SeleccionarUbicacionActivity :
             obtenerDireccion(latInicial, lngInicial)
         }
 
+        // Escucha clicks en el mapa para seleccionar ubicación
         mMap.setOnMapClickListener { latLng ->
             latitud = latLng.latitude
             longitud = latLng.longitude
 
             mMap.clear()
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-            )
+            mMap.addMarker(MarkerOptions().position(latLng))
 
             obtenerDireccion(latLng.latitude, latLng.longitude)
         }
     }
 
+    // Navega la cámara a la ubicación actual del dispositivo
     private fun irAUbicacionActual() {
         try {
             if (ContextCompat.checkSelfPermission(
@@ -151,13 +152,12 @@ class SeleccionarUbicacionActivity :
 
             mMap.isMyLocationEnabled = true
 
-            // Obtener la última ubicación conocida y mover la cámara
             obtenerUltimaUbicacionConocida { location ->
                 if (location != null) {
                     val miUbicacion = LatLng(location.latitude, location.longitude)
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 17f))
 
-                    // También actualizar la ubicación seleccionada
+                    // Actualiza la ubicación seleccionada también
                     latitud = location.latitude
                     longitud = location.longitude
                     mMap.clear()
@@ -173,6 +173,7 @@ class SeleccionarUbicacionActivity :
         }
     }
 
+    // Obtiene la última ubicación conocida del dispositivo
     private fun obtenerUltimaUbicacionConocida(callback: (Location?) -> Unit) {
         try {
             if (ContextCompat.checkSelfPermission(
@@ -195,6 +196,7 @@ class SeleccionarUbicacionActivity :
         }
     }
 
+    // Solicita permiso de ubicación al usuario
     private fun pedirPermisoUbicacion() {
         ActivityCompat.requestPermissions(
             this,
@@ -206,6 +208,7 @@ class SeleccionarUbicacionActivity :
         )
     }
 
+    // Resultado de la solicitud de permisos
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -215,7 +218,7 @@ class SeleccionarUbicacionActivity :
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permiso concedido, habilitar ubicación en el mapa
+                    // Permiso concedido
                     try {
                         if (ContextCompat.checkSelfPermission(
                                 this,
@@ -235,15 +238,17 @@ class SeleccionarUbicacionActivity :
         }
     }
 
+    // Click en botón de ubicación nativo (false = permite comportamiento por defecto)
     override fun onMyLocationButtonClick(): Boolean {
-        // El botón nativo de ubicación ya maneja esto
         return false
     }
 
+    // Click sobre el ícono de mi ubicación en el mapa
     override fun onMyLocationClick(location: Location) {
         Toast.makeText(this, "Ubicación actual: ${location.latitude}, ${location.longitude}", Toast.LENGTH_SHORT).show()
     }
 
+    // Convierte coordenadas a dirección legible usando Geocoder
     private fun obtenerDireccion(lat: Double, lng: Double) {
         try {
             val geocoder = Geocoder(this, Locale.getDefault())

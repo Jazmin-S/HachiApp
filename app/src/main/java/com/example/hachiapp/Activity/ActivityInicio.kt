@@ -28,7 +28,28 @@ class ActivityInicio : AppCompatActivity() {
 
         val listaReportes = mutableListOf<Reporte>()
 
-        val adapter = ReporteAdapter(listaReportes)
+        val adapter = ReporteAdapter(listaReportes) { reporte ->
+            val intent = Intent(this, ActivityVolante::class.java)
+            intent.putExtra("nombreMascota", reporte.nombreMascota)
+            intent.putExtra("razaMascota", reporte.razaMascota)
+            intent.putExtra("edadMascota", reporte.edadMascota)
+            intent.putExtra("tamano", reporte.tamano)
+            intent.putExtra("colorMascota", reporte.colorMascota)
+            intent.putExtra("descripcion", reporte.descripcion)
+            intent.putExtra("fechaExtravio", reporte.fechaExtravio)
+            intent.putExtra("estadoMascota", reporte.estadoMascota)
+            intent.putExtra("latitud", reporte.latitud)
+            intent.putExtra("longitud", reporte.longitud)
+            intent.putExtra("usuarioId", reporte.usuarioId)
+            intent.putExtra("recompensa", reporte.recompensa)
+            intent.putExtra("direccion", reporte.direccion)
+            if (reporte.imagenesUrl.isNotEmpty()) {
+                intent.putExtra("imagenUrl", reporte.imagenesUrl[0])
+            }
+            intent.putExtra("reporteId", reporte.id)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
 
         recycler.adapter = adapter
 
@@ -40,10 +61,8 @@ class ActivityInicio : AppCompatActivity() {
                 listaReportes.clear()
 
                 for (documento in resultado) {
-
-                    val reporte =
-                        documento.toObject(Reporte::class.java)
-
+                    val reporte = documento.toObject(Reporte::class.java)
+                        .copy(id = documento.id) // Copia el ID del documento
                     listaReportes.add(reporte)
                 }
 
