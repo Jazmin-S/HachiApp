@@ -154,25 +154,27 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- ÁREA DE MENSAJES (RecyclerView — se conecta después) -->
+    <!-- ÁREA DE MENSAJES -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMensajes"
-        android:layout_width="368dp"
-        android:layout_height="559dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
         android:background="#F8F7F7"
         android:clipToPadding="false"
+        android:paddingStart="12dp"
         android:paddingTop="6dp"
+        android:paddingEnd="12dp"
         android:paddingBottom="6dp"
         android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/cardInput"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardContacto"
+        app:layout_constraintBottom_toTopOf="@id/cardInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardContacto" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- BARRA DE ESCRITURA -->
     <androidx.cardview.widget.CardView
