@@ -114,112 +114,19 @@
 
     </LinearLayout>
 
-    <!-- LISTA DE MENSAJES -->
-    <ScrollView
-        android:layout_width="358dp"
-        android:layout_height="549dp"
+    <!-- LISTA DE CONVERSACIONES -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerChats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutTabs"
+        app:layout_constraintBottom_toTopOf="@id/bottomContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTabs">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Mensaje 1 - Laura Gómez -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#FFF6EC"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="14dp">
-
-                    <ImageView
-                        android:id="@+id/ImgenMensaje"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/bg_card_rounded"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/perfil" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/NombreContacto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Laura Gómez"
-                            android:textColor="#000000"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/ContenidoMensaje"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hola, ayer vi a tu perrita en casa blanca ..."
-                            android:textColor="#555555"
-                            android:textSize="13sp" />
-
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:id="@+id/BtnVerMensaje"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@android:drawable/ic_media_next" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Mensaje 2 - Noel Antonio -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#FFF6EC"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"/>
-
-            <!-- Mensaje 3 - Julia Suarez -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#FFF6EC"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"/>
-
-            <!-- Mensaje 4 - Juan Lopez -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#FFF6EC"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"/>
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- NAVIGATION BAR -->
     <androidx.cardview.widget.CardView

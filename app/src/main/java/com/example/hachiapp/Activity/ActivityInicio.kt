@@ -10,10 +10,13 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hachiapp.adapters.ReporteAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityInicio : AppCompatActivity() {
@@ -70,9 +73,34 @@ class ActivityInicio : AppCompatActivity() {
                 aplicarFiltros()
             }
 
-        // ── Búsqueda ─────────────────────────────────────────────────
-        // Busca por: nombre, raza/tipo de mascota, color, fecha de extravío,
-        //            ubicación/dirección, tamaño, descripción y estado
+        // ── Foto de perfil ────────────────────────────────────────────
+        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+        val usuario = FirebaseAuth.getInstance().currentUser
+
+        if (usuario != null) {
+            FirebaseFirestore.getInstance()
+                .collection("usuarios")
+                .document(usuario.uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val fotoPerfil = doc.getString("fotoPerfil")  // ← nombre correcto del campo
+                    if (!fotoPerfil.isNullOrEmpty() && fotoPerfil.startsWith("http")) {
+                        Glide.with(this)
+                            .load(fotoPerfil)
+                            .transform(CircleCrop())
+                            .placeholder(R.drawable.perfil)
+                            .error(R.drawable.perfil)
+                            .into(btnPerfil)
+                    }
+                }
+        }
+
+        btnPerfil.setOnClickListener {
+            startActivity(Intent(this, ActivityPerfil::class.java))
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
+        // ── Búsqueda ──────────────────────────────────────────────────
         val txtBuscar = findViewById<EditText>(R.id.txtBuscar)
         txtBuscar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -93,7 +121,7 @@ class ActivityInicio : AppCompatActivity() {
                     R.id.opPerdido    -> "perdido"
                     R.id.opVisto      -> "visto"
                     R.id.opEncontrado -> "encontrado"
-                    else              -> null // Todos
+                    else              -> null
                 }
                 aplicarFiltros()
                 true
@@ -102,10 +130,6 @@ class ActivityInicio : AppCompatActivity() {
         }
 
         // ── Navegación inferior ───────────────────────────────────────
-        findViewById<ImageButton>(R.id.BtnPerfil).setOnClickListener {
-            startActivity(Intent(this, ActivityPerfil::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
         findViewById<LinearLayout>(R.id.BtnMapa).setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -126,36 +150,23 @@ class ActivityInicio : AppCompatActivity() {
 
     // ─────────────────────────────────────────────────────────────────
     //  Aplica filtro de estado (PopupMenu) + búsqueda por texto
-    //
-    //  Campos buscables desde txtBuscar:
-    //   · Nombre de la mascota
-    //   · Raza / tipo de mascota
-    //   · Color
-    //   · Fecha de extravío       ← búsqueda por fecha
-    //   · Dirección / ubicación   ← búsqueda por ubicación
-    //   · Tamaño
-    //   · Descripción
-    //   · Estado (perdido/visto/encontrado)
     // ─────────────────────────────────────────────────────────────────
     private fun aplicarFiltros() {
         val query = textoBusqueda.lowercase()
 
         val resultado = listaReportesCompleta.filter { reporte ->
-
-            // 1) Filtro por estado seleccionado en el PopupMenu
             val coincideEstado = filtroEstado == null ||
                     reporte.estadoMascota.lowercase() == filtroEstado
 
-            // 2) Búsqueda libre en todos los campos relevantes
             val coincideTexto = query.isEmpty() ||
-                    reporte.nombreMascota.lowercase().contains(query)  ||  // nombre
-                    reporte.razaMascota.lowercase().contains(query)    ||  // tipo/raza
-                    reporte.colorMascota.lowercase().contains(query)   ||  // color
-                    reporte.fechaExtravio.lowercase().contains(query)  ||  // fecha
-                    reporte.direccion.lowercase().contains(query)      ||  // ubicación
-                    reporte.tamano.lowercase().contains(query)         ||  // tamaño
-                    reporte.descripcion.lowercase().contains(query)    ||  // descripción
-                    reporte.estadoMascota.lowercase().contains(query)      // estado en texto
+                    reporte.nombreMascota.lowercase().contains(query)  ||
+                    reporte.razaMascota.lowercase().contains(query)    ||
+                    reporte.colorMascota.lowercase().contains(query)   ||
+                    reporte.fechaExtravio.lowercase().contains(query)  ||
+                    reporte.direccion.lowercase().contains(query)      ||
+                    reporte.tamano.lowercase().contains(query)         ||
+                    reporte.descripcion.lowercase().contains(query)    ||
+                    reporte.estadoMascota.lowercase().contains(query)
 
             coincideEstado && coincideTexto
         }

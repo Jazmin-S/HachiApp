@@ -6,6 +6,7 @@ data class Mensaje(
     val remitenteId: String = "",
     val destinatarioId: String = "",
     val reporteId: String = "",
+    val nombreMascota: String = "",
     val mensaje: String = "",
     val fecha: Timestamp? = null
 )

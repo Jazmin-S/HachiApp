@@ -27,6 +27,7 @@ class ActivityChat : AppCompatActivity() {
 
     private var receptorId = ""
     private var reporteId = ""
+    private var nombreMascota = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,66 +35,90 @@ class ActivityChat : AppCompatActivity() {
 
         firestore = FirebaseFirestore.getInstance()
 
-        receptorId = intent.getStringExtra("receptorId") ?: ""
-        reporteId = intent.getStringExtra("reporteId") ?: ""
+        receptorId =
+            intent.getStringExtra("receptorId") ?: ""
 
-        val nombreMascota = intent.getStringExtra("nombreMascota") ?: ""
+        reporteId =
+            intent.getStringExtra("reporteId") ?: ""
 
-        // RecyclerView
-        recyclerMensajes = findViewById(R.id.recyclerMensajes)
+        nombreMascota =
+            intent.getStringExtra("nombreMascota") ?: "Mascota"
 
-        adapter = MensajeAdapter(listaMensajes)
+        recyclerMensajes =
+            findViewById(R.id.recyclerMensajes)
 
-        recyclerMensajes.layoutManager = LinearLayoutManager(this)
-        recyclerMensajes.adapter = adapter
+        adapter =
+            MensajeAdapter(listaMensajes)
 
-        // Nombre del chat
-        findViewById<TextView>(R.id.tvNombreContacto).text =
+        recyclerMensajes.layoutManager =
+            LinearLayoutManager(this)
+
+        recyclerMensajes.adapter =
+            adapter
+
+        findViewById<TextView>(
+            R.id.tvNombreContacto
+        ).text =
             "Dueño de $nombreMascota"
 
-        // Botón volver
-        findViewById<ImageButton>(R.id.btnVolver).setOnClickListener {
+        findViewById<ImageButton>(
+            R.id.btnVolver
+        ).setOnClickListener {
             finish()
         }
 
-        // Crear mensaje inicial si no existe ninguno
         verificarChatVacio()
 
-        // Escuchar mensajes
         cargarMensajes()
 
-        val etMensaje = findViewById<EditText>(R.id.etMensaje)
+        val etMensaje =
+            findViewById<EditText>(R.id.etMensaje)
 
-        findViewById<CardView>(R.id.btnEnviar).setOnClickListener {
+        findViewById<CardView>(
+            R.id.btnEnviar
+        ).setOnClickListener {
 
-            val texto = etMensaje.text.toString().trim()
+            val texto =
+                etMensaje.text.toString().trim()
 
             if (texto.isEmpty()) {
+
                 Toast.makeText(
                     this,
                     "Escribe un mensaje",
                     Toast.LENGTH_SHORT
                 ).show()
+
                 return@setOnClickListener
             }
 
             val remitenteId =
-                FirebaseAuth.getInstance().currentUser?.uid
+                FirebaseAuth.getInstance()
+                    .currentUser?.uid
 
             if (remitenteId == null) {
+
                 Toast.makeText(
                     this,
                     "Usuario no autenticado",
                     Toast.LENGTH_SHORT
                 ).show()
+
                 return@setOnClickListener
             }
 
             val mensaje = hashMapOf(
+
                 "remitenteId" to remitenteId,
+
                 "destinatarioId" to receptorId,
+
                 "reporteId" to reporteId,
+
+                "nombreMascota" to nombreMascota,
+
                 "mensaje" to texto,
+
                 "fecha" to Timestamp.now()
             )
 
@@ -122,117 +147,89 @@ class ActivityChat : AppCompatActivity() {
 
     private fun cargarMensajes() {
 
-        Log.d("CHAT_FIREBASE", "Reporte ID: $reporteId")
-
         firestore.collection("mensajes")
-            .whereEqualTo("reporteId", reporteId)
+            .whereEqualTo(
+                "reporteId",
+                reporteId
+            )
             .orderBy("fecha")
             .addSnapshotListener { snapshots, e ->
 
                 if (e != null) {
-                    Log.e("CHAT_FIREBASE", "ERROR FIRESTORE", e)
+                    Log.e(
+                        "CHAT_FIREBASE",
+                        "ERROR",
+                        e
+                    )
                     return@addSnapshotListener
                 }
-
-                if (snapshots == null) {
-                    Log.e("CHAT_FIREBASE", "Snapshots NULL")
-                    return@addSnapshotListener
-                }
-
-                Log.d(
-                    "CHAT_FIREBASE",
-                    "Documentos encontrados: ${snapshots.size()}"
-                )
 
                 listaMensajes.clear()
 
-                for (doc in snapshots.documents) {
+                snapshots?.documents?.forEach { doc ->
 
-                    Log.d(
-                        "CHAT_FIREBASE",
-                        "Documento ID: ${doc.id}"
-                    )
-
-                    Log.d(
-                        "CHAT_FIREBASE",
-                        "Texto: ${doc.getString("mensaje")}"
-                    )
-
-                    val mensaje = doc.toObject(Mensaje::class.java)
+                    val mensaje =
+                        doc.toObject(
+                            Mensaje::class.java
+                        )
 
                     if (mensaje != null) {
                         listaMensajes.add(mensaje)
                     }
-                    Log.d("CHAT_FIREBASE", "reporteId recibido = $reporteId")
                 }
 
                 adapter.notifyDataSetChanged()
 
                 if (listaMensajes.isNotEmpty()) {
+
                     recyclerMensajes.scrollToPosition(
                         listaMensajes.size - 1
                     )
                 }
-
-                Log.d(
-                    "CHAT_FIREBASE",
-                    "Mensajes cargados: ${listaMensajes.size}"
-                )
             }
     }
+
     private fun verificarChatVacio() {
 
         firestore.collection("mensajes")
-            .whereEqualTo("reporteId", reporteId)
+            .whereEqualTo(
+                "reporteId",
+                reporteId
+            )
             .get()
             .addOnSuccessListener { documentos ->
 
-                // Si ya hay mensajes, no crear nada
                 if (!documentos.isEmpty) {
                     return@addOnSuccessListener
                 }
 
                 val remitenteId =
-                    FirebaseAuth.getInstance().currentUser?.uid
+                    FirebaseAuth.getInstance()
+                        .currentUser?.uid
 
                 if (remitenteId == null) {
-                    Log.e(
-                        "CHAT_FIREBASE",
-                        "Usuario actual no autenticado"
-                    )
                     return@addOnSuccessListener
                 }
 
-                val mensajeInicial = hashMapOf(
-                    "remitenteId" to remitenteId,
-                    "destinatarioId" to receptorId,
-                    "reporteId" to reporteId,
-                    "mensaje" to "Hola, tengo información sobre tu mascota.",
-                    "fecha" to Timestamp.now()
-                )
+                val mensajeInicial =
+                    hashMapOf(
+
+                        "remitenteId" to remitenteId,
+
+                        "destinatarioId" to receptorId,
+
+                        "reporteId" to reporteId,
+
+                        "nombreMascota" to nombreMascota,
+
+                        "mensaje" to
+                                "Hola, tengo información sobre tu mascota.",
+
+                        "fecha" to Timestamp.now()
+                    )
 
                 firestore.collection("mensajes")
                     .add(mensajeInicial)
-                    .addOnSuccessListener {
-                        Log.d(
-                            "CHAT_FIREBASE",
-                            "Mensaje inicial creado"
-                        )
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e(
-                            "CHAT_FIREBASE",
-                            "Error al crear mensaje inicial",
-                            e
-                        )
-                    }
-            }
-            .addOnFailureListener { e ->
-                Log.e(
-                    "CHAT_FIREBASE",
-                    "Error verificando mensajes",
-                    e
-                )
             }
     }
 }

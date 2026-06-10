@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
+            android:name=".Activity.ActivityMensajes"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_registro_avistamiento"
             android:exported="false" />
         <activity
@@ -33,9 +36,6 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ActivityHistorial"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.ActivityMensajes"
             android:exported="false" />
         <activity
             android:name=".Activity.ActivityAlertas"
