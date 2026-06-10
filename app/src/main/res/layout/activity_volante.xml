@@ -9,6 +9,7 @@
     tools:context=".Activity.ActivityVolante">
 
     <ScrollView
+        android:id="@+id/ScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#F5F5F5"
@@ -385,11 +386,12 @@
                         app:cardCornerRadius="8dp"
                         app:cardElevation="2dp">
 
-                        <fragment
-                            android:id="@+id/mapaVolante"
-                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                        <!-- Reemplaza el fragment del mapa por esto -->
+                        <ImageView
+                            android:id="@+id/imgMapaEstatico"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="200dp"
+                            android:scaleType="centerCrop" />
 
                     </androidx.cardview.widget.CardView>
 
@@ -679,6 +681,21 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDescargarVolante"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#C62828"
+                android:text="Descargar Volante"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_save"
+                app:iconTint="#FFFFFF" />
 
         </LinearLayout>
 
