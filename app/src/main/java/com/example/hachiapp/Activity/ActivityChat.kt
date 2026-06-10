@@ -16,6 +16,11 @@ import com.example.hachiapp.models.Mensaje
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
+import com.cloudinary.android.callback.UploadCallback
+import com.cloudinary.android.MediaManager
+import com.example.hachiapp.BD.CloudinaryManager
 
 class ActivityChat : AppCompatActivity() {
 
@@ -29,9 +34,14 @@ class ActivityChat : AppCompatActivity() {
     private var reporteId = ""
     private var nombreMascota = ""
 
+    private var imagenSeleccionada: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_chat)
+        CloudinaryManager.init(this)
+
 
         firestore = FirebaseFirestore.getInstance()
 
@@ -65,6 +75,13 @@ class ActivityChat : AppCompatActivity() {
             R.id.btnVolver
         ).setOnClickListener {
             finish()
+        }
+
+        findViewById<ImageButton>(
+            R.id.btnImagen
+        ).setOnClickListener {
+
+            seleccionarImagen.launch("image/*")
         }
 
         verificarChatVacio()
@@ -230,6 +247,129 @@ class ActivityChat : AppCompatActivity() {
 
                 firestore.collection("mensajes")
                     .add(mensajeInicial)
+            }
+    }
+    private val seleccionarImagen =
+        registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        ) { uri ->
+
+            if (uri != null) {
+
+                imagenSeleccionada = uri
+
+                subirImagenCloudinary(uri)
+            }
+        }
+    private fun subirImagenCloudinary(uri: Uri) {
+
+        Toast.makeText(
+            this,
+            "Subiendo imagen...",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        MediaManager.get()
+            .upload(uri)
+            .unsigned("hachiapp") // Igual que ActivityPerfil
+            .option("folder", "hachiapp_chat")
+            .callback(object : UploadCallback {
+
+                override fun onStart(requestId: String) {
+                }
+
+                override fun onProgress(
+                    requestId: String,
+                    bytes: Long,
+                    totalBytes: Long
+                ) {
+                }
+
+                override fun onReschedule(
+                    requestId: String,
+                    error: com.cloudinary.android.callback.ErrorInfo
+                ) {
+                }
+
+                override fun onSuccess(
+                    requestId: String,
+                    resultData: MutableMap<Any?, Any?>
+                ) {
+
+                    val imageUrl =
+                        resultData["secure_url"]?.toString() ?: ""
+
+                    runOnUiThread {
+
+                        guardarMensajeImagen(imageUrl)
+                    }
+                }
+
+                override fun onError(
+                    requestId: String,
+                    error: com.cloudinary.android.callback.ErrorInfo
+                ) {
+
+                    runOnUiThread {
+
+                        Toast.makeText(
+                            this@ActivityChat,
+                            "Error al subir imagen: ${error.description}",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        Log.e(
+                            "CLOUDINARY",
+                            error.description
+                        )
+                    }
+                }
+            })
+            .dispatch()
+    }
+
+    private fun guardarMensajeImagen(
+        imageUrl: String
+    ) {
+
+        val remitenteId =
+            FirebaseAuth.getInstance()
+                .currentUser?.uid ?: return
+
+        val mensaje = hashMapOf(
+
+            "remitenteId" to remitenteId,
+
+            "destinatarioId" to receptorId,
+
+            "reporteId" to reporteId,
+
+            "nombreMascota" to nombreMascota,
+
+            "mensaje" to "",
+
+            "imagenUrl" to imageUrl,
+
+            "fecha" to Timestamp.now()
+        )
+
+        firestore.collection("mensajes")
+            .add(mensaje)
+            .addOnSuccessListener {
+
+                Toast.makeText(
+                    this,
+                    "Imagen enviada",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(
+                    this,
+                    "Error al guardar imagen",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 }

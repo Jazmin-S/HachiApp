@@ -212,6 +212,7 @@
                 android:id="@+id/btnGuardarPerfil"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
                 android:backgroundTint="#D79149"
                 android:text="Guardar cambios"
                 android:textColor="#FFFFFF"
@@ -221,6 +222,23 @@
                 app:iconGravity="textStart"
                 app:icon="@android:drawable/ic_menu_save"
                 app:iconTint="#FFFFFF" />
+
+            <!-- BOTÓN CERRAR SESIÓN -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCerrarSesion"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="Cerrar sesión"
+                android:textColor="#C0392B"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="28dp"
+                app:strokeColor="#C0392B"
+                app:strokeWidth="2dp"
+                app:iconGravity="textStart"
+                app:icon="@android:drawable/ic_lock_power_off"
+                app:iconTint="#C0392B" />
 
         </LinearLayout>
     </ScrollView>

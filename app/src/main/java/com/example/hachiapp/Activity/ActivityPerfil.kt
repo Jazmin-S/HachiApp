@@ -1,5 +1,6 @@
 package com.example.hachiapp.Activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
@@ -15,6 +17,7 @@ import com.example.hachiapp.BD.CloudinaryManager
 import com.example.hachiapp.BD.UsuarioRepository
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Usuario
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -33,6 +36,24 @@ class ActivityPerfil : AppCompatActivity() {
         configurarSeleccionImagen()
         cargarPerfil()
         configurarBotonGuardar()
+        configurarBotonCerrarSesion()
+    }
+
+    private fun configurarBotonCerrarSesion() {
+        findViewById<MaterialButton>(R.id.btnCerrarSesion).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión?")
+                .setPositiveButton("Cerrar sesión") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(this, Activity_Login::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        }
     }
 
     private fun configurarSpinner() {
@@ -65,7 +86,6 @@ class ActivityPerfil : AppCompatActivity() {
         ) { uri ->
             if (uri != null) {
                 imagenSeleccionada = uri
-                // ← setImageURI en vez de Glide, evita el SecurityException con photo picker
                 findViewById<CircleImageView>(R.id.imgPerfil).setImageURI(uri)
             }
         }
@@ -84,7 +104,6 @@ class ActivityPerfil : AppCompatActivity() {
                 val index = (1..100).indexOfFirst { it.toString() == usuario.edad }
                 if (index >= 0) spinner.setSelection(index)
 
-                // Cargar foto desde Cloudinary si existe
                 if (usuario.fotoPerfil.isNotEmpty() && usuario.fotoPerfil.startsWith("http")) {
                     com.bumptech.glide.Glide.with(this)
                         .load(usuario.fotoPerfil)
@@ -98,7 +117,7 @@ class ActivityPerfil : AppCompatActivity() {
     }
 
     private fun configurarBotonGuardar() {
-        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnGuardarPerfil)
+        findViewById<MaterialButton>(R.id.btnGuardarPerfil)
             .setOnClickListener {
                 val nombre = findViewById<EditText>(R.id.editNombre).text.toString().trim()
                 val descripcion = findViewById<EditText>(R.id.editDescripcion).text.toString().trim()
@@ -110,7 +129,6 @@ class ActivityPerfil : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                // Si hay imagen nueva, súbela primero a Cloudinary
                 if (imagenSeleccionada != null) {
                     subirImagenYGuardar(imagenSeleccionada!!, nombre, correo, edad, descripcion)
                 } else {
@@ -132,7 +150,7 @@ class ActivityPerfil : AppCompatActivity() {
 
         MediaManager.get()
             .upload(uri)
-            .unsigned("hachiapp")         // ← igual que en ActivityRegistroReporte
+            .unsigned("hachiapp")
             .option("folder", "hachi_perfiles")
             .option("public_id", "perfil_$uid")
             .callback(object : UploadCallback {
@@ -192,7 +210,7 @@ class ActivityPerfil : AppCompatActivity() {
 
     private fun mostrarCarga(mostrar: Boolean) {
         runOnUiThread {
-            val btn = findViewById<com.google.android.material.button.MaterialButton>(R.id.btnGuardarPerfil)
+            val btn = findViewById<MaterialButton>(R.id.btnGuardarPerfil)
             val progress = findViewById<ProgressBar>(R.id.progressBar)
             btn.isEnabled = !mostrar
             btn.text = if (mostrar) "Guardando..." else "Guardar cambios"

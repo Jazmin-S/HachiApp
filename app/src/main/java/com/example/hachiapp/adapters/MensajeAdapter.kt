@@ -3,8 +3,10 @@ package com.example.hachiapp.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Mensaje
 import com.google.firebase.auth.FirebaseAuth
@@ -23,15 +25,20 @@ class MensajeAdapter(
 
         val txtMensaje: TextView =
             itemView.findViewById(R.id.txtMensaje)
+
+        val imgMensaje: ImageView =
+            itemView.findViewById(R.id.imgMensaje)
     }
 
     override fun getItemViewType(position: Int): Int {
 
         val uidActual =
-            FirebaseAuth.getInstance().currentUser?.uid
+            FirebaseAuth.getInstance()
+                .currentUser?.uid
 
         return if (
-            listaMensajes[position].remitenteId == uidActual
+            listaMensajes[position].remitenteId ==
+            uidActual
         ) {
             MENSAJE_ENVIADO
         } else {
@@ -44,16 +51,20 @@ class MensajeAdapter(
         viewType: Int
     ): ViewHolder {
 
-        val layout = if (
-            viewType == MENSAJE_ENVIADO
-        ) {
-            R.layout.item_mensaje_enviado
-        } else {
-            R.layout.item_mensaje_recibido
-        }
+        val layout =
+            if (viewType == MENSAJE_ENVIADO) {
+                R.layout.item_mensaje_enviado
+            } else {
+                R.layout.item_mensaje_recibido
+            }
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(layout, parent, false)
+        val view =
+            LayoutInflater.from(parent.context)
+                .inflate(
+                    layout,
+                    parent,
+                    false
+                )
 
         return ViewHolder(view)
     }
@@ -62,8 +73,33 @@ class MensajeAdapter(
         holder: ViewHolder,
         position: Int
     ) {
-        holder.txtMensaje.text =
-            listaMensajes[position].mensaje
+
+        val mensaje =
+            listaMensajes[position]
+
+        if (mensaje.imagenUrl.isNotEmpty()) {
+
+            holder.txtMensaje.visibility =
+                View.GONE
+
+            holder.imgMensaje.visibility =
+                View.VISIBLE
+
+            Glide.with(holder.itemView.context)
+                .load(mensaje.imagenUrl)
+                .into(holder.imgMensaje)
+
+        } else {
+
+            holder.imgMensaje.visibility =
+                View.GONE
+
+            holder.txtMensaje.visibility =
+                View.VISIBLE
+
+            holder.txtMensaje.text =
+                mensaje.mensaje
+        }
     }
 
     override fun getItemCount(): Int {

@@ -13,4 +13,11 @@
         android:padding="12dp"
         android:textColor="#000000"
         android:background="@drawable/burbuja_recibida"/>
+
+    <ImageView
+        android:id="@+id/imgMensaje"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:visibility="gone"
+        android:scaleType="centerCrop"/>
 </LinearLayout>
