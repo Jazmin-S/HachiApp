@@ -34,12 +34,5 @@ class Activity_recuperacion : AppCompatActivity() {
 
         // Botón principal de recuperación (envía al siguiente paso del flujo de recuperación)
         val BtnCodigoRecuperacion = findViewById<Button>(R.id.BtnCodigoRecuperacion)
-
-        // Acción al presionar el botón: redirige a la pantalla donde se ingresa el código
-        BtnCodigoRecuperacion.setOnClickListener {
-
-            val intent = Intent(this, ActivityCodigo::class.java)
-            startActivity(intent)
-        }
     }
 }
