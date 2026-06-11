@@ -18,7 +18,8 @@ class ConversacionAdapter(
     private val onClick: (Conversacion) -> Unit
 ) : RecyclerView.Adapter<ConversacionAdapter.ViewHolder>() {
 
-    private val uidActual = FirebaseAuth.getInstance().currentUser?.uid  // ← aquí, a nivel de clase
+    // UID del usuario actual para identificar si el mensaje es mío o recibido
+    private val uidActual = FirebaseAuth.getInstance().currentUser?.uid
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNombre: TextView = view.findViewById(R.id.txtNombre)
@@ -34,9 +35,10 @@ class ConversacionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val conv = lista[position]
 
+        // Nombre mostrado en la conversación
         holder.tvNombre.text = "Dueño de ${conv.nombreMascota}"
 
-        // ✅ Diferenciar enviados vs recibidos
+        // 🔥 Diferenciar mensaje enviado vs recibido
         if (conv.ultimoRemitenteId == uidActual) {
             holder.tvUltimoMensaje.text = "Tú: ${conv.ultimoMensaje}"
             holder.tvUltimoMensaje.setTextColor(Color.parseColor("#888888"))
@@ -47,14 +49,16 @@ class ConversacionAdapter(
             holder.tvUltimoMensaje.setTypeface(null, Typeface.BOLD)
         }
 
+        // Abrir conversación al tocar item
         holder.itemView.setOnClickListener { onClick(conv) }
 
+        // 🔥 Eliminar conversación con confirmación
         holder.itemView.setOnLongClickListener {
             AlertDialog.Builder(holder.itemView.context)
                 .setTitle("Eliminar conversación")
                 .setMessage("¿Deseas eliminar esta conversación con el dueño de ${conv.nombreMascota}?")
                 .setPositiveButton("Eliminar") { _, _ ->
-                    eliminarConversacion(conv, position)
+                    eliminarConversacion(conv)
                 }
                 .setNegativeButton("Cancelar", null)
                 .show()
@@ -64,20 +68,27 @@ class ConversacionAdapter(
 
     override fun getItemCount() = lista.size
 
-    private fun eliminarConversacion(conv: Conversacion, position: Int) {
+    // 🔥 Elimina mensajes de Firestore relacionados a esta conversación
+    private fun eliminarConversacion(conv: Conversacion) {
         val db = FirebaseFirestore.getInstance()
+
         db.collection("mensajes")
             .whereEqualTo("reporteId", conv.reporteId)
             .get()
             .addOnSuccessListener { docs ->
+
                 val batch = db.batch()
+
                 for (doc in docs) {
                     val rem = doc.getString("remitenteId") ?: ""
                     val des = doc.getString("destinatarioId") ?: ""
+
+                    // Solo borra mensajes de esta conversación específica
                     if (rem == conv.otroUsuarioId || des == conv.otroUsuarioId) {
                         batch.delete(doc.reference)
                     }
                 }
+
                 batch.commit()
             }
     }

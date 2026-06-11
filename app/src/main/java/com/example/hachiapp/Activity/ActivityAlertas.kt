@@ -22,7 +22,6 @@ import android.util.Log
 import com.example.hachiapp.models.Reporte
 import com.google.firebase.firestore.Query
 
-
 class ActivityAlertas : AppCompatActivity() {
 
     private lateinit var recyclerAlertas: RecyclerView
@@ -31,10 +30,14 @@ class ActivityAlertas : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_alertas)
+
+        // Marca visualmente la sección actual en el menú inferior
         marcarMenuActivo("alertas")
 
+        // Ajuste de padding para evitar superposición con system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(
@@ -50,8 +53,10 @@ class ActivityAlertas : AppCompatActivity() {
 
         recyclerAlertas = findViewById(R.id.recyclerAlertas)
 
+        // Adaptador que maneja click en cada alerta (flujo de navegación dinámico)
         adapter = AlertaAdapter(listaAlertas) addOnSuccessListener@{ alerta ->
 
+            // Si la alerta es de tipo "reporte", abre detalle de mascota perdida
             if (alerta.tipo == "reporte") {
 
                 FirebaseFirestore.getInstance()
@@ -62,8 +67,10 @@ class ActivityAlertas : AppCompatActivity() {
 
                         if (!doc.exists()) return@addOnSuccessListener
 
-                        val reporte = doc.toObject(Reporte::class.java) ?: return@addOnSuccessListener
+                        val reporte = doc.toObject(Reporte::class.java)
+                            ?: return@addOnSuccessListener
 
+                        // Navegación a detalle del reporte con todos los datos necesarios
                         val intent = Intent(this, ActivityVolante::class.java)
 
                         intent.putExtra("nombreMascota", reporte.nombreMascota)
@@ -78,6 +85,7 @@ class ActivityAlertas : AppCompatActivity() {
                         intent.putExtra("longitud", reporte.longitud)
                         intent.putExtra("direccion", reporte.direccion)
 
+                        // Imagen principal del reporte (si existe)
                         if (reporte.imagenesUrl.isNotEmpty()) {
                             intent.putExtra("imagenUrl", reporte.imagenesUrl[0])
                         }
@@ -88,9 +96,9 @@ class ActivityAlertas : AppCompatActivity() {
             } else if (alerta.tipo == "avistamiento") {
 
                 val avistamientoId = alerta.avistamientoId
-
                 if (avistamientoId.isNullOrEmpty()) return@addOnSuccessListener
 
+                // Consulta del avistamiento en Firestore
                 FirebaseFirestore.getInstance()
                     .collection("avistamientos")
                     .document(avistamientoId)
@@ -99,6 +107,7 @@ class ActivityAlertas : AppCompatActivity() {
 
                         if (!doc.exists()) return@addOnSuccessListener
 
+                        // Navegación a detalle de avistamiento
                         val intent = Intent(this, ActivityDetalleAvistamiento::class.java)
 
                         intent.putExtra("descripcion", doc.getString("descripcion"))
@@ -113,56 +122,40 @@ class ActivityAlertas : AppCompatActivity() {
             }
         }
 
-
         recyclerAlertas.layoutManager = LinearLayoutManager(this)
         recyclerAlertas.adapter = adapter
 
+        // Carga en tiempo real de alertas desde Firestore
         cargarAlertas()
 
         // ================= PESTAÑAS =================
 
-        val tabMensajes = findViewById<TextView>(R.id.Mensajes)
-
-        tabMensajes.setOnClickListener {
+        findViewById<TextView>(R.id.Mensajes).setOnClickListener {
             startActivity(Intent(this, ActivityMensajes::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // ================= NAVBAR =================
+        // Navegación simple entre pantallas principales de la app
 
         findViewById<LinearLayout>(R.id.BtnInicio).setOnClickListener {
             startActivity(Intent(this, ActivityInicio::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         findViewById<LinearLayout>(R.id.BtnMapa).setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         findViewById<LinearLayout>(R.id.BtnHistorial).setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         findViewById<LinearLayout>(R.id.BtnReporte).setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         // ================= FOTO DE PERFIL =================
@@ -172,6 +165,7 @@ class ActivityAlertas : AppCompatActivity() {
 
         if (usuario != null) {
 
+            // Obtiene foto de perfil desde Firestore
             FirebaseFirestore.getInstance()
                 .collection("usuarios")
                 .document(usuario.uid)
@@ -182,6 +176,7 @@ class ActivityAlertas : AppCompatActivity() {
 
                     if (!fotoPerfil.isNullOrEmpty()) {
 
+                        // Carga imagen circular usando Glide
                         Glide.with(this)
                             .load(fotoPerfil)
                             .transform(CircleCrop())
@@ -192,15 +187,14 @@ class ActivityAlertas : AppCompatActivity() {
                 }
         }
 
+        // Acceso a perfil del usuario
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ActivityPerfil::class.java))
-            overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
-            )
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
+    // ================= ALERTAS EN TIEMPO REAL =================
     private fun cargarAlertas() {
 
         FirebaseFirestore.getInstance()
@@ -222,12 +216,7 @@ class ActivityAlertas : AppCompatActivity() {
                     val alerta = document.toObject(Alerta::class.java)
 
                     if (alerta != null) {
-
-                        Log.d(
-                            "ALERTAS",
-                            "${alerta.titulo} - ${alerta.descripcion}"
-                        )
-
+                        Log.d("ALERTAS", "${alerta.titulo} - ${alerta.descripcion}")
                         listaAlertas.add(alerta)
                     }
                 }
@@ -237,6 +226,8 @@ class ActivityAlertas : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
     }
+
+    // ================= MENÚ ACTIVO =================
     private fun marcarMenuActivo(seccion: String) {
 
         val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -245,39 +236,23 @@ class ActivityAlertas : AppCompatActivity() {
         val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
         val reporte = findViewById<LinearLayout>(R.id.BtnReporte)
 
-        // Colores
         val normalColor = getColor(android.R.color.transparent)
         val activoColor = getColor(R.color.menu_activo)
 
-        // Reset de todos los botones
+        // Resetea todos los estados del menú
         inicio.setBackgroundColor(normalColor)
         mapa.setBackgroundColor(normalColor)
         alertas.setBackgroundColor(normalColor)
         historial.setBackgroundColor(normalColor)
         reporte.setBackgroundColor(normalColor)
 
-        // Activar el correcto
+        // Activa solo la sección actual
         when (seccion) {
-
-            "inicio" -> {
-                inicio.setBackgroundColor(activoColor)
-            }
-
-            "mapa" -> {
-                mapa.setBackgroundColor(activoColor)
-            }
-
-            "alertas" -> {
-                alertas.setBackgroundColor(activoColor)
-            }
-
-            "historial" -> {
-                historial.setBackgroundColor(activoColor)
-            }
-
-            "reporte" -> {
-                reporte.setBackgroundColor(activoColor)
-            }
+            "inicio" -> inicio.setBackgroundColor(activoColor)
+            "mapa" -> mapa.setBackgroundColor(activoColor)
+            "alertas" -> alertas.setBackgroundColor(activoColor)
+            "historial" -> historial.setBackgroundColor(activoColor)
+            "reporte" -> reporte.setBackgroundColor(activoColor)
         }
     }
 }

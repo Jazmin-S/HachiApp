@@ -7,23 +7,37 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.hachiapp.Activity.ActivityCodigo
 import com.example.hachiapp.R
 
 class Activity_recuperacion : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_recuperacion)
+
+        // Ajuste de padding para evitar que el contenido se superponga con las barras del sistema
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
+
             insets
         }
-        //boton de principal de recuperacion
+
+        // Botón principal de recuperación (envía al siguiente paso del flujo de recuperación)
         val BtnCodigoRecuperacion = findViewById<Button>(R.id.BtnCodigoRecuperacion)
-        //funcion que redirige a la pantalla de codigo
+
+        // Acción al presionar el botón: redirige a la pantalla donde se ingresa el código
         BtnCodigoRecuperacion.setOnClickListener {
+
             val intent = Intent(this, ActivityCodigo::class.java)
             startActivity(intent)
         }

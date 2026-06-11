@@ -22,73 +22,85 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityHistorial : AppCompatActivity() {
 
-    // Instancias del repositorio y el adaptador
+    // Repositorio encargado de traer los reportes desde Firestore
     private val reporteRepository = ReporteRepository()
+
+    // Adaptador del RecyclerView (historial de reportes del usuario)
     private lateinit var historialAdapter: HistorialReportesAdapter
+
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_historial)
+
+        // Marca visualmente el botón activo del menú inferior
         marcarMenuActivo("historial")
 
+        // Ajuste de padding para evitar superposición con system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // ── 1. CONFIGURACIÓN DEL RECYCLERVIEW ─────────────────────────────────
+        // ================= RECYCLER VIEW =================
+
         recyclerView = findViewById(R.id.recyclerViewHistorial)
+
+        // Lista vertical de reportes
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         historialAdapter = HistorialReportesAdapter()
         recyclerView.adapter = historialAdapter
 
-        // ── 2. CARGAR LOS REPORTES DESDE FIREBASE ─────────────────────────────
+        // Carga inicial de datos desde Firebase
         cargarHistorial()
 
+        // ================= NAVBAR =================
+        // Navegación entre pantallas principales
 
-        //val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
-
-        // MAPA
-        val btnMapa = findViewById<LinearLayout>(R.id.BtnMapa)
-        btnMapa.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnMapa).setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-        // ALERTAS
-        val btnAlertas = findViewById<LinearLayout>(R.id.BtnAlertas)
-        btnAlertas.setOnClickListener {
+
+        findViewById<LinearLayout>(R.id.BtnAlertas).setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // Inicio
-        val btnInicio = findViewById<LinearLayout>(R.id.BtnInicio)
-        btnInicio.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnInicio).setOnClickListener {
             startActivity(Intent(this, ActivityInicio::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // REPORTE
-        val btnReporte = findViewById<LinearLayout>(R.id.BtnReporte)
-        btnReporte.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnReporte).setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
         }
-        // ── Foto de perfil ────────────────────────────────────────────
+
+        // ================= FOTO DE PERFIL =================
+
         val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
         val usuario = FirebaseAuth.getInstance().currentUser
 
         if (usuario != null) {
+
+            // Obtiene foto de perfil desde Firestore
             FirebaseFirestore.getInstance()
                 .collection("usuarios")
                 .document(usuario.uid)
                 .get()
                 .addOnSuccessListener { doc ->
-                    val fotoPerfil = doc.getString("fotoPerfil")  // ← nombre correcto del campo
+
+                    val fotoPerfil = doc.getString("fotoPerfil")
+
+                    // Validación para evitar URLs inválidas
                     if (!fotoPerfil.isNullOrEmpty() && fotoPerfil.startsWith("http")) {
+
+                        // Carga imagen circular con Glide
                         Glide.with(this)
                             .load(fotoPerfil)
                             .transform(CircleCrop())
@@ -99,28 +111,41 @@ class ActivityHistorial : AppCompatActivity() {
                 }
         }
 
+        // Acceso a perfil del usuario
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ActivityPerfil::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
-        // Métod encargado de consultar al repositorio
-        private fun cargarHistorial() {
-            reporteRepository.obtenerReportesUsuario(
-                onSuccess = { listaReportes ->
-                    if (listaReportes.isEmpty()) {
-                        Toast.makeText(this, "No tienes reportes realizados", Toast.LENGTH_SHORT).show()
-                    } else {
-                        // Pasamos la lista de reportes reales al adaptador
-                        historialAdapter.actualizarLista(listaReportes)
-                    }
-                },
-                onError = { excepcion ->
-                    Toast.makeText(this, "Error al cargar historial: ${excepcion.message}", Toast.LENGTH_LONG).show()
 
+    // ================= CARGA DEL HISTORIAL =================
+    private fun cargarHistorial() {
+
+        // Consulta al repositorio (encapsula lógica de Firestore)
+        reporteRepository.obtenerReportesUsuario(
+            onSuccess = { listaReportes ->
+
+                if (listaReportes.isEmpty()) {
+                    Toast.makeText(this, "No tienes reportes realizados", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Actualiza RecyclerView con datos reales del usuario
+                    historialAdapter.actualizarLista(listaReportes)
                 }
-            )
-        }
+            },
+
+            onError = { excepcion ->
+
+                // Manejo de error al consultar Firestore
+                Toast.makeText(
+                    this,
+                    "Error al cargar historial: ${excepcion.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        )
+    }
+
+    // ================= MENÚ ACTIVO =================
     private fun marcarMenuActivo(seccion: String) {
 
         val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -129,39 +154,23 @@ class ActivityHistorial : AppCompatActivity() {
         val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
         val reporte = findViewById<LinearLayout>(R.id.BtnReporte)
 
-        // Colores
         val normalColor = getColor(android.R.color.transparent)
         val activoColor = getColor(R.color.menu_activo)
 
-        // Reset de todos los botones
+        // Reset de todos los estados del menú inferior
         inicio.setBackgroundColor(normalColor)
         mapa.setBackgroundColor(normalColor)
         alertas.setBackgroundColor(normalColor)
         historial.setBackgroundColor(normalColor)
         reporte.setBackgroundColor(normalColor)
 
-        // Activar el correcto
+        // Activa solo la sección actual
         when (seccion) {
-
-            "inicio" -> {
-                inicio.setBackgroundColor(activoColor)
-            }
-
-            "mapa" -> {
-                mapa.setBackgroundColor(activoColor)
-            }
-
-            "alertas" -> {
-                alertas.setBackgroundColor(activoColor)
-            }
-
-            "historial" -> {
-                historial.setBackgroundColor(activoColor)
-            }
-
-            "reporte" -> {
-                reporte.setBackgroundColor(activoColor)
-            }
+            "inicio" -> inicio.setBackgroundColor(activoColor)
+            "mapa" -> mapa.setBackgroundColor(activoColor)
+            "alertas" -> alertas.setBackgroundColor(activoColor)
+            "historial" -> historial.setBackgroundColor(activoColor)
+            "reporte" -> reporte.setBackgroundColor(activoColor)
         }
     }
 }

@@ -33,50 +33,51 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
     override fun onBindViewHolder(holder: HistorialViewHolder, position: Int) {
         val reporte = listaReportes[position]
 
-        // ── Enlace de datos con los nombres exactos de tu modelo ──
+        // Datos principales del reporte
         holder.txtNombre.text = reporte.nombreMascota
         holder.txtFecha.text = "Perdido el: ${reporte.fechaExtravio}"
 
-        // Si tienes la dirección guardada la pone, si no, un texto de respaldo
+        // Ubicación con fallback si no existe dirección
         holder.txtUbicacion.text = if (!reporte.direccion.isNullOrEmpty()) {
-            "${reporte.direccion}"
+            reporte.direccion
         } else {
             "Ubicación sin dirección"
         }
 
-        // Asignamos el estado de la mascota (activo o resuelto)
+        // Estado actual del reporte (valor por defecto: Activo)
         val estado = reporte.estadoMascota ?: "Activo"
         holder.txtEstado.text = estado.uppercase()
 
-        // Cambiar color del texto del estado según corresponda
+        // 🔥 Color del estado según condición (resuelto / activo / visto)
         if (estado.equals("resuelto", ignoreCase = true)) {
-            holder.txtEstado.setTextColor(Color.parseColor("#4CAF50")) // Verde
+            holder.txtEstado.setTextColor(Color.parseColor("#4CAF50"))
         } else {
-            holder.txtEstado.setTextColor(Color.parseColor("#C62828")) // Rojo
+            holder.txtEstado.setTextColor(Color.parseColor("#C62828"))
         }
-            /*Al tocar el texto del estado se muestra
-             * un menú con las opciones disponibles.
-             */
+
+        // 🔥 Cambio de estado con actualización en Firestore/BD
         holder.txtEstado.setOnClickListener {
             val opciones = arrayOf("Perdido", "Visto", "Resuelto")
+
             android.app.AlertDialog.Builder(holder.itemView.context)
                 .setTitle("Cambiar estado")
                 .setItems(opciones) { _, index ->
                     val nuevoEstado = opciones[index]
                     val repository = ReporteRepository()
+
                     repository.actualizarEstado(
                         reporteId = reporte.id,
                         nuevoEstado = nuevoEstado,
                         onSuccess = {
-                            /*Se actualiza visualmente el estado
-                             * sin necesidad de recargar toda la lista.
-                             */
+                            // Actualización inmediata en UI sin recargar lista
                             holder.txtEstado.text = nuevoEstado.uppercase()
+
                             val color = when (nuevoEstado) {
                                 "Resuelto" -> Color.parseColor("#4CAF50")
                                 "Visto" -> Color.parseColor("#0099FF")
                                 else -> Color.parseColor("#C62828")
                             }
+
                             holder.txtEstado.setTextColor(color)
                         },
                         onError = {
@@ -91,25 +92,25 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
                 .show()
         }
 
-        // ── Carga de imagen desde la lista de URLs de Cloudinary ──
+        // 🔥 Carga de imagen principal del reporte (Cloudinary)
         if (!reporte.imagenesUrl.isNullOrEmpty()) {
-            // Tomamos la primera foto de la lista que subió el usuario
             val primeraImagenUrl = reporte.imagenesUrl.first()
 
             Glide.with(holder.itemView.context)
                 .load(primeraImagenUrl)
                 .centerCrop()
-                .placeholder(R.drawable.images) // Imagen por defecto mientras carga
-                .error(R.drawable.images)       // Imagen si ocurre un error
+                .placeholder(R.drawable.images)
+                .error(R.drawable.images)
                 .into(holder.imgMascota)
         } else {
-            // Si el reporte no tiene fotos, dejamos la de por defecto
+            // Imagen por defecto si no hay fotos
             holder.imgMascota.setImageResource(R.drawable.images)
         }
     }
 
     override fun getItemCount(): Int = listaReportes.size
 
+    // Actualiza lista desde ViewModel / Firestore
     fun actualizarLista(nuevaLista: List<Reporte>) {
         this.listaReportes = nuevaLista
         notifyDataSetChanged()

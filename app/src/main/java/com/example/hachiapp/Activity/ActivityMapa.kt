@@ -29,55 +29,55 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+
+    // Constante para permiso de ubicación
     private val LOCATION_PERMISSION_REQUEST = 1
+
+    // Firestore (base de datos principal del proyecto)
     private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_mapa)
+
+        // Marca visual del menú activo
         marcarMenuActivo("mapa")
 
+        // ================= NAVBAR =================
+        // Navegación entre pantallas principales
 
-        // INICIO
-        val btnInicio = findViewById<LinearLayout>(R.id.BtnInicio)
-        btnInicio.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnInicio).setOnClickListener {
             startActivity(Intent(this, ActivityInicio::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // ALERTAS
-        val btnAlertas = findViewById<LinearLayout>(R.id.BtnAlertas)
-        btnAlertas.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnAlertas).setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // HISTORIAL
-        val btnHistorial = findViewById<LinearLayout>(R.id.BtnHistorial)
-        btnHistorial.setOnClickListener {
+        findViewById<LinearLayout>(R.id.BtnHistorial).setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // REPORTE MASCOTA PERDIDA
-        val btnReporte = findViewById<LinearLayout>(R.id.btnReporte)
-        btnReporte.setOnClickListener {
+        findViewById<LinearLayout>(R.id.btnReporte).setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // 🛠️ Se eliminó por completo el FloatingActionButton de avistamiento rápido
+        // ================= MAPA =================
 
-        // MAPA
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapa) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
+        // Solicita permisos de ubicación al usuario
         pedirPermisoUbicacion()
     }
 
     override fun onResume() {
         super.onResume()
+
+        // Recarga datos cada vez que regresa a la pantalla del mapa
         if (::mMap.isInitialized) {
             mMap.clear()
             cargarReportesEnMapa()
@@ -85,63 +85,95 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // ================= MAPA LISTO =================
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
+
         mMap = googleMap
 
+        // InfoWindow personalizada (cuando se toca un marcador)
         mMap.setInfoWindowAdapter(ReporteInfoWindowAdapter(this))
 
+        // Permite abrir ventana de info al tocar marcador
         mMap.setOnMarkerClickListener { marker ->
             marker.showInfoWindow()
             true
         }
 
+        // Click en ventana de información del marcador
         mMap.setOnInfoWindowClickListener { marker ->
+
             val datos = marker.tag as? Map<*, *>
             val reporteId = datos?.get("reporteId") as? String
+
             if (reporteId != null) {
-                val intent = Intent(this, Activity_registro_avistamiento::class.java)
+
+                val intent = Intent(
+                    this,
+                    Activity_registro_avistamiento::class.java
+                )
+
+                // Se envía información del reporte al registro de avistamiento
                 intent.putExtra("reporteId", reporteId)
                 intent.putExtra("nombreMascota", datos?.get("nombre") as? String ?: "")
+
                 startActivity(intent)
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             }
         }
 
+        // ================= UBICACIÓN ACTUAL =================
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+
             mMap.isMyLocationEnabled = true
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+            val fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this)
+
+            // Obtiene última ubicación del usuario
             fusedLocationClient.getCurrentLocation(
-                Priority.PRIORITY_HIGH_ACCURACY, null
+                Priority.PRIORITY_HIGH_ACCURACY,
+                null
             ).addOnSuccessListener { location ->
+
                 if (location != null) {
-                    val ubicacionActual = LatLng(location.latitude, location.longitude)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionActual, 15f))
+
+                    val ubicacionActual =
+                        LatLng(location.latitude, location.longitude)
+
+                    mMap.moveCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            ubicacionActual,
+                            15f
+                        )
+                    )
                 }
             }
 
+            // Carga datos en el mapa
             cargarReportesEnMapa()
             cargarAvistamientosEnMapa()
         }
 
-        // ── Foto de perfil ────────────────────────────────────────────
+        // ================= FOTO DE PERFIL =================
+
         val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
         val usuario = FirebaseAuth.getInstance().currentUser
 
         if (usuario != null) {
+
             FirebaseFirestore.getInstance()
                 .collection("usuarios")
                 .document(usuario.uid)
                 .get()
                 .addOnSuccessListener { doc ->
-                    val fotoPerfil = doc.getString("fotoPerfil")  // ← nombre correcto del campo
-                    if (!fotoPerfil.isNullOrEmpty() && fotoPerfil.startsWith("http")) {
+
+                    val fotoPerfil = doc.getString("fotoPerfil")
+
+                    if (!fotoPerfil.isNullOrEmpty()) {
+
                         Glide.with(this)
                             .load(fotoPerfil)
                             .transform(CircleCrop())
@@ -154,27 +186,34 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
 
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ActivityPerfil::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
+    // ================= REPORTES EN MAPA =================
     private fun cargarReportesEnMapa() {
+
         db.collection("reportes")
             .get()
             .addOnSuccessListener { documentos ->
+
                 for (documento in documentos) {
+
                     val lat = documento.getDouble("latitud")
                     val lng = documento.getDouble("longitud")
+
                     val nombre = documento.getString("nombreMascota") ?: "Sin nombre"
                     val estado = documento.getString("estadoMascota") ?: "Perdido"
                     val reporteId = documento.id
 
-                    val imagenUrl = (documento.get("imagenesUrl") as? List<*>)
-                        ?.firstOrNull()?.toString() ?: ""
+                    // Primera imagen del reporte
+                    val imagenUrl =
+                        (documento.get("imagenesUrl") as? List<*>)?.firstOrNull()?.toString() ?: ""
 
                     if (lat != null && lng != null && lat != 0.0 && lng != 0.0) {
+
                         val posicion = LatLng(lat, lng)
 
+                        // Color del marcador según estado del reporte
                         val colorMarcador = when (estado.lowercase()) {
                             "perdido" -> BitmapDescriptorFactory.HUE_RED
                             "visto" -> BitmapDescriptorFactory.HUE_YELLOW
@@ -187,9 +226,12 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
                                 .position(posicion)
                                 .title(nombre)
                                 .snippet("Estado: $estado")
-                                .icon(BitmapDescriptorFactory.defaultMarker(colorMarcador))
+                                .icon(
+                                    BitmapDescriptorFactory.defaultMarker(colorMarcador)
+                                )
                         )
 
+                        // Se guarda información adicional en el marker
                         marker?.tag = mapOf(
                             "reporteId" to reporteId,
                             "nombre" to nombre,
@@ -199,22 +241,25 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
-            .addOnFailureListener { exception ->
-                android.util.Log.e("ActivityMapa", "Error al cargar reportes: ", exception)
-            }
     }
 
+    // ================= AVISTAMIENTOS EN MAPA =================
     private fun cargarAvistamientosEnMapa() {
+
         db.collection("avistamientos")
             .get()
             .addOnSuccessListener { documentos ->
+
                 for (documento in documentos) {
+
                     val lat = documento.getDouble("latitud")
                     val lng = documento.getDouble("longitud")
+
                     val tipo = documento.getString("tipoMascota") ?: "Avistamiento"
                     val desc = documento.getString("descripcion") ?: ""
 
                     if (lat != null && lng != null && lat != 0.0 && lng != 0.0) {
+
                         val posicion = LatLng(lat, lng)
 
                         mMap.addMarker(
@@ -222,26 +267,35 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
                                 .position(posicion)
                                 .title("Pista: $tipo")
                                 .snippet(desc)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .icon(
+                                    BitmapDescriptorFactory.defaultMarker(
+                                        BitmapDescriptorFactory.HUE_AZURE
+                                    )
+                                )
                         )
                     }
                 }
             }
-            .addOnFailureListener { exception ->
-                android.util.Log.e("ActivityMapa", "Error al cargar avistamientos: ", exception)
-            }
     }
 
+    // ================= PERMISOS =================
     private fun pedirPermisoUbicacion() {
+
         if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+
             ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST
             )
         }
     }
+
+    // ================= MENÚ ACTIVO =================
     private fun marcarMenuActivo(seccion: String) {
 
         val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -250,39 +304,23 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
         val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
         val reporte = findViewById<LinearLayout>(R.id.btnReporte)
 
-        // Colores
         val normalColor = getColor(android.R.color.transparent)
         val activoColor = ContextCompat.getColor(this, R.color.menu_activo)
 
-        // Reset de todos los botones
+        // Reset de menú inferior
         inicio.setBackgroundColor(normalColor)
         mapa.setBackgroundColor(normalColor)
         alertas.setBackgroundColor(normalColor)
         historial.setBackgroundColor(normalColor)
         reporte.setBackgroundColor(normalColor)
 
-        // Activar el correcto
+        // Activar sección actual
         when (seccion) {
-
-            "inicio" -> {
-                inicio.setBackgroundColor(activoColor)
-            }
-
-            "mapa" -> {
-                mapa.setBackgroundColor(activoColor)
-            }
-
-            "alertas" -> {
-                alertas.setBackgroundColor(activoColor)
-            }
-
-            "historial" -> {
-                historial.setBackgroundColor(activoColor)
-            }
-
-            "reporte" -> {
-                reporte.setBackgroundColor(activoColor)
-            }
+            "inicio" -> inicio.setBackgroundColor(activoColor)
+            "mapa" -> mapa.setBackgroundColor(activoColor)
+            "alertas" -> alertas.setBackgroundColor(activoColor)
+            "historial" -> historial.setBackgroundColor(activoColor)
+            "reporte" -> reporte.setBackgroundColor(activoColor)
         }
     }
 }

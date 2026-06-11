@@ -21,47 +21,68 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityInicio : AppCompatActivity() {
 
+    // Lista base con todos los reportes desde Firestore
     private val listaReportesCompleta = mutableListOf<Reporte>()
+
+    // Lista filtrada que se muestra en pantalla
     private val listaReportesFiltrada = mutableListOf<Reporte>()
+
     private lateinit var adapter: ReporteAdapter
+
+    // Filtros activos
     private var filtroEstado: String? = null
     private var textoBusqueda: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_inicio)
+
+        // Marca visualmente el botón activo del menú inferior
         marcarMenuActivo("inicio")
 
+        // ================= RECYCLER =================
 
-        // ── RecyclerView ──────────────────────────────────────────────
         val recycler = findViewById<RecyclerView>(R.id.recyclerReportes)
+
+        // Grid de 2 columnas para mostrar reportes tipo cards
         recycler.layoutManager = GridLayoutManager(this, 2)
 
+        // Adaptador con click → abre detalle del reporte
         adapter = ReporteAdapter(listaReportesFiltrada) { reporte ->
+
             val intent = Intent(this, ActivityVolante::class.java).apply {
-                putExtra("nombreMascota",  reporte.nombreMascota)
-                putExtra("razaMascota",    reporte.razaMascota)
-                putExtra("edadMascota",    reporte.edadMascota)
-                putExtra("tamano",         reporte.tamano)
-                putExtra("colorMascota",   reporte.colorMascota)
-                putExtra("descripcion",    reporte.descripcion)
-                putExtra("fechaExtravio",  reporte.fechaExtravio)
-                putExtra("estadoMascota",  reporte.estadoMascota)
-                putExtra("latitud",        reporte.latitud)
-                putExtra("longitud",       reporte.longitud)
-                putExtra("usuarioId",      reporte.usuarioId)
-                putExtra("recompensa",     reporte.recompensa)
-                putExtra("direccion",      reporte.direccion)
+
+                // Se envían todos los datos necesarios para la pantalla de detalle
+                putExtra("nombreMascota", reporte.nombreMascota)
+                putExtra("razaMascota", reporte.razaMascota)
+                putExtra("edadMascota", reporte.edadMascota)
+                putExtra("tamano", reporte.tamano)
+                putExtra("colorMascota", reporte.colorMascota)
+                putExtra("descripcion", reporte.descripcion)
+                putExtra("fechaExtravio", reporte.fechaExtravio)
+                putExtra("estadoMascota", reporte.estadoMascota)
+                putExtra("latitud", reporte.latitud)
+                putExtra("longitud", reporte.longitud)
+                putExtra("usuarioId", reporte.usuarioId)
+                putExtra("recompensa", reporte.recompensa)
+                putExtra("direccion", reporte.direccion)
+
+                // Imagen principal del reporte (si existe)
                 if (reporte.imagenesUrl.isNotEmpty())
                     putExtra("imagenUrl", reporte.imagenesUrl[0])
+
                 putExtra("reporteId", reporte.id)
             }
+
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+
         recycler.adapter = adapter
 
-        // ── Carga Firestore ───────────────────────────────────────────
+        // ================= FIRESTORE (TIEMPO REAL) =================
+
         FirebaseFirestore.getInstance()
             .collection("reportes")
             .addSnapshotListener { resultado, error ->
@@ -70,6 +91,7 @@ class ActivityInicio : AppCompatActivity() {
 
                 listaReportesCompleta.clear()
 
+                // Convierte cada documento en objeto Reporte
                 resultado?.forEach { documento ->
 
                     val reporte = documento.toObject(Reporte::class.java)
@@ -78,21 +100,27 @@ class ActivityInicio : AppCompatActivity() {
                     listaReportesCompleta.add(reporte)
                 }
 
+                // Aplica filtros cada vez que cambian datos en Firestore
                 aplicarFiltros()
             }
 
-        // ── Foto de perfil ────────────────────────────────────────────
+        // ================= FOTO DE PERFIL =================
+
         val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
         val usuario = FirebaseAuth.getInstance().currentUser
 
         if (usuario != null) {
+
             FirebaseFirestore.getInstance()
                 .collection("usuarios")
                 .document(usuario.uid)
                 .get()
                 .addOnSuccessListener { doc ->
-                    val fotoPerfil = doc.getString("fotoPerfil")  // ← nombre correcto del campo
+
+                    val fotoPerfil = doc.getString("fotoPerfil")
+
                     if (!fotoPerfil.isNullOrEmpty() && fotoPerfil.startsWith("http")) {
+
                         Glide.with(this)
                             .load(fotoPerfil)
                             .transform(CircleCrop())
@@ -103,86 +131,109 @@ class ActivityInicio : AppCompatActivity() {
                 }
         }
 
+        // Acceso a perfil
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ActivityPerfil::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // ── Búsqueda ──────────────────────────────────────────────────
+        // ================= BÚSQUEDA EN TIEMPO REAL =================
+
         val txtBuscar = findViewById<EditText>(R.id.txtBuscar)
+
         txtBuscar.addTextChangedListener(object : TextWatcher {
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textoBusqueda = s?.toString()?.trim() ?: ""
                 aplicarFiltros()
             }
+
             override fun afterTextChanged(s: Editable?) = Unit
         })
 
-        // ── Filtro por estado (PopupMenu) ─────────────────────────────
+        // ================= FILTRO POR ESTADO =================
+
         val btnClasificar = findViewById<ImageButton>(R.id.btnClasificar)
+
         btnClasificar.setOnClickListener { vista ->
+
             val popup = PopupMenu(this, vista)
             popup.menuInflater.inflate(R.menu.menu_clasificar, popup.menu)
+
             popup.setOnMenuItemClickListener { item ->
+
+                // Cambia filtro según opción seleccionada
                 filtroEstado = when (item.itemId) {
-                    R.id.opPerdido    -> "perdido"
-                    R.id.opVisto      -> "visto"
+                    R.id.opPerdido -> "perdido"
+                    R.id.opVisto -> "visto"
                     R.id.opEncontrado -> "encontrado"
-                    else              -> null
+                    else -> null
                 }
+
                 aplicarFiltros()
                 true
             }
+
             popup.show()
         }
 
-        // ── Navegación inferior ───────────────────────────────────────
+        // ================= NAVBAR =================
+
         findViewById<LinearLayout>(R.id.BtnMapa).setOnClickListener {
             startActivity(Intent(this, ActivityMapa::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+
         findViewById<LinearLayout>(R.id.BtnAlertas).setOnClickListener {
             startActivity(Intent(this, ActivityAlertas::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+
         findViewById<LinearLayout>(R.id.BtnHistorial).setOnClickListener {
             startActivity(Intent(this, ActivityHistorial::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
+
         findViewById<LinearLayout>(R.id.BtnReporte).setOnClickListener {
             startActivity(Intent(this, ActivityRegistroReporte::class.java))
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    //  Aplica filtro de estado (PopupMenu) + búsqueda por texto
-    // ─────────────────────────────────────────────────────────────────
+    // ================= FILTROS COMBINADOS =================
     private fun aplicarFiltros() {
+
         val query = textoBusqueda.lowercase()
 
         val resultado = listaReportesCompleta.filter { reporte ->
+
+            // Filtro por estado
             val coincideEstado = filtroEstado == null ||
                     reporte.estadoMascota.lowercase() == filtroEstado
 
+            // Filtro por búsqueda global en varios campos
             val coincideTexto = query.isEmpty() ||
-                    reporte.nombreMascota.lowercase().contains(query)  ||
-                    reporte.razaMascota.lowercase().contains(query)    ||
-                    reporte.colorMascota.lowercase().contains(query)   ||
-                    reporte.fechaExtravio.lowercase().contains(query)  ||
-                    reporte.direccion.lowercase().contains(query)      ||
-                    reporte.tamano.lowercase().contains(query)         ||
-                    reporte.descripcion.lowercase().contains(query)    ||
+                    reporte.nombreMascota.lowercase().contains(query) ||
+                    reporte.razaMascota.lowercase().contains(query) ||
+                    reporte.colorMascota.lowercase().contains(query) ||
+                    reporte.fechaExtravio.lowercase().contains(query) ||
+                    reporte.direccion.lowercase().contains(query) ||
+                    reporte.tamano.lowercase().contains(query) ||
+                    reporte.descripcion.lowercase().contains(query) ||
                     reporte.estadoMascota.lowercase().contains(query)
 
             coincideEstado && coincideTexto
         }
 
+        // Actualiza lista visible
         listaReportesFiltrada.clear()
         listaReportesFiltrada.addAll(resultado)
+
         adapter.notifyDataSetChanged()
     }
+
+    // ================= MENÚ ACTIVO =================
     private fun marcarMenuActivo(seccion: String) {
 
         val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -191,7 +242,6 @@ class ActivityInicio : AppCompatActivity() {
         val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
         val reporte = findViewById<LinearLayout>(R.id.BtnReporte)
 
-        // Colores
         val normalColor = getColor(android.R.color.transparent)
         val activoColor = getColor(R.color.menu_activo)
 
@@ -202,28 +252,13 @@ class ActivityInicio : AppCompatActivity() {
         historial.setBackgroundColor(normalColor)
         reporte.setBackgroundColor(normalColor)
 
-        // Activar el correcto
+        // Activa solo la sección actual
         when (seccion) {
-
-            "inicio" -> {
-                inicio.setBackgroundColor(activoColor)
-            }
-
-            "mapa" -> {
-                mapa.setBackgroundColor(activoColor)
-            }
-
-            "alertas" -> {
-                alertas.setBackgroundColor(activoColor)
-            }
-
-            "historial" -> {
-                historial.setBackgroundColor(activoColor)
-            }
-
-            "reporte" -> {
-                reporte.setBackgroundColor(activoColor)
-            }
+            "inicio" -> inicio.setBackgroundColor(activoColor)
+            "mapa" -> mapa.setBackgroundColor(activoColor)
+            "alertas" -> alertas.setBackgroundColor(activoColor)
+            "historial" -> historial.setBackgroundColor(activoColor)
+            "reporte" -> reporte.setBackgroundColor(activoColor)
         }
     }
 }

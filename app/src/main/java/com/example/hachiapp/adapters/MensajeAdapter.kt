@@ -30,6 +30,7 @@ class MensajeAdapter(
             itemView.findViewById(R.id.imgMensaje)
     }
 
+    // 🔥 Determina si el mensaje es enviado o recibido según el UID actual
     override fun getItemViewType(position: Int): Int {
 
         val uidActual =
@@ -37,8 +38,7 @@ class MensajeAdapter(
                 .currentUser?.uid
 
         return if (
-            listaMensajes[position].remitenteId ==
-            uidActual
+            listaMensajes[position].remitenteId == uidActual
         ) {
             MENSAJE_ENVIADO
         } else {
@@ -51,6 +51,7 @@ class MensajeAdapter(
         viewType: Int
     ): ViewHolder {
 
+        // 🔥 Se elige el layout según si el mensaje es mío o recibido
         val layout =
             if (viewType == MENSAJE_ENVIADO) {
                 R.layout.item_mensaje_enviado
@@ -77,6 +78,7 @@ class MensajeAdapter(
         val mensaje =
             listaMensajes[position]
 
+        // 🔥 Si el mensaje contiene imagen, se muestra imagen en lugar de texto
         if (mensaje.imagenUrl.isNotEmpty()) {
 
             holder.txtMensaje.visibility =
@@ -91,6 +93,7 @@ class MensajeAdapter(
 
         } else {
 
+            // Mensaje de texto normal
             holder.imgMensaje.visibility =
                 View.GONE
 

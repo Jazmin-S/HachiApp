@@ -13,28 +13,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.hachiapp.Activity.ActivityInicio
-import com.example.hachiapp.Activity.ActivityRegistro
-import com.example.hachiapp.Activity.Activity_recuperacion
 import com.example.hachiapp.R
 import com.google.firebase.auth.FirebaseAuth
 
 class Activity_Login : AppCompatActivity() {
 
+    // Instancia de Firebase Authentication para manejar el login
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
-
         setContentView(R.layout.activity_login)
 
-        // Firebase Auth
+        // Inicializa Firebase Auth (necesario para login con correo y contraseña)
         auth = FirebaseAuth.getInstance()
 
-        // Ajustar padding por barras del sistema
+        // Ajuste de padding para evitar que el contenido quede debajo de las barras del sistema
+        // (status bar y navigation bar)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
 
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -49,42 +46,41 @@ class Activity_Login : AppCompatActivity() {
             insets
         }
 
-        // Referencias
-
+        // Referencias a elementos de la UI
         val crearCuenta = findViewById<TextView>(R.id.CrearCuenta)
-
         val correoLogin = findViewById<EditText>(R.id.CorreoLogin)
         val passwordLogin = findViewById<EditText>(R.id.PasswordLogin)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
-        // Subrayar textos
+        // Estilo visual del texto "Crear cuenta"
         crearCuenta.paint.isUnderlineText = true
-
-        // Color negro
         crearCuenta.setTextColor(Color.BLACK)
 
-
-        // CLICK CREAR CUENTA
+        // CLICK EN "CREAR CUENTA"
         crearCuenta.setOnClickListener {
 
+            // Efecto visual de clic (cambia color temporalmente)
             crearCuenta.setTextColor(Color.BLUE)
 
+            // Delay corto para simular animación de clic antes de navegar
             Handler(Looper.getMainLooper()).postDelayed({
 
                 crearCuenta.setTextColor(Color.BLACK)
 
+                // Navega a pantalla de registro
                 val intent = Intent(this, ActivityRegistro::class.java)
                 startActivity(intent)
 
             }, 100)
         }
 
-        // LOGIN
+        // BOTÓN LOGIN
         btnLogin.setOnClickListener {
 
             val correo = correoLogin.text.toString().trim()
             val password = passwordLogin.text.toString().trim()
 
+            // Validación básica antes de enviar a Firebase
             if (correo.isEmpty() || password.isEmpty()) {
 
                 Toast.makeText(
@@ -95,15 +91,15 @@ class Activity_Login : AppCompatActivity() {
 
             } else {
 
+                // Inicio de sesión con Firebase Authentication
                 auth.signInWithEmailAndPassword(correo, password)
                     .addOnCompleteListener { task ->
 
                         if (task.isSuccessful) {
 
-                            // ADMIN
-                            //CORREO DE ADMIN
+                            // Identificación simple de administrador por correo fijo
+                            // (en producción esto debería manejarse con roles en Firestore o claims)
                             if (correo == "admin@hachi.com") {
-                                //CONTRASEÑA: admin123
 
                                 Toast.makeText(
                                     this,
@@ -113,7 +109,7 @@ class Activity_Login : AppCompatActivity() {
 
                             } else {
 
-                                // USUARIO NORMAL
+                                // Usuario normal autenticado correctamente
                                 Toast.makeText(
                                     this,
                                     "Inicio de sesión exitoso",
@@ -121,15 +117,17 @@ class Activity_Login : AppCompatActivity() {
                                 ).show()
                             }
 
-                            // Ambos entran a ActivityInicio
+                            // Ambos tipos de usuario entran a la pantalla principal
                             startActivity(
-                                Intent(this, ActivityInicio::class.java)
+                                Intent(this, com.example.hachiapp.Activity.ActivityInicio::class.java)
                             )
 
+                            // Evita regresar al login al presionar "back"
                             finish()
 
                         } else {
 
+                            // Error de autenticación (correo o contraseña incorrectos / usuario no existe)
                             Toast.makeText(
                                 this,
                                 "Correo o contraseña incorrectos",

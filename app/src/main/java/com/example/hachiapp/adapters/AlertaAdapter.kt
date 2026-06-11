@@ -11,22 +11,26 @@ import com.example.hachiapp.R
 
 class AlertaAdapter(
     private val lista: MutableList<Alerta>,
+    // Callback que se ejecuta cuando el usuario toca una alerta
     private val onClick: (Alerta) -> Unit
 ) : RecyclerView.Adapter<AlertaAdapter.ViewHolder>() {
 
+    // ViewHolder: contiene referencias a las vistas del item para evitar findViewById repetidos
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val titulo = itemView.findViewById<TextView>(R.id.txtTitulo)
         val descripcion = itemView.findViewById<TextView>(R.id.txtDescripcion)
         val icono = itemView.findViewById<ImageView>(R.id.imgTipo)
-        val puntoRojo = itemView.findViewById<View>(R.id.puntoRojo)
 
+        // Indicador visual de “no leída”
+        val puntoRojo = itemView.findViewById<View>(R.id.puntoRojo)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+        // Infla el layout de cada alerta (item de la lista)
         val vista = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_alerta,parent,false)
+            .inflate(R.layout.item_alerta, parent, false)
 
         return ViewHolder(vista)
     }
@@ -35,13 +39,14 @@ class AlertaAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
         val alerta = lista[position]
 
+        // Asigna datos básicos al item
         holder.titulo.text = alerta.titulo
         holder.descripcion.text = alerta.descripcion
 
-        when(alerta.tipo){
+        // Lógica importante: cambia el ícono según el tipo de alerta
+        when (alerta.tipo) {
 
             "mensaje" ->
                 holder.icono.setImageResource(R.drawable.mensaje)
@@ -59,9 +64,11 @@ class AlertaAdapter(
                 holder.icono.setImageResource(R.drawable.alerta)
         }
 
+        // Punto rojo: indica si la alerta NO ha sido leída
         holder.puntoRojo.visibility =
-            if(alerta.leida) View.INVISIBLE else View.VISIBLE
+            if (alerta.leida) View.INVISIBLE else View.VISIBLE
 
+        // Click en la alerta -> se ejecuta acción definida desde la Activity
         holder.itemView.setOnClickListener {
             onClick(alerta)
         }
