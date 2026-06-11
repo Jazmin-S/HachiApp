@@ -30,6 +30,8 @@ class ActivityInicio : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inicio)
+        marcarMenuActivo("inicio")
+
 
         // ── RecyclerView ──────────────────────────────────────────────
         val recycler = findViewById<RecyclerView>(R.id.recyclerReportes)
@@ -180,5 +182,48 @@ class ActivityInicio : AppCompatActivity() {
         listaReportesFiltrada.clear()
         listaReportesFiltrada.addAll(resultado)
         adapter.notifyDataSetChanged()
+    }
+    private fun marcarMenuActivo(seccion: String) {
+
+        val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
+        val mapa = findViewById<LinearLayout>(R.id.BtnMapa)
+        val alertas = findViewById<LinearLayout>(R.id.BtnAlertas)
+        val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
+        val reporte = findViewById<LinearLayout>(R.id.BtnReporte)
+
+        // Colores
+        val normalColor = getColor(android.R.color.transparent)
+        val activoColor = getColor(R.color.menu_activo)
+
+        // Reset de todos los botones
+        inicio.setBackgroundColor(normalColor)
+        mapa.setBackgroundColor(normalColor)
+        alertas.setBackgroundColor(normalColor)
+        historial.setBackgroundColor(normalColor)
+        reporte.setBackgroundColor(normalColor)
+
+        // Activar el correcto
+        when (seccion) {
+
+            "inicio" -> {
+                inicio.setBackgroundColor(activoColor)
+            }
+
+            "mapa" -> {
+                mapa.setBackgroundColor(activoColor)
+            }
+
+            "alertas" -> {
+                alertas.setBackgroundColor(activoColor)
+            }
+
+            "historial" -> {
+                historial.setBackgroundColor(activoColor)
+            }
+
+            "reporte" -> {
+                reporte.setBackgroundColor(activoColor)
+            }
+        }
     }
 }

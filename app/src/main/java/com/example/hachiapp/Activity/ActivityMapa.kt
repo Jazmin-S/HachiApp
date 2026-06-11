@@ -35,6 +35,8 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mapa)
+        marcarMenuActivo("mapa")
+
 
         // INICIO
         val btnInicio = findViewById<LinearLayout>(R.id.BtnInicio)
@@ -238,6 +240,49 @@ class ActivityMapa : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST
             )
+        }
+    }
+    private fun marcarMenuActivo(seccion: String) {
+
+        val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
+        val mapa = findViewById<LinearLayout>(R.id.BtnMapa)
+        val alertas = findViewById<LinearLayout>(R.id.BtnAlertas)
+        val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
+        val reporte = findViewById<LinearLayout>(R.id.btnReporte)
+
+        // Colores
+        val normalColor = getColor(android.R.color.transparent)
+        val activoColor = ContextCompat.getColor(this, R.color.menu_activo)
+
+        // Reset de todos los botones
+        inicio.setBackgroundColor(normalColor)
+        mapa.setBackgroundColor(normalColor)
+        alertas.setBackgroundColor(normalColor)
+        historial.setBackgroundColor(normalColor)
+        reporte.setBackgroundColor(normalColor)
+
+        // Activar el correcto
+        when (seccion) {
+
+            "inicio" -> {
+                inicio.setBackgroundColor(activoColor)
+            }
+
+            "mapa" -> {
+                mapa.setBackgroundColor(activoColor)
+            }
+
+            "alertas" -> {
+                alertas.setBackgroundColor(activoColor)
+            }
+
+            "historial" -> {
+                historial.setBackgroundColor(activoColor)
+            }
+
+            "reporte" -> {
+                reporte.setBackgroundColor(activoColor)
+            }
         }
     }
 }

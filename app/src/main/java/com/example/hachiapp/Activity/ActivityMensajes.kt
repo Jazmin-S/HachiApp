@@ -34,6 +34,7 @@ class ActivityMensajes : AppCompatActivity() {
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_mensajes)
+        marcarMenuActivo("alertas")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars =
@@ -92,6 +93,10 @@ class ActivityMensajes : AppCompatActivity() {
                         ActivityInicio::class.java
                     )
                 )
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
             }
 
         // MAPA
@@ -102,6 +107,10 @@ class ActivityMensajes : AppCompatActivity() {
                         this,
                         ActivityMapa::class.java
                     )
+                )
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
                 )
             }
 
@@ -114,6 +123,10 @@ class ActivityMensajes : AppCompatActivity() {
                         ActivityAlertas::class.java
                     )
                 )
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
             }
 
         // HISTORIAL
@@ -125,6 +138,10 @@ class ActivityMensajes : AppCompatActivity() {
                         ActivityHistorial::class.java
                     )
                 )
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
             }
 
         // REPORTE
@@ -135,6 +152,10 @@ class ActivityMensajes : AppCompatActivity() {
                         this,
                         ActivityRegistro::class.java
                     )
+                )
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
                 )
             }
 
@@ -259,5 +280,48 @@ class ActivityMensajes : AppCompatActivity() {
 
                 adapter.notifyDataSetChanged()
             }
+    }
+    private fun marcarMenuActivo(seccion: String) {
+
+        val inicio = findViewById<LinearLayout>(R.id.BtnInicio)
+        val mapa = findViewById<LinearLayout>(R.id.BtnMapa)
+        val alertas = findViewById<LinearLayout>(R.id.BtnAlertas)
+        val historial = findViewById<LinearLayout>(R.id.BtnHistorial)
+        val reporte = findViewById<LinearLayout>(R.id.BtnReporte)
+
+        // Colores
+        val normalColor = getColor(android.R.color.transparent)
+        val activoColor = getColor(R.color.menu_activo)
+
+        // Reset de todos los botones
+        inicio.setBackgroundColor(normalColor)
+        mapa.setBackgroundColor(normalColor)
+        alertas.setBackgroundColor(normalColor)
+        historial.setBackgroundColor(normalColor)
+        reporte.setBackgroundColor(normalColor)
+
+        // Activar el correcto
+        when (seccion) {
+
+            "inicio" -> {
+                inicio.setBackgroundColor(activoColor)
+            }
+
+            "mapa" -> {
+                mapa.setBackgroundColor(activoColor)
+            }
+
+            "alertas" -> {
+                alertas.setBackgroundColor(activoColor)
+            }
+
+            "historial" -> {
+                historial.setBackgroundColor(activoColor)
+            }
+
+            "reporte" -> {
+                reporte.setBackgroundColor(activoColor)
+            }
+        }
     }
 }
