@@ -48,8 +48,8 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
         val estado = reporte.estadoMascota ?: "Activo"
         holder.txtEstado.text = estado.uppercase()
 
-        // 🔥 Color del estado según condición (resuelto / activo / visto)
-        if (estado.equals("resuelto", ignoreCase = true)) {
+        // Color del estado según condición (resuelto / activo / visto)
+        if (estado.equals("Encontrado", ignoreCase = true)) {
             holder.txtEstado.setTextColor(Color.parseColor("#4CAF50"))
         } else {
             holder.txtEstado.setTextColor(Color.parseColor("#C62828"))
@@ -57,7 +57,7 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
 
         // 🔥 Cambio de estado con actualización en Firestore/BD
         holder.txtEstado.setOnClickListener {
-            val opciones = arrayOf("Perdido", "Visto", "Resuelto")
+            val opciones = arrayOf("Perdido", "Visto", "Encontrado")
 
             android.app.AlertDialog.Builder(holder.itemView.context)
                 .setTitle("Cambiar estado")
@@ -73,7 +73,7 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
                             holder.txtEstado.text = nuevoEstado.uppercase()
 
                             val color = when (nuevoEstado) {
-                                "Resuelto" -> Color.parseColor("#4CAF50")
+                                "Encontrado``" -> Color.parseColor("#4CAF50")
                                 "Visto" -> Color.parseColor("#0099FF")
                                 else -> Color.parseColor("#C62828")
                             }
