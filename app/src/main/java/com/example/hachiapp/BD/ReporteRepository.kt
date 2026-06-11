@@ -86,6 +86,36 @@ class ReporteRepository {
                 onError(it)
             }
     }
+    /* Actualiza el estado de un reporte en la colección "reportes".
+     * Se crearon 4 parámetros:
+     * 1. reporteId: ID del documento del reporte que se desea actualizar.
+     * 2. nuevoEstado: Nuevo estado a asignar (Perdido, Visto, En resguardo, Resuelto).
+     * 3. onSuccess: Función que se ejecuta cuando el estado se actualiza correctamente.
+     * 4. onError: Función que se ejecuta cuando ocurre algún error al actualizar.
+     */
+    fun actualizarEstado(
+        reporteId: String,
+        nuevoEstado: String,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        /*Se accede al documento del reporte usando su ID
+         * y se actualiza únicamente el campo "estadoMascota".
+         */
+        db.collection("reportes")
+            .document(reporteId)
+            .update("estadoMascota", nuevoEstado)
+            /*
+             * Se ejecuta cuando el estado
+             * se actualiza correctamente.
+             */
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }
+    }
 
     /* Guarda un nuevo avistamiento en la colección "avistamientos".
  * Se crearon 3 parámetros:

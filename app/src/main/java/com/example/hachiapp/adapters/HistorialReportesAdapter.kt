@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.hachiapp.BD.ReporteRepository
 import com.example.hachiapp.R
 import com.example.hachiapp.models.Reporte
 
@@ -51,6 +53,42 @@ class HistorialReportesAdapter(private var listaReportes: List<Reporte> = emptyL
             holder.txtEstado.setTextColor(Color.parseColor("#4CAF50")) // Verde
         } else {
             holder.txtEstado.setTextColor(Color.parseColor("#C62828")) // Rojo
+        }
+            /*Al tocar el texto del estado se muestra
+             * un menú con las opciones disponibles.
+             */
+        holder.txtEstado.setOnClickListener {
+            val opciones = arrayOf("Perdido", "Visto", "Resuelto")
+            android.app.AlertDialog.Builder(holder.itemView.context)
+                .setTitle("Cambiar estado")
+                .setItems(opciones) { _, index ->
+                    val nuevoEstado = opciones[index]
+                    val repository = ReporteRepository()
+                    repository.actualizarEstado(
+                        reporteId = reporte.id,
+                        nuevoEstado = nuevoEstado,
+                        onSuccess = {
+                            /*Se actualiza visualmente el estado
+                             * sin necesidad de recargar toda la lista.
+                             */
+                            holder.txtEstado.text = nuevoEstado.uppercase()
+                            val color = when (nuevoEstado) {
+                                "Resuelto" -> Color.parseColor("#4CAF50")
+                                "Visto" -> Color.parseColor("#0099FF")
+                                else -> Color.parseColor("#C62828")
+                            }
+                            holder.txtEstado.setTextColor(color)
+                        },
+                        onError = {
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "Error al actualizar: ${it.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    )
+                }
+                .show()
         }
 
         // ── Carga de imagen desde la lista de URLs de Cloudinary ──
