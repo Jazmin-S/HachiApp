@@ -12,12 +12,15 @@
     <!-- LOGO -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="272dp"
-        android:layout_height="135dp"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/iconoprincipal"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- TITULO -->
     <TextView
@@ -25,43 +28,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="HachiApp"
-        android:textSize="40sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <!-- ESLOGAN -->
-
-    <!-- EMAIL -->
     <TextView
         android:id="@+id/eslogan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:gravity="center"
         android:text="“Porque cada mascota merece volver a casa.”"
         android:textColor="#000000"
-        android:textSize="24sp"
-        android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titulo" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- EMAIL -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         app:boxBackgroundColor="#FFFFFF"
         app:boxStrokeColor="#000000"
-        app:hintTextColor="#666666"
         app:layout_constraintTop_toBottomOf="@id/eslogan"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -72,8 +72,7 @@
             android:layout_height="wrap_content"
             android:hint="Correo electrónico"
             android:inputType="textEmailAddress"
-            android:textColor="#000000"
-            android:textColorHint="#666666"/>
+            android:textColor="#000000"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- PASSWORD -->
@@ -84,10 +83,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
+        app:endIconMode="password_toggle"
         app:boxBackgroundColor="#FFFFFF"
         app:boxStrokeColor="#000000"
-        app:hintTextColor="#666666"
-        app:endIconMode="password_toggle"
         app:layout_constraintTop_toBottomOf="@id/emailLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -98,83 +96,65 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:textColor="#000000"
-            android:textColorHint="#666666"/>
+            android:textColor="#000000"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- OLVIDASTE CONTRASEÑA -->
-
-    <!-- BOTON LOGIN -->
-
-    <TextView
-        android:id="@+id/OlvidaContraseña"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="¿Olvidaste tu contraseña?"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
-
+    <!-- BOTÓN LOGIN -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="18dp"
         android:layout_marginEnd="40dp"
-        android:backgroundTint="#EDD5B7"
+        android:layout_marginTop="24dp"
         android:text="Ingresar"
-        android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#000000"
+        android:backgroundTint="#EDD5B7"
         app:cornerRadius="26dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/OlvidaContraseña" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- CUENTA -->
     <TextView
         android:id="@+id/textCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
         android:text="¿No tienes una cuenta?"
-        android:textAlignment="textStart"
         android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="italic"
-        android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- CREAR CUENTA -->
     <TextView
         android:id="@+id/CrearCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="Crear cuenta"
-        android:textColor="#000000"
-        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/textCuenta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textCuenta" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- IMAGEN FINAL -->
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="362dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/mascotas_bottom"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/CrearCuenta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CrearCuenta"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/mascotas_bottom" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

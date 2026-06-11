@@ -50,7 +50,7 @@ class Activity_Login : AppCompatActivity() {
         }
 
         // Referencias
-        val olvidaContra = findViewById<TextView>(R.id.OlvidaContraseña)
+
         val crearCuenta = findViewById<TextView>(R.id.CrearCuenta)
 
         val correoLogin = findViewById<EditText>(R.id.CorreoLogin)
@@ -58,27 +58,11 @@ class Activity_Login : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         // Subrayar textos
-        olvidaContra.paint.isUnderlineText = true
         crearCuenta.paint.isUnderlineText = true
 
         // Color negro
-        olvidaContra.setTextColor(Color.BLACK)
         crearCuenta.setTextColor(Color.BLACK)
 
-        // CLICK OLVIDÉ CONTRASEÑA
-        olvidaContra.setOnClickListener {
-
-            olvidaContra.setTextColor(Color.BLUE)
-
-            Handler(Looper.getMainLooper()).postDelayed({
-
-                olvidaContra.setTextColor(Color.BLACK)
-
-                val intent = Intent(this, Activity_recuperacion::class.java)
-                startActivity(intent)
-
-            }, 100)
-        }
 
         // CLICK CREAR CUENTA
         crearCuenta.setOnClickListener {
