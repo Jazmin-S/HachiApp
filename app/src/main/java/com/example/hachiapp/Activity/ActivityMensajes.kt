@@ -2,14 +2,17 @@ package com.example.hachiapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.hachiapp.R
 import com.example.hachiapp.adapters.ConversacionAdapter
 import com.example.hachiapp.models.Conversacion
@@ -136,7 +139,7 @@ class ActivityMensajes : AppCompatActivity() {
             }
 
         // NOTIFICACIONES
-        findViewById<CardView>(R.id.btnNotificaciones)
+        findViewById<TextView>(R.id.btnNotificacion)
             .setOnClickListener {
                 startActivity(
                     Intent(
@@ -144,8 +147,56 @@ class ActivityMensajes : AppCompatActivity() {
                         ActivityAlertas::class.java
                     )
                 )
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                overridePendingTransition(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
             }
+        findViewById<ImageButton>(R.id.BtnPerfil)
+            .setOnClickListener {
+                startActivity(
+                    Intent(
+                        this,
+                        ActivityPerfil::class.java
+                    )
+                )
+            }
+        // ================= FOTO DE PERFIL =================
+
+        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+
+        btnPerfil.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ActivityPerfil::class.java
+                )
+            )
+        }
+
+        val usuario = FirebaseAuth.getInstance().currentUser
+
+        if (usuario != null) {
+
+            FirebaseFirestore.getInstance()
+                .collection("usuarios")
+                .document(usuario.uid)
+                .get()
+                .addOnSuccessListener { documento ->
+
+                    val fotoPerfil = documento.getString("fotoPerfil")
+
+                    if (!fotoPerfil.isNullOrEmpty()) {
+
+                        Glide.with(this)
+                            .load(fotoPerfil)
+                            .transform(CircleCrop())
+                            .placeholder(R.drawable.perfil)
+                            .error(R.drawable.perfil)
+                            .into(btnPerfil)
+                    }
+                }
+        }
     }
 
     private fun cargarConversaciones() {

@@ -23,6 +23,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 //Dependencias de Cloudinary
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
@@ -34,6 +36,7 @@ import com.example.hachiapp.models.Reporte
 // Dependencias de Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 //Dependencias de Calendario
 import java.util.Calendar
 
@@ -321,6 +324,42 @@ class ActivityRegistroReporte : AppCompatActivity() {
                     }
                 }
             )
+        }
+        // ================= FOTO DE PERFIL =================
+
+        val btnPerfil = findViewById<ImageButton>(R.id.BtnPerfil)
+
+        btnPerfil.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ActivityPerfil::class.java
+                )
+            )
+        }
+
+        val usuario = FirebaseAuth.getInstance().currentUser
+
+        if (usuario != null) {
+
+            FirebaseFirestore.getInstance()
+                .collection("usuarios")
+                .document(usuario.uid)
+                .get()
+                .addOnSuccessListener { documento ->
+
+                    val fotoPerfil = documento.getString("fotoPerfil")
+
+                    if (!fotoPerfil.isNullOrEmpty()) {
+
+                        Glide.with(this)
+                            .load(fotoPerfil)
+                            .transform(CircleCrop())
+                            .placeholder(R.drawable.perfil)
+                            .error(R.drawable.perfil)
+                            .into(btnPerfil)
+                    }
+                }
         }
     }
 

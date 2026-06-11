@@ -48,69 +48,73 @@
                 app:layout_constraintStart_toEndOf="@id/imageView7"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Contenedor circular para la foto de perfil -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardPerfil"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginEnd="14dp"
+                app:cardCornerRadius="29dp"
+                app:cardElevation="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageButton
+                    android:id="@+id/BtnPerfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/desc_perfil"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/perfil" />
+
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- BOTONES NOTIFICACIONES / MENSAJES -->
+    <!-- PESTAÑAS -->
     <LinearLayout
         android:id="@+id/layoutTabs"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
-        android:gravity="center"
+        android:background="#C4915A"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/headerCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerCard">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Botón Notificaciones (no seleccionado) -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnNotificaciones"
+        <!-- Notificaciones (inactivo) -->
+        <TextView
+            android:id="@+id/btnNotificacion"
             android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="6dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            app:cardBackgroundColor="#C4915A"
-            app:cardCornerRadius="22dp"
-            app:cardElevation="0dp">
+            android:background="#C4915A"
+            android:gravity="center"
+            android:text="🔔 Notificaciones"
+            android:textColor="#F5E6D6"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/btnNotificacion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Notificaciones"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Botón Mensajes (seleccionado) -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnMensajes"
+        <!-- Mensajes (activo) -->
+        <TextView
+            android:id="@+id/Mensajes"
             android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="6dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            app:cardBackgroundColor="#EDD5B6"
-            app:cardCornerRadius="22dp"
-            app:cardElevation="6dp">
-
-            <TextView
-                android:id="@+id/Mensajes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:foregroundTint="#FFFFFF"
-                android:gravity="center"
-                android:text="Mensajes"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
+            android:background="#EDD5B6"
+            android:gravity="center"
+            android:text="💬 Mensajes"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

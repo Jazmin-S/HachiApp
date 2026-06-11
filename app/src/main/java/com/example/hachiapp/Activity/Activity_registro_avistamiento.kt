@@ -4,18 +4,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.cloudinary.android.MediaManager
+import com.cloudinary.android.callback.ErrorInfo
+import com.cloudinary.android.callback.UploadCallback
+import com.example.hachiapp.BD.CloudinaryManager
 import com.example.hachiapp.BD.ReporteRepository
 import com.example.hachiapp.R
 import com.google.firebase.Timestamp
@@ -23,17 +22,18 @@ import com.google.firebase.auth.FirebaseAuth
 
 class Activity_registro_avistamiento : AppCompatActivity() {
 
-    // --- VARIABLES GLOBALES DE TRABAJO ---
     private val MAPS_REQUEST_CODE = 600
+
     private var latitud = 0.0
     private var longitud = 0.0
     private var direccion = ""
-    private var imagenUri: Uri? = null
 
-    private var reporteId = ""  // ID del reporte al que pertenece este avistamiento
-    private var nombreMascota = "" // Almacenará el nombre o tipo heredado
+    private var reporteId = ""
+    private var nombreMascota = ""
 
-    // --- DECLARACIÓN DE COMPONENTES DE LA INTERFAZ (VISTAS) ---
+    private var imagenSeleccionada: Uri? = null
+    private var urlImagenCloudinary: String = ""
+
     private lateinit var btnPerfil: ImageButton
     private lateinit var imgAvistamiento: ImageView
     private lateinit var etDescripcion: EditText
@@ -41,22 +41,23 @@ class Activity_registro_avistamiento : AppCompatActivity() {
     private lateinit var tvDireccion: TextView
     private lateinit var btnPublicar: Button
 
-    // --- INSTANCIAS DE SERVICIOS ---
     private val repository = ReporteRepository()
 
-    // --- REGISTRO DEL SELECTOR DE IMÁGENES ---
-    private val seleccionarImagen = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) {
-            imagenUri = uri
-            imgAvistamiento.setImageURI(uri)
-            imgAvistamiento.scaleType = ImageView.ScaleType.CENTER_CROP
+    // Selector de imagen
+    private val seleccionarImagen =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) {
+                imagenSeleccionada = uri
+                imgAvistamiento.setImageURI(uri)
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_registro_avistamiento)
+
+        CloudinaryManager.init(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -66,14 +67,12 @@ class Activity_registro_avistamiento : AppCompatActivity() {
 
         initViews()
 
-        // Recibe el ID del reporte y el nombre de la mascota desde el mapa
         reporteId = intent.getStringExtra("reporteId") ?: ""
         nombreMascota = intent.getStringExtra("nombreMascota") ?: "Mascota"
 
         setupListeners()
     }
 
-    // Vincula cada variable de Kotlin con su respectivo ID definido en el archivo XML
     private fun initViews() {
         btnPerfil = findViewById(R.id.BtnPerfil)
         imgAvistamiento = findViewById(R.id.imgAvistamiento)
@@ -81,34 +80,23 @@ class Activity_registro_avistamiento : AppCompatActivity() {
         cardMapa = findViewById(R.id.cardMapaAvistamiento)
         tvDireccion = findViewById(R.id.tvDireccionAvistamiento)
         btnPublicar = findViewById(R.id.btnEnviarAvistamiento)
-        // 🛠️ Se eliminó la inicialización del Spinner que causaba el fallo
     }
 
     private fun setupListeners() {
-        btnPerfil.setOnClickListener { }
-
         imgAvistamiento.setOnClickListener {
-            abrirOrigenCamaraOGaleria()
+            seleccionarImagen.launch(arrayOf("image/*"))
         }
 
         cardMapa.setOnClickListener {
-            abrirMapaSeleccion()
+            val intent = Intent(this, SeleccionarUbicacionActivity::class.java)
+            intent.putExtra("latitud", latitud)
+            intent.putExtra("longitud", longitud)
+            startActivityForResult(intent, MAPS_REQUEST_CODE)
         }
 
         btnPublicar.setOnClickListener {
             validarYPublicarAvistamiento()
         }
-    }
-
-    private fun abrirOrigenCamaraOGaleria() {
-        seleccionarImagen.launch(arrayOf("image/*"))
-    }
-
-    private fun abrirMapaSeleccion() {
-        val intent = Intent(this, SeleccionarUbicacionActivity::class.java)
-        intent.putExtra("latitud", latitud)
-        intent.putExtra("longitud", longitud)
-        startActivityForResult(intent, MAPS_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -119,39 +107,96 @@ class Activity_registro_avistamiento : AppCompatActivity() {
             longitud = data.getDoubleExtra("longitud", 0.0)
             direccion = data.getStringExtra("direccion") ?: ""
 
-            tvDireccion.text = if (direccion.isNotEmpty()) "$direccion" else "Ubicación fijada en el mapa"
+            tvDireccion.text = if (direccion.isNotEmpty())
+                direccion
+            else
+                "Ubicación fijada"
+
             tvDireccion.setTextColor(Color.BLACK)
         }
     }
 
-    // Verifica que los datos obligatorios estén completos antes de iniciar el procesamiento en la nube
+    // ==============================
+    // VALIDACIÓN PRINCIPAL
+    // ==============================
     private fun validarYPublicarAvistamiento() {
+
         val description = etDescripcion.text.toString().trim()
         val usuarioId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-        // Validaciones básicas de texto y mapa
         if (description.isEmpty()) {
-            etDescripcion.error = "Por favor, añade una descripción"
+            etDescripcion.error = "Agrega una descripción"
             return
         }
 
         if (latitud == 0.0 || longitud == 0.0) {
-            Toast.makeText(this, "Debes marcar la ubicación en el mapa", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Selecciona ubicación en el mapa", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Bloqueamos el botón para evitar doble envío
         btnPublicar.isEnabled = false
+        Toast.makeText(this, "Publicando...", Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(this, "Publicando avistamiento...", Toast.LENGTH_SHORT).show()
-
-        /* 🛠️ SOLUCIÓN: Usamos el nombre de la mascota vinculada
-         * en lugar de intentar leer el Spinner inexistente
-         */
-        guardarEnFirebase(usuarioId, nombreMascota, description, "")
+        if (imagenSeleccionada != null) {
+            subirImagenYGuardar(usuarioId, description)
+        } else {
+            guardarEnFirebase(usuarioId, nombreMascota, description, "")
+        }
     }
 
-    private fun guardarEnFirebase(uid: String, tipo: String, desc: String, urlFoto: String) {
+    // ==============================
+    // SUBIR A CLOUDINARY
+    // ==============================
+    private fun subirImagenYGuardar(uid: String, description: String) {
+
+        val publicId = "avistamiento_${System.currentTimeMillis()}"
+
+        MediaManager.get()
+            .upload(imagenSeleccionada!!)
+            .unsigned("hachiapp")
+            .option("folder", "hachi_avistamientos")
+            .option("public_id", publicId)
+            .callback(object : UploadCallback {
+
+                override fun onStart(requestId: String) {}
+
+                override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {}
+
+                override fun onReschedule(requestId: String, error: ErrorInfo) {}
+
+                override fun onSuccess(
+                    requestId: String,
+                    resultData: MutableMap<Any?, Any?>
+                ) {
+                    val url = resultData["secure_url"]?.toString() ?: ""
+                    urlImagenCloudinary = url
+
+                    guardarEnFirebase(uid, nombreMascota, description, url)
+                }
+
+                override fun onError(requestId: String, error: ErrorInfo) {
+                    runOnUiThread {
+                        btnPublicar.isEnabled = true
+                        Toast.makeText(
+                            this@Activity_registro_avistamiento,
+                            "Error al subir imagen: ${error.description}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            })
+            .dispatch()
+    }
+
+    // ==============================
+    // FIREBASE
+    // ==============================
+    private fun guardarEnFirebase(
+        uid: String,
+        tipo: String,
+        desc: String,
+        urlFoto: String
+    ) {
         val avistamientoMap = hashMapOf<String, Any>(
             "reporteId" to reporteId,
             "usuarioId" to uid,
@@ -164,16 +209,25 @@ class Activity_registro_avistamiento : AppCompatActivity() {
             "fechaAvistamiento" to Timestamp.now()
         )
 
-        repository.guardarAvistamiento(avistamientoMap,
+        repository.guardarAvistamiento(
+            avistamientoMap,
             onSuccess = {
                 runOnUiThread {
-                    Toast.makeText(this, "¡Avistamiento publicado con éxito!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "¡Avistamiento publicado con éxito!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     finish()
                 }
             },
             onError = { e ->
                 runOnUiThread {
-                    Toast.makeText(this, "Error en Firestore: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Error en Firestore: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                     btnPublicar.isEnabled = true
                 }
             }

@@ -62,14 +62,20 @@ class ActivityInicio : AppCompatActivity() {
         // ── Carga Firestore ───────────────────────────────────────────
         FirebaseFirestore.getInstance()
             .collection("reportes")
-            .get()
-            .addOnSuccessListener { resultado ->
+            .addSnapshotListener { resultado, error ->
+
+                if (error != null) return@addSnapshotListener
+
                 listaReportesCompleta.clear()
-                for (documento in resultado) {
+
+                resultado?.forEach { documento ->
+
                     val reporte = documento.toObject(Reporte::class.java)
                         .copy(id = documento.id)
+
                     listaReportesCompleta.add(reporte)
                 }
+
                 aplicarFiltros()
             }
 

@@ -25,20 +25,28 @@ class ReporteRepository {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        /*Se accede a la colección "reportes". Si la colección no existe,
-        Firestore la crea automáticamente.
-        */
+
         db.collection("reportes")
-            /*
-            * Se ejecuta cuando el registro
-            * se guarda correctamente.
-            */
             .add(reporte)
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener {
-                onError(it)
+            .addOnSuccessListener { documentoReporte ->
+
+                val alerta = hashMapOf(
+                    "titulo" to "Nuevo reporte",
+                    "descripcion" to "Se registró una mascota perdida",
+                    "tipo" to "reporte",
+                    "reporteId" to documentoReporte.id,
+                    "fecha" to com.google.firebase.Timestamp.now(),
+                    "leida" to false
+                )
+
+                db.collection("alertas")
+                    .add(alerta)
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener {
+                        onError(it)
+                    }
             }
     }
     /* Obtiene todos los reportes del usuario autenticado
@@ -98,20 +106,32 @@ class ReporteRepository {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        /*Se accede a la colección "avistamientos". Si la colección no existe,
-         * Firestore la crea automáticamente con un ID único por documento.
-         */
         db.collection("avistamientos")
             .add(avistamiento)
-            /*
-             * Se ejecuta cuando el avistamiento
-             * se guarda correctamente.
-             */
-            .addOnSuccessListener {
-                onSuccess()
+            .addOnSuccessListener { documentoAvistamiento ->  // ✅ AQUÍ ESTÁ LA CLAVE
+
+                val alerta = hashMapOf(
+                    "titulo" to "Nuevo avistamiento",
+                    "descripcion" to "Se encontró una mascota cerca de tu ubicación",
+                    "tipo" to "avistamiento",
+                    "reporteId" to avistamiento["reporteId"],
+                    "avistamientoId" to documentoAvistamiento.id,
+                    "fecha" to com.google.firebase.Timestamp.now(),
+                    "leida" to false
+                )
+
+                db.collection("alertas")
+                    .add(alerta)
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener {
+                        onError(it)
+                    }
+
             }
-            .addOnFailureListener { exception ->
-                onError(exception)
+            .addOnFailureListener {
+                onError(it)
             }
     }
 }

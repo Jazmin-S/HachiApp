@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HachiApp">
         <activity
+            android:name=".Activity.ActivityDetalleAvistamiento"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ActivityMensajes"
             android:exported="false" />
         <activity
